@@ -48,16 +48,6 @@ Tomorrow: Much cooler things.
 
 Whether you want to collaborate, talk tech, or just say hi — I'm open.
 
-<form action="https://formspree.io/f/your-form-id" method="POST" class="max-w-lg mx-auto mt-8">
-  <div class="grid grid-cols-1 gap-6">
-    <input type="text" name="name" placeholder="Your Name" required class="p-4 rounded-xl bg-gray-900/70 border border-indigo-600/40 text-white placeholder-gray-400 focus:outline-none focus:border-indigo-500 transition-all">
-    <input type="email" name="email" placeholder="Your Email" required class="p-4 rounded-xl bg-gray-900/70 border border-indigo-600/40 text-white placeholder-gray-400 focus:outline-none focus:border-indigo-500 transition-all">
-    <textarea name="message" rows="5" placeholder="Your Message" required class="p-4 rounded-xl bg-gray-900/70 border border-indigo-600/40 text-white placeholder-gray-400 focus:outline-none focus:border-indigo-500 transition-all resize-none"></textarea>
-    <button type="submit" class="py-4 px-8 bg-gradient-to-r from-indigo-600 via-purple-600 to-fuchsia-600 hover:from-indigo-500 hover:via-purple-500 hover:to-fuchsia-500 text-white font-bold rounded-xl shadow-2xl transition-all transform hover:scale-105">
-      Send Message
-    </button>
-  </div>
-</form>
 
 Or reach me directly:
 
@@ -71,7 +61,7 @@ Or reach me directly:
   <a href="https://t.me/hamiparsa" target="_blank">
     <img src="https://img.shields.io/badge/Telegram-26A5E4?style=for-the-badge&logo=telegram&logoColor=white"/>
   </a>
-  <a href="mailto:your.email@example.com">
+  <a href="mailto:parsa.developer001@gmail.com.com">
     <img src="https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white"/>
   </a>
 </div>
