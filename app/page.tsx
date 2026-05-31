@@ -316,7 +316,7 @@ export default function Home() {
                   {
                     Icon: Send,
                     name: "Telegram",
-                    href: "https://t.me/HeroHami",
+                    href: "https://t.me/HamiParsa",
                     baseColor: "from-cyan-600/30 to-cyan-400/20",
                     hoverColor:
                       "hover:from-cyan-600 hover:to-cyan-400 hover:shadow-cyan-500/50",
