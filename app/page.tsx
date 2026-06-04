@@ -11,6 +11,7 @@ import {
   User,
   Phone,
   MessageSquare,
+  Instagram,
 } from "lucide-react";
 import {
   DiJavascript1,
@@ -330,6 +331,16 @@ export default function Home() {
                     hoverColor:
                       "hover:from-emerald-600 hover:to-emerald-400 hover:shadow-emerald-500/50",
                     iconColor: "text-emerald-400 group-hover:text-white",
+                  },
+                  {
+                    Icon: Instagram,
+                    name: "Instagram",
+                    href: "https://www.instagram.com/hamii.parsa", 
+                    baseColor:
+                      "from-pink-600/30 via-purple-600/20 to-orange-500/20",
+                    hoverColor:
+                      "hover:from-pink-600 hover:via-purple-600 hover:to-orange-500 hover:shadow-pink-500/50",
+                    iconColor: "text-pink-500 group-hover:text-white",
                   },
                 ].map(
                   (
