@@ -29,8 +29,7 @@ Tomorrow: Much cooler things.
 | JavaScript / TypeScript | 88%   | <img src="https://skillicons.dev/icons?i=js,ts" height="28"/> |
 | React • Next.js         | 85%   | <img src="https://skillicons.dev/icons?i=react,nextjs" height="28"/> |
 | Tailwind CSS            | 92%   | <img src="https://skillicons.dev/icons?i=tailwind" height="28"/> |
-| Python • Django         | 75%   | <img src="https://skillicons.dev/icons?i=python,django" height="28"/> |
-| MongoDB • PostgreSQL    | 72%   | <img src="https://skillicons.dev/icons?i=mongodb,postgres" height="28"/> |
+| SupaBase   | 72%   | <img src="https://skillicons.dev/icons?i=supabase" height="28"/> |
 | Git • GitHub            | 94%   | <img src="https://skillicons.dev/icons?i=git,github" height="28"/> |
 
 ---
@@ -79,7 +78,7 @@ Or reach me directly:
 ---
 
 <div align="center">
-  <img src="https://skillicons.dev/icons?i=react,nextjs,ts,tailwind,nodejs,python,django,git,postgres,mongodb,framer,vercel" alt="Tech stack icons" />
+  <img src="https://skillicons.dev/icons?i=react,nextjs,ts,tailwind,git,supabase,vercel" alt="Tech stack icons" />
   <br/><br/>
   Crafted with ❤️ & code by <strong>Hami Parsa</strong> • 2025
 </div>
