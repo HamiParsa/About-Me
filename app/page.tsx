@@ -16,11 +16,10 @@ import {
 import {
   DiJavascript1,
   DiReact,
-  DiPython,
   DiGit,
-  DiMongodb,
 } from "react-icons/di";
 import { TbBrandTailwind } from "react-icons/tb";
+import { RiSupabaseLine } from "react-icons/ri";
 
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
@@ -73,16 +72,9 @@ const content = {
         gradient: "from-teal-500 via-teal-400 to-emerald-500",
       },
       {
-        name: "Python • Django",
-        percent: 75,
-        icon: DiPython,
-        color: "text-green-500",
-        gradient: "from-green-600 via-green-500 to-lime-500",
-      },
-      {
-        name: "MongoDB • PostgreSQL",
+        name: "SupaBase",
         percent: 72,
-        icon: DiMongodb,
+        icon: RiSupabaseLine,
         color: "text-emerald-500",
         gradient: "from-emerald-600 via-emerald-500 to-teal-500",
       },
@@ -133,16 +125,9 @@ const content = {
         gradient: "from-teal-500 via-teal-400 to-emerald-500",
       },
       {
-        name: "Python • Django",
-        percent: 75,
-        icon: DiPython,
-        color: "text-green-500",
-        gradient: "from-green-600 via-green-500 to-lime-500",
-      },
-      {
-        name: "MongoDB • PostgreSQL",
+        name: "SupaBase",
         percent: 72,
-        icon: DiMongodb,
+        icon: RiSupabaseLine,
         color: "text-emerald-500",
         gradient: "from-emerald-600 via-emerald-500 to-teal-500",
       },
