@@ -13,13 +13,11 @@ import {
   MessageSquare,
   Instagram,
 } from "lucide-react";
-import {
-  DiJavascript1,
-  DiReact,
-  DiGit,
-} from "react-icons/di";
+import { DiJavascript1, DiReact, DiGit } from "react-icons/di";
 import { TbBrandTailwind } from "react-icons/tb";
 import { RiSupabaseLine } from "react-icons/ri";
+import { BiLogoMongodb } from "react-icons/bi";
+import { FaNodeJs } from "react-icons/fa";
 
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
@@ -85,6 +83,20 @@ const content = {
         color: "text-orange-500",
         gradient: "from-orange-600 via-orange-500 to-amber-500",
       },
+      {
+        name: "MongoDB",
+        percent: 85,
+        icon: BiLogoMongodb,
+        color: "text-green-500",
+        gradient: "from-green-600 via-lime-500 to-emerald-500",
+      },
+      {
+        name: "Node.Js",
+        percent: 80,
+        icon: FaNodeJs,
+        color: "text-blue-500",
+        gradient: "from-blue-600 via-cyan-500 to-sky-400",
+      },
     ] as Skill[],
     contact: "Get in Touch",
     nameLabel: "Name",
@@ -137,6 +149,20 @@ const content = {
         icon: DiGit,
         color: "text-orange-500",
         gradient: "from-orange-600 via-orange-500 to-amber-500",
+      },
+      {
+        name: "MongoDB",
+        percent: 85,
+        icon: BiLogoMongodb,
+        color: "text-green-500",
+        gradient: "from-green-600 via-lime-500 to-emerald-500",
+      },
+      {
+        name: "Node.Js",
+        percent: 80,
+        icon: FaNodeJs,
+        color: "text-blue-500",
+        gradient: "from-blue-600 via-cyan-500 to-sky-400",
       },
     ] as Skill[],
     contact: "تماس با من",
@@ -320,7 +346,7 @@ export default function Home() {
                   {
                     Icon: Instagram,
                     name: "Instagram",
-                    href: "https://www.instagram.com/hamii.parsa", 
+                    href: "https://www.instagram.com/hamii.parsa",
                     baseColor:
                       "from-pink-600/30 via-purple-600/20 to-orange-500/20",
                     hoverColor:
