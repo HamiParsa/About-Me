@@ -31,6 +31,8 @@ Tomorrow: Much cooler things.
 | Tailwind CSS            | 92%   | <img src="https://skillicons.dev/icons?i=tailwind" height="28"/> |
 | SupaBase   | 72%   | <img src="https://skillicons.dev/icons?i=supabase" height="28"/> |
 | Git • GitHub            | 94%   | <img src="https://skillicons.dev/icons?i=git,github" height="28"/> |
+| MongoDB            | 85%   | <img src="https://skillicons.dev/icons?i=mongodb" height="28"/> |
+| Node.Js            | 80%   | <img src="https://skillicons.dev/icons?i=nodejs" height="28"/> |
 
 ---
 
