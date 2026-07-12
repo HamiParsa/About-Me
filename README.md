@@ -38,7 +38,7 @@ Tomorrow: Much cooler things.
 
 ## 🛠️ What I'm Building Right Now
 
-- Full-stack web applications with **Next.js 14** + **App Router**
+- Full-stack web applications with **Next.js 14** + **App Router** + **Node Js** 
 - Beautiful, performant UIs with **Tailwind** + **Framer Motion**
 - Backend experiments with **Django**, **FastAPI**, **PostgreSQL**
 - Always learning: **system design**, **performance**, **AI integration**
