@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Vazirmatn } from "next/font/google";
-// @ts-expect-error - CSS module type declarations not found
 import "./globals.css";
 
 const vazirmatn = Vazirmatn({
