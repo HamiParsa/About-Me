@@ -147,7 +147,7 @@ const content = {
     status: "آماده همکاری",
     skills: "مهارت‌ها",
     skillList: [
-      {
+       {
         name: "JavaScript / TypeScript",
         percent: 88,
         icon: DiJavascript1,
