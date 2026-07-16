@@ -203,6 +203,14 @@ const content = {
         color: "text-emerald-400",
         gradient: "from-emerald-600 via-teal-500 to-cyan-400",
       },
+       {
+        name: "SQLite",
+        percent: 75,
+        icon: SiSqlite,
+        color: "text-orange-400",
+        gradient: "from-orange-500 via-amber-400 to-yellow-300",
+      },
+      
     ] as Skill[],
     contact: "تماس با من",
     nameLabel: "نام",
