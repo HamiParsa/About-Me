@@ -197,6 +197,13 @@ const content = {
         gradient: "from-blue-600 via-cyan-500 to-sky-400",
       },
       {
+        name: "Express.js",
+        percent: 85,
+        icon: SiExpress,
+        color: "text-orange-400",
+        gradient: "from-gray-700 via-orange-500 to-yellow-400",
+      },
+      {
         name: "Python",
         percent: 84,
         icon: FaPython,
