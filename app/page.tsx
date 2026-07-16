@@ -549,53 +549,138 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Skills section */}
+                {/* Skills section - Ultra Premium */}
         <motion.section
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 1 }}
-          className="pt-20 lg:pt-28"
+          className="pt-20 lg:pt-28 relative"
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 bg-linear-to-r from-indigo-300 via-purple-300 to-fuchsia-300 bg-clip-text text-transparent">
-            {t.skills}
+          {/* Animated background particles */}
+          <div className="absolute inset-0 overflow-hidden">
+            <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-indigo-400/30 rounded-full animate-float-particle" style={{ animationDelay: '0s' }} />
+            <div className="absolute top-1/3 right-1/3 w-3 h-3 bg-purple-400/20 rounded-full animate-float-particle" style={{ animationDelay: '2s' }} />
+            <div className="absolute bottom-1/4 left-1/3 w-2 h-2 bg-fuchsia-400/20 rounded-full animate-float-particle" style={{ animationDelay: '4s' }} />
+            <div className="absolute top-2/3 right-1/4 w-4 h-4 bg-indigo-400/10 rounded-full animate-float-particle" style={{ animationDelay: '1s' }} />
+            <div className="absolute bottom-1/3 right-1/2 w-2 h-2 bg-purple-400/20 rounded-full animate-float-particle" style={{ animationDelay: '3s' }} />
+          </div>
+
+          {/* Gradient orbs */}
+          <div className="absolute -top-40 -right-40 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl animate-pulse-slow" />
+          <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse-slow" style={{ animationDelay: '1s' }} />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-600px h-600px bg-fuchsia-500/5 rounded-full blur-3xl animate-pulse-slow" style={{ animationDelay: '2s' }} />
+
+          <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 relative">
+            <span className="bg-linear-to-r from-indigo-300 via-purple-300 to-fuchsia-300 bg-clip-text text-transparent">
+              {t.skills}
+            </span>
+            {/* Decorative underline with animation */}
+            <span className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-32 h-1 bg-linear-to-r from-transparent via-indigo-400 to-transparent rounded-full">
+              <span className="absolute inset-0 bg-linear-to-r from-transparent via-fuchsia-400 to-transparent rounded-full animate-pulse" />
+            </span>
           </h2>
 
           <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-4">
             {t.skillList.map((skill, i) => (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, y: 30, rotateX: -10 }}
+                whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.7, delay: i * 0.12 }}
-                whileHover={{ scale: 1.04, y: -6 }}
-                className="group relative bg-linear-to-br from-gray-900/70 to-gray-800/60 backdrop-blur-lg border border-gray-700/50 rounded-2xl p-7 shadow-xl hover:shadow-2xl hover:border-gray-500/70 transition-all duration-400"
+                transition={{ 
+                  duration: 0.8, 
+                  delay: i * 0.1,
+                  type: "spring",
+                  stiffness: 100
+                }}
+                whileHover={{ 
+                  scale: 1.06, 
+                  y: -12,
+                  rotateX: 5,
+                  transition: { type: "spring", stiffness: 400 }
+                }}
+                className="group relative bg-linear-to-br from-gray-900/90 to-gray-800/70 backdrop-blur-xl border border-gray-700/50 rounded-2xl p-7 shadow-xl hover:shadow-2xl hover:border-gray-500/70 transition-all duration-500 overflow-hidden perspective-500"
               >
-                <div className="flex items-center gap-5 mb-6">
-                  <div
-                    className={`p-4 rounded-xl bg-gray-800/70 border border-gray-600/40 ${skill.color} transition-all group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-current/30`}
-                  >
-                    <skill.icon size={44} className="drop-shadow-lg" />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-xl font-semibold text-white mb-1">
-                      {skill.name}
-                    </h3>
-                    <p className={`text-lg font-bold ${skill.color}`}>
-                      {skill.percent}%
-                    </p>
-                  </div>
+                {/* Animated gradient border on hover */}
+                <div className="absolute inset-0 rounded-2xl p-1px bg-linear-to-r from-indigo-500/0 via-purple-500/0 to-fuchsia-500/0 group-hover:from-indigo-500/50 group-hover:via-purple-500/50 group-hover:to-fuchsia-500/50 transition-all duration-700">
+                  <div className="absolute inset-0 rounded-2xl bg-linear-to-br from-gray-900/90 to-gray-800/70" />
                 </div>
 
-                <div className="h-4 bg-gray-800/80 rounded-full overflow-hidden border border-gray-700/50 shadow-inner">
-                  <motion.div
-                    initial={{ width: 0 }}
-                    whileInView={{ width: `${skill.percent}%` }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 1.8, ease: "easeOut" }}
-                    className={`h-full bg-linear-to-r ${skill.gradient} shadow-[0_0_20px] shadow-current/60 transition-all duration-500 group-hover:shadow-[0_0_30px] group-hover:shadow-current/80`}
-                  />
+                {/* Glow effect on hover */}
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 bg-linear-to-r from-indigo-500/10 via-purple-500/10 to-fuchsia-500/10 transition-opacity duration-700" />
+                
+                {/* Corner accents */}
+                <div className="absolute top-0 right-0 w-20 h-20 bg-linear-to-br from-white/5 to-transparent rounded-bl-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="absolute bottom-0 left-0 w-20 h-20 bg-linear-to-tr from-white/5 to-transparent rounded-tr-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                
+                {/* Number badge */}
+                <div className="absolute top-3 right-3 text-[10px] font-mono text-white/10 group-hover:text-white/20 transition-colors duration-500">
+                  #{String(i + 1).padStart(2, '0')}
+                </div>
+
+                <div className="relative">
+                  <div className="flex items-center gap-5 mb-6">
+                    <div
+                      className={`p-4 rounded-xl bg-gray-800/70 border border-gray-600/40 ${skill.color} transition-all duration-500 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-current/30 relative`}
+                    >
+                      <skill.icon size={44} className="drop-shadow-lg" />
+                      {/* Icon glow */}
+                      <div className="absolute inset-0 rounded-xl blur-xl opacity-0 group-hover:opacity-50 transition-opacity duration-500 bg-current/30" />
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="text-xl font-semibold text-white mb-1 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-linear-to-r group-hover:from-white group-hover:to-indigo-200 transition-all duration-500">
+                        {skill.name}
+                      </h3>
+                      <div className="flex items-center gap-2">
+                        <p className={`text-lg font-bold ${skill.color}`}>
+                          {skill.percent}%
+                        </p>
+                        {/* Experience level dots */}
+                        <div className="flex gap-0.5 ml-2">
+                          {[...Array(5)].map((_, j) => (
+                            <div
+                              key={j}
+                              className={`w-1.5 h-1.5 rounded-full transition-all duration-500 ${
+                                j < Math.floor(skill.percent / 20)
+                                  ? `bg-current ${skill.color}`
+                                  : 'bg-gray-700/50'
+                              }`}
+                            />
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="h-4 bg-gray-800/80 rounded-full overflow-hidden border border-gray-700/50 shadow-inner relative">
+                    {/* Progress bar background shimmer */}
+                    <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+                    
+                    <motion.div
+                      initial={{ width: 0 }}
+                      whileInView={{ width: `${skill.percent}%` }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 2, ease: [0.34, 1.56, 0.64, 1] }}
+                      className={`h-full bg-linear-to-r ${skill.gradient} shadow-[0_0_20px] shadow-current/60 transition-all duration-500 group-hover:shadow-[0_0_30px] group-hover:shadow-current/80 relative`}
+                    >
+                      {/* Progress bar shimmer */}
+                      <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/20 to-transparent -translate-x-full animate-shimmer" />
+                      
+                      {/* Progress glow tip */}
+                      <div className="absolute -right-1 top-1/2 -translate-y-1/2 w-3 h-3 bg-white/30 rounded-full blur-sm" />
+                    </motion.div>
+                  </div>
+
+                  {/* Skill level indicator */}
+                  <div className="flex justify-between mt-2">
+                    <span className="text-[10px] font-mono text-white/20">
+                      {skill.percent >= 80 ? '⚡ EXPERT' : skill.percent >= 60 ? '🚀 ADVANCED' : '📈 INTERMEDIATE'}
+                    </span>
+                    <span className="text-[10px] font-mono text-white/10">
+                      {skill.percent}%
+                    </span>
+                  </div>
                 </div>
               </motion.div>
             ))}
