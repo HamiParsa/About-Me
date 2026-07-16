@@ -20,6 +20,7 @@ import { BiLogoMongodb } from "react-icons/bi";
 import { FaNodeJs } from "react-icons/fa";
 import { FaPython } from "react-icons/fa6";
 import { SiDjango } from "react-icons/si";
+import { SiSqlite } from "react-icons/si";
 
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
@@ -112,6 +113,13 @@ const content = {
         icon: SiDjango,
         color: "text-emerald-400",
         gradient: "from-emerald-600 via-teal-500 to-cyan-400",
+      },
+      {
+        name: "SQLite",
+        percent: 75,
+        icon: SiSqlite,
+        color: "text-orange-400",
+        gradient: "from-orange-500 via-amber-400 to-yellow-300",
       },
 
     ] as Skill[],
