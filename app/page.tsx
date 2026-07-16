@@ -347,13 +347,22 @@ export default function Home() {
       <main className="relative z-10 max-w-6xl mx-auto px-6 pt-32 pb-32">
         {/* Hero section */}
         <div className="flex flex-col lg:flex-row items-center lg:items-start gap-12 lg:gap-20 mb-24">
-          {/* Avatar */}
+          {/* Avatar with premium effects */}
           <motion.div
             initial={{ opacity: 0, scale: 0.92 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1.2, ease: "easeOut" }}
             className="relative shrink-0 group"
           >
+            {/* Orbital rings */}
+            <div className="absolute -inset-8 rounded-full border border-indigo-500/10 animate-spin-slow" style={{ animationDuration: '20s' }} />
+            <div className="absolute -inset-12 rounded-full border border-purple-500/10 animate-spin-reverse" style={{ animationDuration: '25s' }} />
+            <div className="absolute -inset-16 rounded-full border border-fuchsia-500/10 animate-spin-slow" style={{ animationDuration: '30s' }} />
+            
+            {/* Pulsing glow rings */}
+            <div className="absolute -inset-4 bg-linear-to-r from-indigo-500/20 via-purple-500/20 to-fuchsia-500/20 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 animate-pulse" />
+            <div className="absolute -inset-2 bg-linear-to-r from-indigo-500/10 to-purple-500/10 rounded-3xl blur-xl group-hover:blur-2xl transition-all duration-700" />
+            
             <div className="w-72 h-72 md:w-80 md:h-80 rounded-3xl overflow-hidden border-2 border-indigo-500/40 shadow-2xl shadow-indigo-950/60 relative">
               <Image
                 width={800}
@@ -363,34 +372,61 @@ export default function Home() {
                 className="w-full h-full object-cover transition-all duration-800 group-hover:scale-110 group-hover:brightness-110 group-hover:contrast-110"
                 priority
               />
+              
+              {/* Gradient overlays */}
               <div className="absolute inset-0 bg-linear-to-t from-black/65 via-transparent to-transparent pointer-events-none" />
+              <div className="absolute inset-0 bg-linear-to-r from-indigo-500/10 via-transparent to-purple-500/10 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+              
+              {/* Glow effect on hover */}
               <div className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-70 transition-opacity duration-800 shadow-[0_0_40px_15px_rgba(99,102,241,0.45)] pointer-events-none" />
+
+              {/* Animated scanline over image */}
+              <div className="absolute inset-0 bg-linear-to-b from-transparent via-white/5 to-transparent -translate-y-full group-hover:translate-y-full transition-transform duration-1000 pointer-events-none" />
             </div>
 
-            <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 bg-linear-to-r from-indigo-700/95 to-blue-700/95 text-white text-xs font-semibold px-7 py-2.5 rounded-full shadow-xl flex items-center gap-2.5 backdrop-blur-md border border-indigo-400/40">
-              <div className="w-3 h-3 bg-cyan-400 rounded-full animate-ping" />
+            {/* Status badge - premium */}
+            <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 bg-linear-to-r from-indigo-700/95 to-purple-700/95 text-white text-xs font-semibold px-7 py-2.5 rounded-full shadow-xl flex items-center gap-2.5 backdrop-blur-md border border-indigo-400/40">
+              <div className="relative">
+                <div className="w-3 h-3 bg-cyan-400 rounded-full animate-ping" />
+                <div className="absolute inset-0 w-3 h-3 bg-cyan-400 rounded-full" />
+              </div>
               {t.status}
             </div>
+
+            {/* Decorative corner accents */}
+            <div className="absolute -top-2 -left-2 w-8 h-8 border-t-2 border-l-2 border-indigo-500/30 rounded-tl-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <div className="absolute -top-2 -right-2 w-8 h-8 border-t-2 border-r-2 border-purple-500/30 rounded-tr-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <div className="absolute -bottom-2 -left-2 w-8 h-8 border-b-2 border-l-2 border-fuchsia-500/30 rounded-bl-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <div className="absolute -bottom-2 -right-2 w-8 h-8 border-b-2 border-r-2 border-indigo-500/30 rounded-br-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
           </motion.div>
 
           {/* Intro + social cards */}
-          <div
-            className={`flex-1 space-y-12 ${isFa ? "text-right" : "text-left"}`}
-          >
+          <div className={`flex-1 space-y-12 ${isFa ? "text-right" : "text-left"}`}>
             <motion.div
               initial={{ opacity: 0, y: 35 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 1 }}
               className="space-y-5"
             >
-              <p className="text-2xl md:text-3xl text-indigo-300/80 font-light">
-                {t.greeting}
-              </p>
-              <h1 className="text-5xl md:text-7xl font-black tracking-tight bg-linear-to-r from-white via-indigo-200 to-purple-300 bg-clip-text text-transparent">
-                {t.name}
+              {/* Greeting with decorative line */}
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-0.5 bg-linear-to-r from-indigo-400/0 via-indigo-400/50 to-indigo-400/0" />
+                <p className="text-2xl md:text-3xl text-indigo-300/80 font-light">
+                  {t.greeting}
+                </p>
+                <div className="w-12 h-0.5 bg-linear-to-r from-indigo-400/0 via-indigo-400/50 to-indigo-400/0" />
+              </div>
+              
+              {/* Name with glow */}
+              <h1 className="relative text-5xl md:text-7xl font-black tracking-tight">
+                <span className="bg-linear-to-r from-white via-indigo-200 to-purple-300 bg-clip-text text-transparent">
+                  {t.name}
+                </span>
+                <span className="absolute -inset-1 blur-3xl bg-linear-to-r from-indigo-500/10 via-purple-500/10 to-fuchsia-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
               </h1>
+              
               <p className="text-xl md:text-2xl text-gray-300 font-medium">
-                {t.age} • Full-Stack Developer
+                {t.age} • <span className="bg-linear-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">Full-Stack Developer</span>
               </p>
             </motion.div>
 
@@ -407,16 +443,20 @@ export default function Home() {
               </motion.p>
             </AnimatePresence>
 
-            {/* Social cards */}
+            {/* Social cards - Enhanced */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.7 }}
               className="pt-10"
             >
-              <p className="uppercase tracking-widest text-sm text-indigo-400/70 mb-8 font-medium text-center lg:text-left">
-                {t.connect}
-              </p>
+              <div className="flex items-center gap-4 mb-8">
+                <div className="w-12 h-0.5 bg-linear-to-r from-indigo-400/0 via-indigo-400/30 to-indigo-400/0" />
+                <p className="uppercase tracking-widest text-sm text-indigo-400/70 font-medium text-center">
+                  {t.connect}
+                </p>
+                <div className="w-12 h-0.5 bg-linear-to-r from-indigo-400/0 via-indigo-400/30 to-indigo-400/0" />
+              </div>
 
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 md:gap-8">
                 {[
@@ -424,51 +464,50 @@ export default function Home() {
                     Icon: Linkedin,
                     name: "LinkedIn",
                     href: "https://www.linkedin.com/in/HamiParsa",
-                    baseColor: "from-blue-600/30 to-blue-400/20",
-                    hoverColor:
-                      "hover:from-blue-600 hover:to-blue-400 hover:shadow-blue-500/50",
-                    iconColor: "text-blue-400 group-hover:text-white",
+                    gradient: "from-[#0A66C2]/30 to-[#0A66C2]/10",
+                    hoverGradient: "hover:from-[#0A66C2] hover:to-[#0A66C2]/80",
+                    iconColor: "text-[#0A66C2] group-hover:text-white",
+                    glow: "shadow-[#0A66C2]/30",
                   },
                   {
                     Icon: Github,
                     name: "GitHub",
                     href: "https://github.com/HamiParsa",
-                    baseColor: "from-gray-700/30 to-gray-500/20",
-                    hoverColor:
-                      "hover:from-gray-800 hover:to-gray-600 hover:shadow-gray-400/50",
+                    gradient: "from-gray-700/30 to-gray-600/10",
+                    hoverGradient: "hover:from-gray-800 hover:to-gray-700",
                     iconColor: "text-gray-300 group-hover:text-white",
+                    glow: "shadow-gray-400/20",
                   },
                   {
                     Icon: Send,
                     name: "Telegram",
                     href: "https://t.me/HamiParsa",
-                    baseColor: "from-cyan-600/30 to-cyan-400/20",
-                    hoverColor:
-                      "hover:from-cyan-600 hover:to-cyan-400 hover:shadow-cyan-500/50",
-                    iconColor: "text-cyan-400 group-hover:text-white",
+                    gradient: "from-[#26A5E4]/30 to-[#26A5E4]/10",
+                    hoverGradient: "hover:from-[#26A5E4] hover:to-[#26A5E4]/80",
+                    iconColor: "text-[#26A5E4] group-hover:text-white",
+                    glow: "shadow-[#26A5E4]/30",
                   },
                   {
                     Icon: Globe,
                     name: "Website",
                     href: "https://hamiparsa.github.io/Profile-Bio/",
-                    baseColor: "from-emerald-600/30 to-emerald-400/20",
-                    hoverColor:
-                      "hover:from-emerald-600 hover:to-emerald-400 hover:shadow-emerald-500/50",
+                    gradient: "from-emerald-600/30 to-emerald-400/10",
+                    hoverGradient: "hover:from-emerald-600 hover:to-emerald-500",
                     iconColor: "text-emerald-400 group-hover:text-white",
+                    glow: "shadow-emerald-500/30",
                   },
                   {
                     Icon: Instagram,
                     name: "Instagram",
                     href: "https://www.instagram.com/hamii.parsa",
-                    baseColor:
-                      "from-pink-600/30 via-purple-600/20 to-orange-500/20",
-                    hoverColor:
-                      "hover:from-pink-600 hover:via-purple-600 hover:to-orange-500 hover:shadow-pink-500/50",
-                    iconColor: "text-pink-500 group-hover:text-white",
+                    gradient: "from-[#E4405F]/30 via-[#E4405F]/20 to-[#E4405F]/10",
+                    hoverGradient: "hover:from-[#E4405F] hover:to-[#E4405F]/80",
+                    iconColor: "text-[#E4405F] group-hover:text-white",
+                    glow: "shadow-[#E4405F]/30",
                   },
                 ].map(
                   (
-                    { Icon, name, href, baseColor, hoverColor, iconColor },
+                    { Icon, name, href, gradient, hoverGradient, iconColor, glow },
                     i,
                   ) => (
                     <motion.a
@@ -478,10 +517,19 @@ export default function Home() {
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.8 + i * 0.12 }}
-                      whileHover={{ scale: 1.08, y: -10 }}
-                      className={`group relative overflow-hidden rounded-2xl bg-linear-to-br ${baseColor} backdrop-blur-xl border border-gray-700/40 hover:border-transparent p-6 flex flex-col items-center justify-center gap-4 transition-all duration-500 ease-out ${hoverColor} hover:shadow-2xl shadow-lg shadow-black/30`}
+                      whileHover={{ 
+                        scale: 1.08, 
+                        y: -10,
+                        transition: { type: "spring", stiffness: 300 }
+                      }}
+                      className={`group relative overflow-hidden rounded-2xl bg-linear-to-br ${gradient} backdrop-blur-xl border border-gray-700/40 hover:border-transparent p-6 flex flex-col items-center justify-center gap-4 transition-all duration-500 ease-out ${hoverGradient} hover:shadow-2xl shadow-lg shadow-black/30 ${glow}`}
                     >
+                      {/* Shimmer effect */}
                       <div className="absolute inset-0 opacity-0 group-hover:opacity-30 bg-[linear-gradient(120deg,transparent_30%,white_50%,transparent_70%)] translate-x-[-150%] group-hover:translate-x-[150%] transition-transform duration-1000 pointer-events-none" />
+                      
+                      {/* Glow behind icon */}
+                      <div className="absolute inset-0 opacity-0 group-hover:opacity-20 bg-linear-to-r from-white/10 via-white/20 to-white/10 blur-2xl transition-opacity duration-500" />
+                      
                       <Icon
                         size={52}
                         strokeWidth={1.2}
@@ -490,6 +538,9 @@ export default function Home() {
                       <span className="text-base font-semibold text-gray-200 group-hover:text-white transition-colors duration-500">
                         {name}
                       </span>
+                      
+                      {/* Bottom accent line */}
+                      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-linear-to-r from-transparent via-white/30 to-transparent group-hover:w-full transition-all duration-500" />
                     </motion.a>
                   ),
                 )}
