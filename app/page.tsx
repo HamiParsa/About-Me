@@ -18,6 +18,7 @@ import { TbBrandTailwind } from "react-icons/tb";
 import { RiSupabaseLine } from "react-icons/ri";
 import { BiLogoMongodb } from "react-icons/bi";
 import { FaNodeJs } from "react-icons/fa";
+import { FaPython } from "react-icons/fa6";
 
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
@@ -163,6 +164,13 @@ const content = {
         icon: FaNodeJs,
         color: "text-blue-500",
         gradient: "from-blue-600 via-cyan-500 to-sky-400",
+      },
+      {
+        name: "Python",
+        percent: 84,
+        icon: FaPython,
+        color: "text-yellow-500",
+        gradient: "from-yellow-600 via-amber-500 to-orange-400",
       },
     ] as Skill[],
     contact: "تماس با من",
