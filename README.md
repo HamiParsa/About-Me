@@ -36,6 +36,7 @@ Tomorrow: Much cooler things.
 | Express.Js           | 85%   | <img src="https://skillicons.dev/icons?i=express" height="28"/> |
 | Python           | 84%   | <img src="https://skillicons.dev/icons?i=python" height="28"/> |
 | Django           | 70%   | <img src="https://skillicons.dev/icons?i=django" height="28"/> |
+| SqLite           | 75%   | <img src="https://skillicons.dev/icons?i=sqlite" height="28"/> |
 
 ---
 
