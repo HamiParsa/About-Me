@@ -188,6 +188,13 @@ const content = {
         color: "text-yellow-500",
         gradient: "from-yellow-600 via-amber-500 to-orange-400",
       },
+      {
+        name: "Django",
+        percent: 70,
+        icon: SiDjango,
+        color: "text-emerald-400",
+        gradient: "from-emerald-600 via-teal-500 to-cyan-400",
+      },
     ] as Skill[],
     contact: "تماس با من",
     nameLabel: "نام",
