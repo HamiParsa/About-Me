@@ -98,6 +98,14 @@ const content = {
         color: "text-blue-500",
         gradient: "from-blue-600 via-cyan-500 to-sky-400",
       },
+      {
+        name: "Python",
+        percent: 84,
+        icon: FaPython,
+        color: "text-yellow-500",
+        gradient: "from-yellow-600 via-amber-500 to-orange-400",
+      },
+
     ] as Skill[],
     contact: "Get in Touch",
     nameLabel: "Name",
