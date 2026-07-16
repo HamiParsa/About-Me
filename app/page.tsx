@@ -264,10 +264,43 @@ export default function Home() {
         isFa ? 'font-["Vazirmatn"]' : "font-sans"
       }`}
     >
-      {/* Background nebula */}
-      <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute inset-0 bg-linear-to-br from-[#0f0e1a] via-indigo-950/30 to-[#000000] animate-slow-drift" />
-        <div className="absolute inset-0 opacity-40 bg-[radial-gradient(circle_at_15%_30%,rgba(99,102,241,0.2),transparent_50%),radial-gradient(circle_at_80%_75%,rgba(139,92,246,0.18),transparent_55%)] animate-pulse-slow" />
+       {/* Epic CSS Nebula Background */}
+      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+        {/* Deep space gradient */}
+        <div className="absolute inset-0 bg-linaear-to-br from-[#05030f] via-[#12082a] to-[#000000]" />
+        
+        {/* Animated nebula clouds - pure CSS */}
+        <div className="absolute inset-0">
+          <div className="nebula-cloud nebula-1" />
+          <div className="nebula-cloud nebula-2" />
+          <div className="nebula-cloud nebula-3" />
+          <div className="nebula-cloud nebula-4" />
+        </div>
+
+        {/* Shooting stars */}
+        <div className="absolute inset-0">
+          <div className="shooting-star" />
+          <div className="shooting-star delay-1" />
+          <div className="shooting-star delay-2" />
+        </div>
+
+        {/* Twinkling stars layer */}
+        <div className="absolute inset-0">
+          <div className="star star-1" />
+          <div className="star star-2" />
+          <div className="star star-3" />
+          <div className="star star-4" />
+          <div className="star star-5" />
+          <div className="star star-6" />
+          <div className="star star-7" />
+          <div className="star star-8" />
+        </div>
+
+        {/* Glowing aurora effect */}
+        <div className="absolute inset-0 aurora-overlay" />
+
+        {/* Subtle vignette */}
+        <div className="absolute inset-0 bg-radial-vignette" />
       </div>
 
       {/* Navbar */}

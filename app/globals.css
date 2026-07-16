@@ -19,3 +19,183 @@
   font-style: normal;
   font-display: swap;
 }
+
+/* ===== NEBULA CLOUDS ===== */
+.nebula-cloud {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.6;
+  animation: nebulaDrift 25s ease-in-out infinite alternate;
+}
+
+.nebula-1 {
+  width: 70%;
+  height: 60%;
+  top: -10%;
+  left: -20%;
+  background: radial-gradient(ellipse, rgba(99, 102, 241, 0.3), transparent 70%);
+  animation-duration: 30s;
+}
+
+.nebula-2 {
+  width: 60%;
+  height: 70%;
+  bottom: -20%;
+  right: -15%;
+  background: radial-gradient(ellipse, rgba(139, 92, 246, 0.25), transparent 70%);
+  animation-duration: 35s;
+  animation-delay: -5s;
+}
+
+.nebula-3 {
+  width: 50%;
+  height: 50%;
+  top: 40%;
+  left: 40%;
+  background: radial-gradient(ellipse, rgba(236, 72, 153, 0.2), transparent 70%);
+  animation-duration: 28s;
+  animation-delay: -10s;
+}
+
+.nebula-4 {
+  width: 40%;
+  height: 40%;
+  top: 20%;
+  right: 10%;
+  background: radial-gradient(ellipse, rgba(59, 130, 246, 0.15), transparent 70%);
+  animation-duration: 32s;
+  animation-delay: -15s;
+}
+
+@keyframes nebulaDrift {
+  0% {
+    transform: translate(0, 0) scale(1) rotate(0deg);
+  }
+  25% {
+    transform: translate(50px, -30px) scale(1.2) rotate(5deg);
+  }
+  50% {
+    transform: translate(-30px, 40px) scale(0.8) rotate(-3deg);
+  }
+  75% {
+    transform: translate(40px, 20px) scale(1.1) rotate(4deg);
+  }
+  100% {
+    transform: translate(-20px, -40px) scale(0.9) rotate(-5deg);
+  }
+}
+
+/* ===== SHOOTING STARS ===== */
+.shooting-star {
+  position: absolute;
+  width: 150px;
+  height: 2px;
+  background: linear-gradient(to right, rgba(255,255,255,0), rgba(255,255,255,0.8));
+  border-radius: 50%;
+  filter: drop-shadow(0 0 6px rgba(255,255,255,0.3));
+  animation: shoot 8s linear infinite;
+  opacity: 0;
+}
+
+.shooting-star::after {
+  content: '';
+  position: absolute;
+  top: -3px;
+  right: 0;
+  width: 6px;
+  height: 8px;
+  background: radial-gradient(circle, rgba(255,255,255,0.9), transparent);
+  border-radius: 50%;
+}
+
+.shooting-star.delay-1 {
+  animation-delay: 3s;
+  top: 20%;
+  left: 60%;
+  transform: rotate(-25deg);
+}
+
+.shooting-star.delay-2 {
+  animation-delay: 5.5s;
+  top: 60%;
+  left: 30%;
+  transform: rotate(-35deg);
+  width: 100px;
+}
+
+@keyframes shoot {
+  0% {
+    transform: translateX(0) translateY(0) scale(1);
+    opacity: 0;
+  }
+  5% {
+    opacity: 1;
+  }
+  15% {
+    opacity: 1;
+  }
+  20% {
+    opacity: 0;
+    transform: translateX(-300px) translateY(100px) scale(0.5);
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* ===== TWINKLING STARS ===== */
+.star {
+  position: absolute;
+  background: white;
+  border-radius: 50%;
+  animation: twinkle var(--duration) ease-in-out infinite;
+  box-shadow: 0 0 8px rgba(255,255,255,0.3);
+}
+
+.star-1 { top: 15%; left: 20%; width: 3px; height: 3px; --duration: 2.5s; }
+.star-2 { top: 25%; right: 25%; width: 2px; height: 2px; --duration: 3.2s; animation-delay: 0.5s; }
+.star-3 { top: 50%; left: 10%; width: 4px; height: 4px; --duration: 2.8s; animation-delay: 1s; }
+.star-4 { bottom: 30%; right: 15%; width: 2.5px; height: 2.5px; --duration: 3.5s; animation-delay: 0.3s; }
+.star-5 { top: 70%; left: 40%; width: 3px; height: 3px; --duration: 2.3s; animation-delay: 1.5s; }
+.star-6 { top: 40%; right: 40%; width: 1.5px; height: 1.5px; --duration: 4s; animation-delay: 0.8s; }
+.star-7 { bottom: 15%; left: 60%; width: 2px; height: 2px; --duration: 3.8s; animation-delay: 1.2s; }
+.star-8 { top: 80%; right: 50%; width: 3.5px; height: 3.5px; --duration: 2.7s; animation-delay: 0.7s; }
+
+@keyframes twinkle {
+  0%, 100% {
+    opacity: 0.2;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.3);
+    box-shadow: 0 0 20px rgba(255,255,255,0.6), 0 0 40px rgba(139,92,246,0.3);
+  }
+}
+
+/* ===== AURORA EFFECT ===== */
+.aurora-overlay {
+  background: 
+    radial-gradient(ellipse at 20% 50%, rgba(99,102,241,0.08), transparent 50%),
+    radial-gradient(ellipse at 80% 30%, rgba(139,92,246,0.06), transparent 40%),
+    radial-gradient(ellipse at 50% 80%, rgba(236,72,153,0.04), transparent 45%);
+  animation: auroraPulse 15s ease-in-out infinite alternate;
+  mix-blend-mode: screen;
+}
+
+@keyframes auroraPulse {
+  0% {
+    opacity: 0.5;
+    transform: scale(1) rotate(0deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1.1) rotate(3deg);
+  }
+}
+
+/* ===== VIGNETTE ===== */
+.bg-radial-vignette {
+  background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.5) 100%);
+}
