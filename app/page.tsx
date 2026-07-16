@@ -303,24 +303,44 @@ export default function Home() {
         <div className="absolute inset-0 bg-radial-vignette" />
       </div>
 
-      {/* Navbar */}
-      <nav className="fixed top-0 inset-x-0 z-50 backdrop-blur-xl bg-black/60 border-b border-indigo-500/20">
-        <div className="max-w-6xl mx-auto px-6 py-5 flex items-center justify-between">
-          <div className="text-3xl font-extrabold bg-linear-to-r from-indigo-300 via-purple-300 to-fuchsia-300 bg-clip-text text-transparent">
-            HP
-          </div>
+      {/* Holographic Floating Pill */}
+      <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-auto">
+        <div className="relative">
+          {/* Holographic background effect */}
+          <div className="absolute -inset-1 rounded-full bg-linear-to-r from-indigo-500/30 via-purple-500/30 to-fuchsia-500/30 blur-xl" />
+          <div className="absolute -inset-1 rounded-full bg-linear-to-l from-cyan-500/20 via-indigo-500/20 to-purple-500/20 blur-2xl opacity-50 animate-pulse" />
+          
+          <div className="relative flex items-center gap-6 px-7 py-3 rounded-full bg-black/60 backdrop-blur-3xl border border-white/10">
+            
+            {/* HP Logo - Bold, no circle */}
+            <div className="flex items-center gap-2">
+              <span className="text-2xl font-black tracking-tight">
+                <span className="text-white">H</span>
+                <span className="bg-linear-to-r from-indigo-400 via-purple-400 to-fuchsia-400 bg-clip-text text-transparent">P</span>
+              </span>
+            </div>
 
-          <motion.button
-            whileHover={{ scale: 1.06 }}
-            onClick={toggleLang}
-            className="group flex items-center gap-2.5 px-6 py-2.5 rounded-full bg-indigo-950/40 hover:bg-indigo-900/60 border border-indigo-600/40 hover:border-indigo-400/70 text-sm font-medium transition-all duration-300"
-          >
-            <span>{isFa ? "English" : "فارسی"}</span>
-            <ArrowRightLeft
-              size={16}
-              className="group-hover:rotate-180 transition-transform duration-500"
-            />
-          </motion.button>
+            {/* Separator with gradient */}
+            <div className="w-px h-5 bg-linear-to-b from-transparent via-white/10 to-transparent" />
+
+            {/* Language toggle - Clean */}
+            <button
+              onClick={toggleLang}
+              className="flex items-center gap-2 text-xs font-light text-white/40 hover:text-white/80 tracking-wider transition-all duration-300 group"
+            >
+              <span className="relative">
+                {isFa ? "فارسی" : "EN"}
+                <span className="absolute -bottom-0.5 left-0 right-0 h-px bg-linear-to-r from-indigo-400 to-purple-400 scale-x-0 group-hover:scale-x-100 transition-transform duration-400" />
+              </span>
+              <ArrowRightLeft 
+                size={11} 
+                className={`transition-all duration-500 group-hover:rotate-180 ${isFa ? 'rotate-180' : ''}`}
+              />
+            </button>
+
+            {/* Small accent dot */}
+            <div className="w-1 h-1 rounded-full bg-linear-to-r from-indigo-400 to-purple-400" />
+          </div>
         </div>
       </nav>
 
