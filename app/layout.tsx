@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
-import { Vazirmatn } from "next/font/google"; // Persian/Arabic font for RTL content
+import { Vazirmatn } from "next/font/google";
+// @ts-expect-error - CSS module type declarations not found
 import "./globals.css";
 
-
-// Load Vazirmatn (best Persian font, supports Arabic script)
 const vazirmatn = Vazirmatn({
   variable: "--font-vazirmatn",
-  subsets: ["arabic"], // Critical: enables proper Persian/Arabic glyph support
+  subsets: ["arabic"],
   weight: ["300", "400", "500", "700"],
   display: "swap",
 });
@@ -23,13 +22,12 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      // Base language and direction - can be overridden per page if needed
       lang="fa"
       dir="rtl"
-      // Apply all font variables globally
-      className={`  ${vazirmatn.variable} antialiased`}
+      className={`${vazirmatn.variable} antialiased`}
+      suppressHydrationWarning
     >
-      <body>
+      <body suppressHydrationWarning>
         {children}
       </body>
     </html>
