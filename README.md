@@ -31,12 +31,14 @@ Tomorrow: Much cooler things.
 | Tailwind CSS            | 92%   | <img src="https://skillicons.dev/icons?i=tailwind" height="28"/> |
 | SupaBase   | 72%   | <img src="https://skillicons.dev/icons?i=supabase" height="28"/> |
 | Git • GitHub            | 94%   | <img src="https://skillicons.dev/icons?i=git,github" height="28"/> |
+| MongoDB            | 85%   | <img src="https://skillicons.dev/icons?i=mongodb" height="28"/> |
+| Node.Js            | 80%   | <img src="https://skillicons.dev/icons?i=nodejs" height="28"/> |
 
 ---
 
 ## 🛠️ What I'm Building Right Now
 
-- Full-stack web applications with **Next.js 14** + **App Router**
+- Full-stack web applications with **Next.js 14** + **App Router** + **Node Js** 
 - Beautiful, performant UIs with **Tailwind** + **Framer Motion**
 - Backend experiments with **Django**, **FastAPI**, **PostgreSQL**
 - Always learning: **system design**, **performance**, **AI integration**
