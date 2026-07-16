@@ -21,6 +21,7 @@ import { FaNodeJs } from "react-icons/fa";
 import { FaPython } from "react-icons/fa6";
 import { SiDjango } from "react-icons/si";
 import { SiSqlite } from "react-icons/si";
+import { SiExpress } from "react-icons/si";
 
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
@@ -101,6 +102,13 @@ const content = {
         gradient: "from-blue-600 via-cyan-500 to-sky-400",
       },
       {
+        name: "Express.js",
+        percent: 85,
+        icon: SiExpress,
+        color: "text-orange-400",
+        gradient: "from-gray-700 via-orange-500 to-yellow-400",
+      },
+      {
         name: "Python",
         percent: 84,
         icon: FaPython,
@@ -121,7 +129,6 @@ const content = {
         color: "text-orange-400",
         gradient: "from-orange-500 via-amber-400 to-yellow-300",
       },
-
     ] as Skill[],
     contact: "Get in Touch",
     nameLabel: "Name",
@@ -203,14 +210,13 @@ const content = {
         color: "text-emerald-400",
         gradient: "from-emerald-600 via-teal-500 to-cyan-400",
       },
-       {
+      {
         name: "SQLite",
         percent: 75,
         icon: SiSqlite,
         color: "text-orange-400",
         gradient: "from-orange-500 via-amber-400 to-yellow-300",
       },
-      
     ] as Skill[],
     contact: "تماس با من",
     nameLabel: "نام",
