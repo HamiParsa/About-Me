@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useEffectEvent } from "react";
+import { useState, useEffect, useEffectEvent, useRef } from "react";
 import emailjs from "emailjs-com";
 import {
   Linkedin,
@@ -12,9 +12,11 @@ import {
   Phone,
   MessageSquare,
   Instagram,
-  Code2,
   Sparkles,
   Zap,
+  ChevronUp,
+  Rocket,
+  Cpu,
 } from "lucide-react";
 import { DiJavascript1, DiReact, DiGit } from "react-icons/di";
 import { TbBrandTailwind } from "react-icons/tb";
@@ -27,7 +29,7 @@ import { SiSqlite } from "react-icons/si";
 import { SiExpress } from "react-icons/si";
 import { SiNextdotjs } from "react-icons/si";
 
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useSpring } from "framer-motion";
 import Image from "next/image";
 
 // ────────────────────────────────────────────────
@@ -143,13 +145,25 @@ const content = {
     error: "Something went wrong. Please try again.",
     motto: "Human first. Coder second.",
     mottoSub: "Building the future, one line at a time.",
+    mottoFooter: "Building the future, one line at a time. Committed to humanity, kindness, and staying far from ego & show-off.",
     statusTitle: "Current Status",
-    techStack: "Tech Stack",
+    statusHeading: "Full-Stack Developer",
     quickActions: "Quick Actions",
     viewGitHub: "View GitHub",
     viewLinkedIn: "View LinkedIn",
     viewTelegram: "View Telegram",
     viewWebsite: "View Website",
+    techStack: "Tech Stack",
+    home: "Home",
+    skillsLink: "Skills",
+    contactLink: "Contact",
+    brand: "HamiParsa",
+    builtWith: "Built with",
+    openSource: "OPEN SOURCE",
+    repository: "View Repository",
+    aboutMe: "About Me",
+    explore: "Explore",
+    getInTouch: "Get in Touch",
   },
   fa: {
     greeting: "سلام، من",
@@ -247,19 +261,33 @@ const content = {
     error: "مشکلی پیش آمد. دوباره امتحان کنید.",
     motto: "اول انسان، دوم برنامه‌نویس.",
     mottoSub: "ساختن آینده، خط به خط.",
+    mottoFooter: "ساختن آینده، خط به خط. متعهد به انسانیت، مهربانی و دوری از خودنمایی و تکبر.",
     statusTitle: "وضعیت فعلی",
-    techStack: "تکنولوژی‌ها",
+    statusHeading: "توسعه‌دهنده فول‌استک",
     quickActions: "دسترسی سریع",
     viewGitHub: "مشاهده گیت‌هاب",
     viewLinkedIn: "مشاهده لینکدین",
     viewTelegram: "مشاهده تلگرام",
     viewWebsite: "مشاهده وب‌سایت",
+    techStack: "تکنولوژی‌ها",
+    home: "خانه",
+    skillsLink: "مهارت‌ها",
+    contactLink: "تماس",
+    brand: "حامی پارسا",
+    builtWith: "ساخته شده با",
+    openSource: "متن‌باز",
+    repository: "مشاهده ریپازیتوری",
+    aboutMe: "درباره من",
+    explore: "کاوش",
+    getInTouch: "در ارتباط باش",
   },
 };
 
 export default function Home() {
   const [lang, setLang] = useState<Lang>("en");
-
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [scrolled, setScrolled] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
   const readLanguage = useEffectEvent(() => {
     const saved = localStorage.getItem("preferredLang") as Lang | null;
     if (saved === "fa") {
@@ -274,21 +302,67 @@ export default function Home() {
     localStorage.setItem("preferredLang", lang);
   }, [lang]);
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const handleMouseMove = (e: MouseEvent) => {
+        setMousePosition({ x: e.clientX, y: e.clientY });
+      };
+      const handleScroll = () => {
+        setScrolled(window.scrollY > 100);
+      };
+
+      window.addEventListener("mousemove", handleMouseMove);
+      window.addEventListener("scroll", handleScroll);
+
+      return () => {
+        window.removeEventListener("mousemove", handleMouseMove);
+        window.removeEventListener("scroll", handleScroll);
+      };
+    }
+  }, []);
+
   const isFa = lang === "fa";
   const t = content[lang];
-
   const toggleLang = () => setLang((prev) => (prev === "fa" ? "en" : "fa"));
+
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001,
+  });
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   return (
     <div
+      ref={containerRef}
       dir={isFa ? "rtl" : "ltr"}
-      className={`relative min-h-screen bg-[#0a0a1f] text-gray-100 overflow-hidden ${
+      className={`relative min-h-screen bg-[#0B0909] text-gray-100 overflow-x-hidden ${
         isFa ? 'font-["Vazirmatn"]' : "font-sans"
       }`}
     >
+      {/* Progress Bar */}
+      <motion.div
+        className="fixed top-0 left-0 right-0 h-0.5 bg-linear-to-r from-indigo-500 via-purple-500 to-fuchsia-500 z-50 origin-left"
+        style={{ scaleX }}
+      />
+
+      {/* Mouse Follower Glow */}
+      <div
+        className="fixed pointer-events-none z-0 w-600px h-600px rounded-full blur-3xl opacity-20 transition-all duration-300"
+        style={{
+          background: "radial-gradient(circle, rgba(99,102,241,0.15), transparent 70%)",
+          left: mousePosition.x - 300,
+          top: mousePosition.y - 300,
+        }}
+      />
+
       {/* Epic CSS Nebula Background */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-        <div className="absolute inset-0 bg-linear-to-br from-[#05030f] via-[#12082a] to-[#000000]" />
+        <div className="absolute inset-0 bg-[#0B0909]" />
         <div className="absolute inset-0">
           <div className="nebula-cloud nebula-1" />
           <div className="nebula-cloud nebula-2" />
@@ -323,12 +397,11 @@ export default function Home() {
             <div className="flex items-center gap-2">
               <span className="text-2xl font-black tracking-tight">
                 <span className="text-white">H</span>
-                <span className="bg-linear-to-r from-indigo-400 via-purple-400 to-fuchsia-400 bg-clip-text text-transparent">
-                  P
-                </span>
+                <span className="bg-linear-to-r from-indigo-400 via-purple-400 to-fuchsia-400 bg-clip-text text-transparent">P</span>
               </span>
             </div>
             <div className="w-px h-5 bg-linear-to-b from-transparent via-white/10 to-transparent" />
+            
             <button
               onClick={toggleLang}
               className="flex items-center gap-2 text-xs font-light text-white/40 hover:text-white/80 tracking-wider transition-all duration-300 group"
@@ -337,41 +410,36 @@ export default function Home() {
                 {isFa ? "EN" : "فارسی"}
                 <span className="absolute -bottom-0.5 left-0 right-0 h-px bg-linear-to-r from-indigo-400 to-purple-400 scale-x-0 group-hover:scale-x-100 transition-transform duration-400" />
               </span>
-              <ArrowRightLeft
-                size={11}
-                className={`transition-all duration-500 group-hover:rotate-180 ${isFa ? "rotate-180" : ""}`}
+              <ArrowRightLeft 
+                size={11} 
+                className={`transition-all duration-500 group-hover:rotate-180 ${isFa ? 'rotate-180' : ''}`}
               />
             </button>
+            
             <div className="w-1 h-1 rounded-full bg-linear-to-r from-indigo-400 to-purple-400" />
           </div>
         </div>
       </nav>
 
-      <main id="home" className="relative z-10 max-w-6xl mx-auto px-6 pt-32 pb-32">
+      <main className="relative z-10 max-w-6xl mx-auto px-6 pt-32 pb-32">
         {/* Hero section */}
-        <div className="flex flex-col lg:flex-row items-center lg:items-start gap-12 lg:gap-20">
-          {/* Avatar */}
+        <section id="home" className="flex flex-col lg:flex-row items-center lg:items-start gap-12 lg:gap-20">
+          {/* Avatar with enhanced effects */}
           <motion.div
             initial={{ opacity: 0, scale: 0.92 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1.2, ease: "easeOut" }}
             className="relative shrink-0 group"
           >
-            <div
-              className="absolute -inset-8 rounded-full border border-indigo-500/10 animate-spin-slow"
-              style={{ animationDuration: "20s" }}
-            />
-            <div
-              className="absolute -inset-12 rounded-full border border-purple-500/10 animate-spin-reverse"
-              style={{ animationDuration: "25s" }}
-            />
-            <div
-              className="absolute -inset-16 rounded-full border border-fuchsia-500/10 animate-spin-slow"
-              style={{ animationDuration: "30s" }}
-            />
+            {/* Extra orbital ring with glow */}
+            <div className="absolute -inset-8 rounded-full border border-indigo-500/10 animate-spin-slow" style={{ animationDuration: '20s' }} />
+            <div className="absolute -inset-12 rounded-full border border-purple-500/10 animate-spin-reverse" style={{ animationDuration: '25s' }} />
+            <div className="absolute -inset-16 rounded-full border border-fuchsia-500/10 animate-spin-slow" style={{ animationDuration: '30s' }} />
+            <div className="absolute -inset-20 rounded-full border border-cyan-500/5 animate-spin-reverse" style={{ animationDuration: '35s' }} />
+            
             <div className="absolute -inset-4 bg-linear-to-r from-indigo-500/20 via-purple-500/20 to-fuchsia-500/20 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 animate-pulse" />
             <div className="absolute -inset-2 bg-linear-to-r from-indigo-500/10 to-purple-500/10 rounded-3xl blur-xl group-hover:blur-2xl transition-all duration-700" />
-
+            
             <div className="w-72 h-72 md:w-80 md:h-80 rounded-3xl overflow-hidden border-2 border-indigo-500/40 shadow-2xl shadow-indigo-950/60 relative">
               <Image
                 width={800}
@@ -402,9 +470,7 @@ export default function Home() {
           </motion.div>
 
           {/* Intro */}
-          <div
-            className={`flex-1 space-y-12 ${isFa ? "text-right" : "text-left"}`}
-          >
+          <div className={`flex-1 space-y-12 ${isFa ? "text-right" : "text-left"}`}>
             <motion.div
               initial={{ opacity: 0, y: 35 }}
               animate={{ opacity: 1, y: 0 }}
@@ -418,19 +484,16 @@ export default function Home() {
                 </p>
                 <div className="w-12 h-0.5 bg-linear-to-r from-indigo-400/0 via-indigo-400/50 to-indigo-400/0" />
               </div>
-
+              
               <h1 className="relative text-5xl md:text-7xl font-black tracking-tight">
                 <span className="bg-linear-to-r from-white via-indigo-200 to-purple-300 bg-clip-text text-transparent">
                   {t.name}
                 </span>
                 <span className="absolute -inset-1 blur-3xl bg-linear-to-r from-indigo-500/10 via-purple-500/10 to-fuchsia-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
               </h1>
-
+              
               <p className="text-xl md:text-2xl text-gray-300 font-medium">
-                {t.age} •{" "}
-                <span className="bg-linear-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
-                  Full-Stack Developer
-                </span>
+                {t.age} • <span className="bg-linear-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">Full-Stack Developer</span>
               </p>
             </motion.div>
 
@@ -446,6 +509,35 @@ export default function Home() {
                 {t.about}
               </motion.p>
             </AnimatePresence>
+
+            {/* Quick action buttons */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5 }}
+              className="flex flex-wrap gap-3"
+            >
+              <a href="#contact">
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="px-6 py-2.5 bg-linear-to-r from-indigo-600 to-purple-600 rounded-full text-sm font-medium text-white shadow-lg shadow-indigo-500/30 hover:shadow-indigo-500/50 transition-all duration-300 flex items-center gap-2"
+                >
+                  <Send size={16} />
+                  {t.getInTouch}
+                </motion.button>
+              </a>
+              <a href="#skills">
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="px-6 py-2.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full text-sm font-medium text-white/70 hover:text-white transition-all duration-300 flex items-center gap-2"
+                >
+                  <Rocket size={16} />
+                  {t.explore}
+                </motion.button>
+              </a>
+            </motion.div>
 
             {/* Social cards */}
             <motion.div
@@ -496,8 +588,7 @@ export default function Home() {
                     name: "Website",
                     href: "https://hamiparsa.github.io/Profile-Bio/",
                     gradient: "from-emerald-600/30 to-emerald-400/10",
-                    hoverGradient:
-                      "hover:from-emerald-600 hover:to-emerald-500",
+                    hoverGradient: "hover:from-emerald-600 hover:to-emerald-500",
                     iconColor: "text-emerald-400 group-hover:text-white",
                     glow: "shadow-emerald-500/30",
                   },
@@ -505,23 +596,14 @@ export default function Home() {
                     Icon: Instagram,
                     name: "Instagram",
                     href: "https://www.instagram.com/hamii.parsa",
-                    gradient:
-                      "from-[#E4405F]/30 via-[#E4405F]/20 to-[#E4405F]/10",
+                    gradient: "from-[#E4405F]/30 via-[#E4405F]/20 to-[#E4405F]/10",
                     hoverGradient: "hover:from-[#E4405F] hover:to-[#E4405F]/80",
                     iconColor: "text-[#E4405F] group-hover:text-white",
                     glow: "shadow-[#E4405F]/30",
                   },
                 ].map(
                   (
-                    {
-                      Icon,
-                      name,
-                      href,
-                      gradient,
-                      hoverGradient,
-                      iconColor,
-                      glow,
-                    },
+                    { Icon, name, href, gradient, hoverGradient, iconColor, glow },
                     i,
                   ) => (
                     <motion.a
@@ -531,10 +613,10 @@ export default function Home() {
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.8 + i * 0.12 }}
-                      whileHover={{
-                        scale: 1.08,
+                      whileHover={{ 
+                        scale: 1.08, 
                         y: -10,
-                        transition: { type: "spring", stiffness: 300 },
+                        transition: { type: "spring", stiffness: 300 }
                       }}
                       className={`group relative overflow-hidden rounded-2xl bg-linear-to-br ${gradient} backdrop-blur-xl border border-gray-700/40 hover:border-transparent p-6 flex flex-col items-center justify-center gap-4 transition-all duration-500 ease-out ${hoverGradient} hover:shadow-2xl shadow-lg shadow-black/30 ${glow}`}
                     >
@@ -555,7 +637,7 @@ export default function Home() {
               </div>
             </motion.div>
           </div>
-        </div>
+        </section>
 
         {/* Motto Section */}
         <motion.section
@@ -567,29 +649,26 @@ export default function Home() {
         >
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="w-96 h-96 bg-indigo-500/5 rounded-full blur-3xl" />
+            <div className="w-64 h-64 bg-purple-500/5 rounded-full blur-3xl absolute" />
           </div>
-
+          
           <div className="relative max-w-4xl mx-auto text-center">
-            <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-8">
+            <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-8 backdrop-blur-sm">
               <Sparkles size={14} className="text-indigo-400" />
-              <span className="text-xs text-white/40 font-mono tracking-widest">
-                ✦ MOTTO
-              </span>
+              <span className="text-xs text-white/40 font-mono tracking-widest">✦ MOTTO</span>
             </div>
-
+            
             <blockquote className="text-3xl md:text-4xl font-light leading-relaxed text-white/80">
               {t.motto}
               <span className="block text-indigo-300/60 text-2xl md:text-3xl mt-3">
                 {t.mottoSub}
               </span>
             </blockquote>
-
+            
             <div className="mt-6 flex items-center justify-center gap-4 text-sm text-white/20">
               <span>— Hami Parsa</span>
               <span className="w-px h-4 bg-white/10" />
-              <span className="font-mono tracking-widest text-[10px]">
-                2025
-              </span>
+              <span className="font-mono tracking-widest text-[10px]">2025</span>
             </div>
           </div>
         </motion.section>
@@ -607,8 +686,10 @@ export default function Home() {
 
           <div className="relative max-w-5xl mx-auto">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-             {/* Current Status */}
-              <div className="p-8 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-500 group">
+              {/* Current Status */}
+              <div className="p-8 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-500 group relative overflow-hidden">
+                <div className="absolute inset-0 bg-linear-to-r from-indigo-500/0 via-indigo-500/5 to-indigo-500/0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+                
                 <div className="flex items-center gap-3 mb-6">
                   <div className="relative">
                     <div className="w-3 h-3 bg-emerald-400 rounded-full animate-pulse" />
@@ -620,7 +701,7 @@ export default function Home() {
                 </div>
 
                 <h3 className="text-2xl font-semibold text-white mb-4 group-hover:text-indigo-300 transition-colors">
-                  Full-Stack Developer
+                  {t.statusHeading}
                 </h3>
 
                 <div className="flex flex-wrap gap-3">
@@ -642,9 +723,11 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-
+              
               {/* Quick Actions */}
-              <div className="p-8 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-500">
+              <div className="p-8 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-500 group relative overflow-hidden">
+                <div className="absolute inset-0 bg-linear-to-r from-purple-500/0 via-purple-500/5 to-purple-500/0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+                
                 <div className="flex items-center gap-3 mb-6">
                   <Zap size={16} className="text-white/20" />
                   <span className="text-sm font-mono text-white/40 tracking-widest">
@@ -657,17 +740,17 @@ export default function Home() {
                     whileHover={{ scale: 1.02, x: 5 }}
                     href="https://github.com/HamiParsa"
                     target="_blank"
-                    className="flex items-center justify-between p-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/20 transition-all duration-300 group"
+                    className="flex items-center justify-between p-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/20 transition-all duration-300 group/action"
                   >
-                    <span className="flex items-center gap-3 text-sm text-white/60 group-hover:text-white transition-colors">
+                    <span className="flex items-center gap-3 text-sm text-white/60 group-hover/action:text-white transition-colors">
                       <Github
                         size={18}
-                        className="text-white/30 group-hover:text-white transition-colors"
+                        className="text-white/30 group-hover/action:text-white transition-colors"
                       />
                       {t.viewGitHub}
                     </span>
                     <svg
-                      className="w-4 h-4 text-white/20 group-hover:text-white/40 transition-colors"
+                      className="w-4 h-4 text-white/20 group-hover/action:text-white/40 transition-colors"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -685,17 +768,17 @@ export default function Home() {
                     whileHover={{ scale: 1.02, x: 5 }}
                     href="https://www.linkedin.com/in/HamiParsa"
                     target="_blank"
-                    className="flex items-center justify-between p-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/20 transition-all duration-300 group"
+                    className="flex items-center justify-between p-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/20 transition-all duration-300 group/action"
                   >
-                    <span className="flex items-center gap-3 text-sm text-white/60 group-hover:text-white transition-colors">
+                    <span className="flex items-center gap-3 text-sm text-white/60 group-hover/action:text-white transition-colors">
                       <Linkedin
                         size={18}
-                        className="text-white/30 group-hover:text-white transition-colors"
+                        className="text-white/30 group-hover/action:text-white transition-colors"
                       />
                       {t.viewLinkedIn}
                     </span>
                     <svg
-                      className="w-4 h-4 text-white/20 group-hover:text-white/40 transition-colors"
+                      className="w-4 h-4 text-white/20 group-hover/action:text-white/40 transition-colors"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -713,17 +796,17 @@ export default function Home() {
                     whileHover={{ scale: 1.02, x: 5 }}
                     href="https://t.me/HamiParsa"
                     target="_blank"
-                    className="flex items-center justify-between p-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/20 transition-all duration-300 group"
+                    className="flex items-center justify-between p-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/20 transition-all duration-300 group/action"
                   >
-                    <span className="flex items-center gap-3 text-sm text-white/60 group-hover:text-white transition-colors">
+                    <span className="flex items-center gap-3 text-sm text-white/60 group-hover/action:text-white transition-colors">
                       <Send
                         size={18}
-                        className="text-white/30 group-hover:text-white transition-colors"
+                        className="text-white/30 group-hover/action:text-white transition-colors"
                       />
                       {t.viewTelegram}
                     </span>
                     <svg
-                      className="w-4 h-4 text-white/20 group-hover:text-white/40 transition-colors"
+                      className="w-4 h-4 text-white/20 group-hover/action:text-white/40 transition-colors"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -750,28 +833,19 @@ export default function Home() {
           transition={{ duration: 0.8 }}
           className="py-16 relative"
         >
-          <div id="skills" className="text-center mb-12">
-            <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-white/5 border border-white/10">
-              <Code2 size={14} className="text-indigo-400" />
-              <span className="text-xs text-white/40 font-mono tracking-widest">
-                {t.techStack}
-              </span>
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm">
+              <Cpu size={14} className="text-indigo-400" />
+              <span className="text-xs text-white/40 font-mono tracking-widest">{t.techStack}</span>
             </div>
           </div>
 
           <div className="flex flex-wrap justify-center gap-4">
             {[
-              {
-                icon: DiJavascript1,
-                name: "JavaScript",
-                color: "text-yellow-400",
-              },
+              { icon: DiJavascript1, name: "JavaScript", color: "text-yellow-400" },
               { icon: DiReact, name: "React", color: "text-cyan-400" },
-              {
-                icon: TbBrandTailwind,
-                name: "Tailwind",
-                color: "text-teal-400",
-              },
+              { icon: SiNextdotjs, name: "Next.js", color: "text-white" },
+              { icon: TbBrandTailwind, name: "Tailwind", color: "text-teal-400" },
               { icon: BiLogoMongodb, name: "MongoDB", color: "text-green-500" },
               { icon: FaNodeJs, name: "Node.js", color: "text-lime-500" },
               { icon: SiExpress, name: "Express", color: "text-amber-400" },
@@ -788,193 +862,164 @@ export default function Home() {
                 whileHover={{ y: -5, scale: 1.05 }}
                 className="flex flex-col items-center gap-2 p-4 px-6 rounded-xl bg-white/5 border border-white/5 hover:border-white/20 transition-all duration-300 group"
               >
-                <tech.icon
-                  size={32}
-                  className={`${tech.color} group-hover:scale-110 transition-transform duration-300`}
-                />
-                <span className="text-[10px] text-white/30 font-mono">
-                  {tech.name}
-                </span>
+                <tech.icon size={32} className={`${tech.color} group-hover:scale-110 transition-transform duration-300`} />
+                <span className="text-[10px] text-white/30 font-mono">{tech.name}</span>
               </motion.div>
             ))}
           </div>
         </motion.section>
 
         {/* Skills section */}
-        <motion.section
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1 }}
-          className="pt-20 lg:pt-28 relative"
-        >
-          <div className="absolute inset-0 overflow-hidden">
-            <div
-              className="absolute top-1/4 left-1/4 w-2 h-2 bg-indigo-400/30 rounded-full animate-float-particle"
-              style={{ animationDelay: "0s" }}
-            />
-            <div
-              className="absolute top-1/3 right-1/3 w-3 h-3 bg-purple-400/20 rounded-full animate-float-particle"
-              style={{ animationDelay: "2s" }}
-            />
-            <div
-              className="absolute bottom-1/4 left-1/3 w-2 h-2 bg-fuchsia-400/20 rounded-full animate-float-particle"
-              style={{ animationDelay: "4s" }}
-            />
-            <div
-              className="absolute top-2/3 right-1/4 w-4 h-4 bg-indigo-400/10 rounded-full animate-float-particle"
-              style={{ animationDelay: "1s" }}
-            />
-            <div
-              className="absolute bottom-1/3 right-1/2 w-2 h-2 bg-purple-400/20 rounded-full animate-float-particle"
-              style={{ animationDelay: "3s" }}
-            />
-          </div>
+        <section id="skills" className="relative pt-20 lg:pt-28">
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1 }}
+          >
+            <div className="absolute inset-0 overflow-hidden">
+              <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-indigo-400/30 rounded-full animate-float-particle" style={{ animationDelay: '0s' }} />
+              <div className="absolute top-1/3 right-1/3 w-3 h-3 bg-purple-400/20 rounded-full animate-float-particle" style={{ animationDelay: '2s' }} />
+              <div className="absolute bottom-1/4 left-1/3 w-2 h-2 bg-fuchsia-400/20 rounded-full animate-float-particle" style={{ animationDelay: '4s' }} />
+              <div className="absolute top-2/3 right-1/4 w-4 h-4 bg-indigo-400/10 rounded-full animate-float-particle" style={{ animationDelay: '1s' }} />
+              <div className="absolute bottom-1/3 right-1/2 w-2 h-2 bg-purple-400/20 rounded-full animate-float-particle" style={{ animationDelay: '3s' }} />
+            </div>
 
-          <div className="absolute -top-40 -right-40 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl animate-pulse-slow" />
-          <div
-            className="absolute -bottom-40 -left-40 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse-slow"
-            style={{ animationDelay: "1s" }}
-          />
+            <div className="absolute -top-40 -right-40 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl animate-pulse-slow" />
+            <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse-slow" style={{ animationDelay: '1s' }} />
 
-          <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 relative">
-            <span className="bg-linear-to-r from-indigo-300 via-purple-300 to-fuchsia-300 bg-clip-text text-transparent">
-              {t.skills}
-            </span>
-            <span className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-32 h-1 bg-linear-to-r from-transparent via-indigo-400 to-transparent rounded-full">
-              <span className="absolute inset-0 bg-linear-to-r from-transparent via-fuchsia-400 to-transparent rounded-full animate-pulse" />
-            </span>
-          </h2>
+            <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 relative">
+              <span className="bg-linear-to-r from-indigo-300 via-purple-300 to-fuchsia-300 bg-clip-text text-transparent">
+                {t.skills}
+              </span>
+              <span className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-32 h-1 bg-linear-to-r from-transparent via-indigo-400 to-transparent rounded-full">
+                <span className="absolute inset-0 bg-linear-to-r from-transparent via-fuchsia-400 to-transparent rounded-full animate-pulse" />
+              </span>
+            </h2>
 
-          <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-4">
-            {t.skillList.map((skill, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 30, rotateX: -10 }}
-                whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
-                viewport={{ once: true }}
-                transition={{
-                  duration: 0.8,
-                  delay: i * 0.1,
-                  type: "spring",
-                  stiffness: 100,
-                }}
-                whileHover={{
-                  scale: 1.06,
-                  y: -12,
-                  rotateX: 5,
-                  transition: { type: "spring", stiffness: 400 },
-                }}
-                className="group relative bg-linear-to-br from-gray-900/90 to-gray-800/70 backdrop-blur-xl border border-gray-700/50 rounded-2xl p-7 shadow-xl hover:shadow-2xl hover:border-gray-500/70 transition-all duration-500 overflow-hidden perspective-500"
-              >
-                <div className="absolute inset-0 rounded-2xl p-px bg-linear-to-r from-indigo-500/0 via-purple-500/0 to-fuchsia-500/0 group-hover:from-indigo-500/50 group-hover:via-purple-500/50 group-hover:to-fuchsia-500/50 transition-all duration-700">
-                  <div className="absolute inset-0 rounded-2xl bg-linear-to-br from-gray-900/90 to-gray-800/70" />
-                </div>
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 bg-linear-to-r from-indigo-500/10 via-purple-500/10 to-fuchsia-500/10 transition-opacity duration-700" />
-                <div className="absolute top-0 right-0 w-20 h-20 bg-linear-to-br from-white/5 to-transparent rounded-bl-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <div className="absolute bottom-0 left-0 w-20 h-20 bg-linear-to-tr from-white/5 to-transparent rounded-tr-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <div className="absolute top-3 right-3 text-[10px] font-mono text-white/10 group-hover:text-white/20 transition-colors duration-500">
-                  #{String(i + 1).padStart(2, "0")}
-                </div>
+            <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-4">
+              {t.skillList.map((skill, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 30, rotateX: -10 }}
+                  whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ 
+                    duration: 0.8, 
+                    delay: i * 0.1,
+                    type: "spring",
+                    stiffness: 100
+                  }}
+                  whileHover={{ 
+                    scale: 1.06, 
+                    y: -12,
+                    rotateX: 5,
+                    transition: { type: "spring", stiffness: 400 }
+                  }}
+                  className="group relative bg-linear-to-br from-gray-900/90 to-gray-800/70 backdrop-blur-xl border border-gray-700/50 rounded-2xl p-7 shadow-xl hover:shadow-2xl hover:border-gray-500/70 transition-all duration-500 overflow-hidden perspective-500"
+                >
+                  <div className="absolute inset-0 rounded-2xl p-px bg-linear-to-r from-indigo-500/0 via-purple-500/0 to-fuchsia-500/0 group-hover:from-indigo-500/50 group-hover:via-purple-500/50 group-hover:to-fuchsia-500/50 transition-all duration-700">
+                    <div className="absolute inset-0 rounded-2xl bg-linear-to-br from-gray-900/90 to-gray-800/70" />
+                  </div>
+                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 bg-linear-to-r from-indigo-500/10 via-purple-500/10 to-fuchsia-500/10 transition-opacity duration-700" />
+                  <div className="absolute top-0 right-0 w-20 h-20 bg-linear-to-br from-white/5 to-transparent rounded-bl-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <div className="absolute bottom-0 left-0 w-20 h-20 bg-linear-to-tr from-white/5 to-transparent rounded-tr-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <div className="absolute top-3 right-3 text-[10px] font-mono text-white/10 group-hover:text-white/20 transition-colors duration-500">
+                    #{String(i + 1).padStart(2, '0')}
+                  </div>
 
-                <div className="relative">
-                  <div className="flex items-center gap-5 mb-6">
-                    <div
-                      className={`p-4 rounded-xl bg-gray-800/70 border border-gray-600/40 ${skill.color} transition-all duration-500 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-current/30 relative`}
-                    >
-                      <skill.icon size={44} className="drop-shadow-lg" />
-                      <div className="absolute inset-0 rounded-xl blur-xl opacity-0 group-hover:opacity-50 transition-opacity duration-500 bg-current/30" />
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="text-xl font-semibold text-white mb-1 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-linear-to-r group-hover:from-white group-hover:to-indigo-200 transition-all duration-500">
-                        {skill.name}
-                      </h3>
-                      <div className="flex items-center gap-2">
-                        <p className={`text-lg font-bold ${skill.color}`}>
-                          {skill.percent}%
-                        </p>
-                        <div className="flex gap-0.5 ml-2">
-                          {[...Array(5)].map((_, j) => (
-                            <div
-                              key={j}
-                              className={`w-1.5 h-1.5 rounded-full transition-all duration-500 ${
-                                j < Math.floor(skill.percent / 20)
-                                  ? `bg-current ${skill.color}`
-                                  : "bg-gray-700/50"
-                              }`}
-                            />
-                          ))}
+                  <div className="relative">
+                    <div className="flex items-center gap-5 mb-6">
+                      <div
+                        className={`p-4 rounded-xl bg-gray-800/70 border border-gray-600/40 ${skill.color} transition-all duration-500 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-current/30 relative`}
+                      >
+                        <skill.icon size={44} className="drop-shadow-lg" />
+                        <div className="absolute inset-0 rounded-xl blur-xl opacity-0 group-hover:opacity-50 transition-opacity duration-500 bg-current/30" />
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="text-xl font-semibold text-white mb-1 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-linear-to-r group-hover:from-white group-hover:to-indigo-200 transition-all duration-500">
+                          {skill.name}
+                        </h3>
+                        <div className="flex items-center gap-2">
+                          <p className={`text-lg font-bold ${skill.color}`}>
+                            {skill.percent}%
+                          </p>
+                          <div className="flex gap-0.5 ml-2">
+                            {[...Array(5)].map((_, j) => (
+                              <div
+                                key={j}
+                                className={`w-1.5 h-1.5 rounded-full transition-all duration-500 ${
+                                  j < Math.floor(skill.percent / 20)
+                                    ? `bg-current ${skill.color}`
+                                    : 'bg-gray-700/50'
+                                }`}
+                              />
+                            ))}
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
 
-                  <div className="h-4 bg-gray-800/80 rounded-full overflow-hidden border border-gray-700/50 shadow-inner relative">
-                    <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-                    <motion.div
-                      initial={{ width: 0 }}
-                      whileInView={{ width: `${skill.percent}%` }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 2, ease: [0.34, 1.56, 0.64, 1] }}
-                      className={`h-full bg-linear-to-r ${skill.gradient} shadow-[0_0_20px] shadow-current/60 transition-all duration-500 group-hover:shadow-[0_0_30px] group-hover:shadow-current/80 relative`}
-                    >
-                      <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/20 to-transparent -translate-x-full animate-shimmer" />
-                      <div className="absolute -right-1 top-1/2 -translate-y-1/2 w-3 h-3 bg-white/30 rounded-full blur-sm" />
-                    </motion.div>
-                  </div>
+                    <div className="h-4 bg-gray-800/80 rounded-full overflow-hidden border border-gray-700/50 shadow-inner relative">
+                      <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+                      <motion.div
+                        initial={{ width: 0 }}
+                        whileInView={{ width: `${skill.percent}%` }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 2, ease: [0.34, 1.56, 0.64, 1] }}
+                        className={`h-full bg-linear-to-r ${skill.gradient} shadow-[0_0_20px] shadow-current/60 transition-all duration-500 group-hover:shadow-[0_0_30px] group-hover:shadow-current/80 relative`}
+                      >
+                        <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/20 to-transparent -translate-x-full animate-shimmer" />
+                        <div className="absolute -right-1 top-1/2 -translate-y-1/2 w-3 h-3 bg-white/30 rounded-full blur-sm" />
+                      </motion.div>
+                    </div>
 
-                  <div className="flex justify-between mt-2">
-                    <span className="text-[10px] font-mono text-white/20">
-                      {skill.percent >= 80
-                        ? "⚡ EXPERT"
-                        : skill.percent >= 60
-                          ? "🚀 ADVANCED"
-                          : "📈 INTERMEDIATE"}
-                    </span>
-                    <span className="text-[10px] font-mono text-white/10">
-                      {skill.percent}%
-                    </span>
+                    <div className="flex justify-between mt-2">
+                      <span className="text-[10px] font-mono text-white/20">
+                        {skill.percent >= 80 ? '⚡ EXPERT' : skill.percent >= 60 ? '🚀 ADVANCED' : '📈 INTERMEDIATE'}
+                      </span>
+                      <span className="text-[10px] font-mono text-white/10">
+                        {skill.percent}%
+                      </span>
+                    </div>
                   </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </motion.section>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        </section>
 
         {/* Contact Form */}
-        <motion.section
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1 }}
-          className="pt-20 lg:pt-28 relative"
-        >
-          <div id="contact" className="absolute top-1/4 left-0 w-72 h-72 bg-indigo-500/10 rounded-full blur-3xl" />
-          <div className="absolute bottom-1/4 right-0 w-72 h-72 bg-purple-500/10 rounded-full blur-3xl" />
+        <section id="contact" className="relative pt-20 lg:pt-28">
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1 }}
+          >
+            <div className="absolute top-1/4 left-0 w-72 h-72 bg-indigo-500/10 rounded-full blur-3xl" />
+            <div className="absolute bottom-1/4 right-0 w-72 h-72 bg-purple-500/10 rounded-full blur-3xl" />
+            
+            <div className="absolute inset-0 opacity-20" style={{
+              backgroundImage: 'radial-gradient(circle, rgba(99,102,241,0.1) 1px, transparent 1px)',
+              backgroundSize: '40px 40px'
+            }} />
 
-          <div
-            className="absolute inset-0 opacity-20"
-            style={{
-              backgroundImage:
-                "radial-gradient(circle, rgba(99,102,241,0.1) 1px, transparent 1px)",
-              backgroundSize: "40px 40px",
-            }}
-          />
+            <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 relative">
+              <span className="bg-linear-to-r from-indigo-300 via-purple-300 to-fuchsia-300 bg-clip-text text-transparent">
+                {t.contact}
+              </span>
+              <span className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-24 h-1 bg-linear-to-r from-transparent via-indigo-400 to-transparent rounded-full">
+                <span className="absolute inset-0 bg-linear-to-r from-transparent via-fuchsia-400 to-transparent rounded-full animate-pulse" />
+              </span>
+            </h2>
 
-          <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 relative">
-            <span className="bg-linear-to-r from-indigo-300 via-purple-300 to-fuchsia-300 bg-clip-text text-transparent">
-              {t.contact}
-            </span>
-            <span className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-24 h-1 bg-linear-to-r from-transparent via-indigo-400 to-transparent rounded-full">
-              <span className="absolute inset-0 bg-linear-to-r from-transparent via-fuchsia-400 to-transparent rounded-full animate-pulse" />
-            </span>
-          </h2>
-
-          <ContactForm t={t} isFa={isFa} />
-        </motion.section>
+            <ContactForm t={t} isFa={isFa} />
+          </motion.div>
+        </section>
       </main>
 
-      {/* Footer - Premium */}
+      {/* Footer */}
       <footer className="relative z-10 overflow-hidden">
         <div className="relative pt-16 pb-8 border-t border-indigo-900/30">
           <div className="absolute top-0 left-1/4 w-96 h-96 bg-indigo-500/5 rounded-full blur-3xl" />
@@ -989,39 +1034,31 @@ export default function Home() {
                     <span className="text-white font-bold text-lg">H</span>
                   </div>
                   <div>
-                    <span className="text-white font-semibold text-lg">
-                      Hami<span className="text-indigo-400">Parsa</span>
-                    </span>
+                    <span className="text-white font-semibold text-lg">Hami<span className="text-indigo-400">Parsa</span></span>
                     <div className="flex items-center gap-2">
-                      <span className="text-[10px] text-white/30 font-mono tracking-widest">
-                        FULL-STACK
-                      </span>
+                      <span className="text-[10px] text-white/30 font-mono tracking-widest">FULL-STACK</span>
                       <span className="w-1 h-1 rounded-full bg-emerald-400" />
-                      <span className="text-[10px] text-white/20 font-mono">
-                        v3.0
-                      </span>
+                      <span className="text-[10px] text-white/20 font-mono">v3.0</span>
                     </div>
                   </div>
                 </div>
                 <p className="text-gray-400 text-sm leading-relaxed max-w-sm">
-                  Building the future, one line at a time. Committed to
-                  humanity, kindness, and staying far from ego & show-off.
+                  {t.mottoFooter}
                 </p>
               </div>
 
               <div>
-                <h4 className="text-white/60 text-sm font-semibold tracking-wider mb-4">
-                  QUICK LINKS
-                </h4>
+                <h4 className="text-white/60 text-sm font-semibold tracking-wider mb-4">QUICK LINKS</h4>
                 <ul className="space-y-2.5">
-                  {["Home", "Skills", "Contact"].map((item) => (
-                    <li key={item}>
-                      <a
-                        href={`#${item.toLowerCase()}`}
-                        className="text-gray-400 hover:text-white text-sm transition-colors duration-300 flex items-center gap-2 group"
-                      >
+                  {[
+                    { label: t.home, href: "#home" },
+                    { label: t.skillsLink, href: "#skills" },
+                    { label: t.contactLink, href: "#contact" },
+                  ].map((item) => (
+                    <li key={item.label}>
+                      <a href={item.href} className="text-gray-400 hover:text-white text-sm transition-colors duration-300 flex items-center gap-2 group">
                         <span className="w-1 h-1 rounded-full bg-indigo-400/30 group-hover:bg-indigo-400 transition-colors" />
-                        {item}
+                        {item.label}
                       </a>
                     </li>
                   ))}
@@ -1029,77 +1066,34 @@ export default function Home() {
               </div>
 
               <div>
-                <h4 className="text-white/60 text-sm font-semibold tracking-wider mb-4">
-                  CONNECT
-                </h4>
+                <h4 className="text-white/60 text-sm font-semibold tracking-wider mb-4">CONNECT</h4>
                 <div className="flex flex-wrap gap-3">
-                  <a
-                    href="https://github.com/HamiParsa"
-                    target="_blank"
-                    className="p-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 transition-all duration-300 group"
-                  >
-                    <Github
-                      size={20}
-                      className="text-white/40 group-hover:text-white transition-colors"
-                    />
+                  <a href="https://github.com/HamiParsa" target="_blank" className="p-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 transition-all duration-300 group">
+                    <Github size={20} className="text-white/40 group-hover:text-white transition-colors" />
                   </a>
-                  <a
-                    href="https://www.linkedin.com/in/HamiParsa"
-                    target="_blank"
-                    className="p-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 transition-all duration-300 group"
-                  >
-                    <Linkedin
-                      size={20}
-                      className="text-white/40 group-hover:text-white transition-colors"
-                    />
+                  <a href="https://www.linkedin.com/in/HamiParsa" target="_blank" className="p-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 transition-all duration-300 group">
+                    <Linkedin size={20} className="text-white/40 group-hover:text-white transition-colors" />
                   </a>
-                  <a
-                    href="https://t.me/HamiParsa"
-                    target="_blank"
-                    className="p-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 transition-all duration-300 group"
-                  >
-                    <Send
-                      size={20}
-                      className="text-white/40 group-hover:text-white transition-colors"
-                    />
+                  <a href="https://t.me/HamiParsa" target="_blank" className="p-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 transition-all duration-300 group">
+                    <Send size={20} className="text-white/40 group-hover:text-white transition-colors" />
                   </a>
-                  <a
-                    href="https://www.instagram.com/hamii.parsa"
-                    target="_blank"
-                    className="p-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 transition-all duration-300 group"
-                  >
-                    <Instagram
-                      size={20}
-                      className="text-white/40 group-hover:text-white transition-colors"
-                    />
+                  <a href="https://www.instagram.com/hamii.parsa" target="_blank" className="p-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 transition-all duration-300 group">
+                    <Instagram size={20} className="text-white/40 group-hover:text-white transition-colors" />
                   </a>
                 </div>
-
+                
                 <motion.a
                   href="https://github.com/HamiParsa/About-Me"
                   target="_blank"
                   whileHover={{ scale: 1.02 }}
                   className="mt-4 inline-flex items-center gap-3 px-4 py-2.5 rounded-xl bg-linear-to-r from-indigo-500/20 to-purple-500/20 hover:from-indigo-500/30 hover:to-purple-500/30 border border-indigo-500/30 hover:border-indigo-500/50 transition-all duration-300 group w-full"
                 >
-                  <Github
-                    size={18}
-                    className="text-indigo-400 group-hover:text-indigo-300 transition-colors"
-                  />
+                  <Github size={18} className="text-indigo-400 group-hover:text-indigo-300 transition-colors" />
                   <span className="text-sm text-indigo-300/80 group-hover:text-indigo-200 transition-colors">
-                    View Repository
+                    {t.repository}
                   </span>
-                  <svg
-                    className="w-4 h-4 text-indigo-400/60 group-hover:translate-x-1 transition-transform ml-auto"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M14 5l7 7m0 0l-7 7m7-7H3"
-                    />
+                  <svg className="w-4 h-4 text-indigo-400/60 group-hover:translate-x-1 transition-transform ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                   </svg>
                 </motion.a>
               </div>
@@ -1111,11 +1105,11 @@ export default function Home() {
               </p>
               <div className="flex items-center gap-6">
                 <span className="text-gray-600/60 text-xs tracking-[0.15em]">
-                  Built with <span className="text-indigo-400">❤</span> & code
+                  {t.builtWith} <span className="text-indigo-400">❤</span> & code
                 </span>
                 <span className="w-px h-4 bg-white/10" />
                 <span className="text-gray-600/40 text-[10px] font-mono tracking-widest">
-                  OPEN SOURCE
+                  {t.openSource}
                 </span>
               </div>
             </div>
@@ -1123,14 +1117,28 @@ export default function Home() {
         </div>
       </footer>
 
+      {/* Scroll to Top Button */}
+      <AnimatePresence>
+        {scrolled && (
+          <motion.button
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            onClick={scrollToTop}
+            className="fixed bottom-8 right-8 z-50 p-3 rounded-full bg-linear-to-r from-indigo-600 to-purple-600 text-white shadow-lg shadow-indigo-500/30 hover:shadow-indigo-500/50 transition-all duration-300 group"
+          >
+            <ChevronUp size={24} className="group-hover:-translate-y-0.5 transition-transform" />
+          </motion.button>
+        )}
+      </AnimatePresence>
+
       {/* CSS Styles */}
       <style jsx global>{`
-        /* Nebula Clouds */
         .nebula-cloud {
           position: absolute;
           border-radius: 50%;
           filter: blur(100px);
-          opacity: 0.6;
+          opacity: 0.4;
           animation: nebulaDrift 25s ease-in-out infinite alternate;
         }
         .nebula-1 {
@@ -1138,11 +1146,7 @@ export default function Home() {
           height: 60%;
           top: -10%;
           left: -20%;
-          background: radial-gradient(
-            ellipse,
-            rgba(99, 102, 241, 0.3),
-            transparent 70%
-          );
+          background: radial-gradient(ellipse, rgba(99, 102, 241, 0.15), transparent 70%);
           animation-duration: 30s;
         }
         .nebula-2 {
@@ -1150,11 +1154,7 @@ export default function Home() {
           height: 70%;
           bottom: -20%;
           right: -15%;
-          background: radial-gradient(
-            ellipse,
-            rgba(139, 92, 246, 0.25),
-            transparent 70%
-          );
+          background: radial-gradient(ellipse, rgba(139, 92, 246, 0.12), transparent 70%);
           animation-duration: 35s;
           animation-delay: -5s;
         }
@@ -1163,11 +1163,7 @@ export default function Home() {
           height: 50%;
           top: 40%;
           left: 40%;
-          background: radial-gradient(
-            ellipse,
-            rgba(236, 72, 153, 0.2),
-            transparent 70%
-          );
+          background: radial-gradient(ellipse, rgba(236, 72, 153, 0.1), transparent 70%);
           animation-duration: 28s;
           animation-delay: -10s;
         }
@@ -1176,307 +1172,123 @@ export default function Home() {
           height: 40%;
           top: 20%;
           right: 10%;
-          background: radial-gradient(
-            ellipse,
-            rgba(59, 130, 246, 0.15),
-            transparent 70%
-          );
+          background: radial-gradient(ellipse, rgba(59, 130, 246, 0.08), transparent 70%);
           animation-duration: 32s;
           animation-delay: -15s;
         }
         @keyframes nebulaDrift {
-          0% {
-            transform: translate(0, 0) scale(1) rotate(0deg);
-          }
-          25% {
-            transform: translate(50px, -30px) scale(1.2) rotate(5deg);
-          }
-          50% {
-            transform: translate(-30px, 40px) scale(0.8) rotate(-3deg);
-          }
-          75% {
-            transform: translate(40px, 20px) scale(1.1) rotate(4deg);
-          }
-          100% {
-            transform: translate(-20px, -40px) scale(0.9) rotate(-5deg);
-          }
+          0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+          25% { transform: translate(50px, -30px) scale(1.2) rotate(5deg); }
+          50% { transform: translate(-30px, 40px) scale(0.8) rotate(-3deg); }
+          75% { transform: translate(40px, 20px) scale(1.1) rotate(4deg); }
+          100% { transform: translate(-20px, -40px) scale(0.9) rotate(-5deg); }
         }
 
-        /* Shooting Stars */
         .shooting-star {
           position: absolute;
           width: 150px;
           height: 2px;
-          background: linear-gradient(
-            to right,
-            rgba(255, 255, 255, 0),
-            rgba(255, 255, 255, 0.8)
-          );
+          background: linear-gradient(to right, rgba(255,255,255,0), rgba(255,255,255,0.8));
           border-radius: 50%;
-          filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.3));
+          filter: drop-shadow(0 0 6px rgba(255,255,255,0.3));
           animation: shoot 8s linear infinite;
           opacity: 0;
         }
         .shooting-star::after {
-          content: "";
+          content: '';
           position: absolute;
           top: -3px;
           right: 0;
           width: 6px;
           height: 8px;
-          background: radial-gradient(
-            circle,
-            rgba(255, 255, 255, 0.9),
-            transparent
-          );
+          background: radial-gradient(circle, rgba(255,255,255,0.9), transparent);
           border-radius: 50%;
         }
-        .shooting-star.delay-1 {
-          animation-delay: 3s;
-          top: 20%;
-          left: 60%;
-          transform: rotate(-25deg);
-        }
-        .shooting-star.delay-2 {
-          animation-delay: 5.5s;
-          top: 60%;
-          left: 30%;
-          transform: rotate(-35deg);
-          width: 100px;
-        }
+        .shooting-star.delay-1 { animation-delay: 3s; top: 20%; left: 60%; transform: rotate(-25deg); }
+        .shooting-star.delay-2 { animation-delay: 5.5s; top: 60%; left: 30%; transform: rotate(-35deg); width: 100px; }
         @keyframes shoot {
-          0% {
-            transform: translateX(0) translateY(0) scale(1);
-            opacity: 0;
-          }
-          5% {
-            opacity: 1;
-          }
-          15% {
-            opacity: 1;
-          }
-          20% {
-            opacity: 0;
-            transform: translateX(-300px) translateY(100px) scale(0.5);
-          }
-          100% {
-            opacity: 0;
-          }
+          0% { transform: translateX(0) translateY(0) scale(1); opacity: 0; }
+          5% { opacity: 1; }
+          15% { opacity: 1; }
+          20% { opacity: 0; transform: translateX(-300px) translateY(100px) scale(0.5); }
+          100% { opacity: 0; }
         }
 
-        /* Stars */
         .star {
           position: absolute;
           background: white;
           border-radius: 50%;
           animation: twinkle var(--duration) ease-in-out infinite;
-          box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+          box-shadow: 0 0 8px rgba(255,255,255,0.3);
         }
-        .star-1 {
-          top: 15%;
-          left: 20%;
-          width: 3px;
-          height: 3px;
-          --duration: 2.5s;
-        }
-        .star-2 {
-          top: 25%;
-          right: 25%;
-          width: 2px;
-          height: 2px;
-          --duration: 3.2s;
-          animation-delay: 0.5s;
-        }
-        .star-3 {
-          top: 50%;
-          left: 10%;
-          width: 4px;
-          height: 4px;
-          --duration: 2.8s;
-          animation-delay: 1s;
-        }
-        .star-4 {
-          bottom: 30%;
-          right: 15%;
-          width: 2.5px;
-          height: 2.5px;
-          --duration: 3.5s;
-          animation-delay: 0.3s;
-        }
-        .star-5 {
-          top: 70%;
-          left: 40%;
-          width: 3px;
-          height: 3px;
-          --duration: 2.3s;
-          animation-delay: 1.5s;
-        }
-        .star-6 {
-          top: 40%;
-          right: 40%;
-          width: 1.5px;
-          height: 1.5px;
-          --duration: 4s;
-          animation-delay: 0.8s;
-        }
-        .star-7 {
-          bottom: 15%;
-          left: 60%;
-          width: 2px;
-          height: 2px;
-          --duration: 3.8s;
-          animation-delay: 1.2s;
-        }
-        .star-8 {
-          top: 80%;
-          right: 50%;
-          width: 3.5px;
-          height: 3.5px;
-          --duration: 2.7s;
-          animation-delay: 0.7s;
-        }
+        .star-1 { top: 15%; left: 20%; width: 3px; height: 3px; --duration: 2.5s; }
+        .star-2 { top: 25%; right: 25%; width: 2px; height: 2px; --duration: 3.2s; animation-delay: 0.5s; }
+        .star-3 { top: 50%; left: 10%; width: 4px; height: 4px; --duration: 2.8s; animation-delay: 1s; }
+        .star-4 { bottom: 30%; right: 15%; width: 2.5px; height: 2.5px; --duration: 3.5s; animation-delay: 0.3s; }
+        .star-5 { top: 70%; left: 40%; width: 3px; height: 3px; --duration: 2.3s; animation-delay: 1.5s; }
+        .star-6 { top: 40%; right: 40%; width: 1.5px; height: 1.5px; --duration: 4s; animation-delay: 0.8s; }
+        .star-7 { bottom: 15%; left: 60%; width: 2px; height: 2px; --duration: 3.8s; animation-delay: 1.2s; }
+        .star-8 { top: 80%; right: 50%; width: 3.5px; height: 3.5px; --duration: 2.7s; animation-delay: 0.7s; }
         @keyframes twinkle {
-          0%,
-          100% {
-            opacity: 0.2;
-            transform: scale(0.8);
-          }
-          50% {
-            opacity: 1;
-            transform: scale(1.3);
-            box-shadow:
-              0 0 20px rgba(255, 255, 255, 0.6),
-              0 0 40px rgba(139, 92, 246, 0.3);
-          }
+          0%, 100% { opacity: 0.2; transform: scale(0.8); }
+          50% { opacity: 1; transform: scale(1.3); box-shadow: 0 0 20px rgba(255,255,255,0.6), 0 0 40px rgba(139,92,246,0.3); }
         }
 
-        /* Aurora */
         .aurora-overlay {
-          background:
-            radial-gradient(
-              ellipse at 20% 50%,
-              rgba(99, 102, 241, 0.08),
-              transparent 50%
-            ),
-            radial-gradient(
-              ellipse at 80% 30%,
-              rgba(139, 92, 246, 0.06),
-              transparent 40%
-            ),
-            radial-gradient(
-              ellipse at 50% 80%,
-              rgba(236, 72, 153, 0.04),
-              transparent 45%
-            );
+          background: 
+            radial-gradient(ellipse at 20% 50%, rgba(99,102,241,0.05), transparent 50%),
+            radial-gradient(ellipse at 80% 30%, rgba(139,92,246,0.04), transparent 40%),
+            radial-gradient(ellipse at 50% 80%, rgba(236,72,153,0.03), transparent 45%);
           animation: auroraPulse 15s ease-in-out infinite alternate;
           mix-blend-mode: screen;
         }
         @keyframes auroraPulse {
-          0% {
-            opacity: 0.5;
-            transform: scale(1) rotate(0deg);
-          }
-          100% {
-            opacity: 1;
-            transform: scale(1.1) rotate(3deg);
-          }
+          0% { opacity: 0.5; transform: scale(1) rotate(0deg); }
+          100% { opacity: 1; transform: scale(1.1) rotate(3deg); }
         }
 
-        /* Vignette */
         .bg-radial-vignette {
-          background: radial-gradient(
-            ellipse at center,
-            transparent 50%,
-            rgba(0, 0, 0, 0.5) 100%
-          );
+          background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.5) 100%);
         }
 
-        /* Animations */
         @keyframes spin-slow {
-          from {
-            transform: rotate(0deg);
-          }
-          to {
-            transform: rotate(360deg);
-          }
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
         }
         @keyframes spin-reverse {
-          from {
-            transform: rotate(360deg);
-          }
-          to {
-            transform: rotate(0deg);
-          }
+          from { transform: rotate(360deg); }
+          to { transform: rotate(0deg); }
         }
         @keyframes float-particle {
-          0%,
-          100% {
-            transform: translate(0, 0) scale(1);
-            opacity: 0;
-          }
-          25% {
-            opacity: 0.8;
-          }
-          50% {
-            transform: translate(30px, -30px) scale(1.5);
-            opacity: 0.4;
-          }
-          75% {
-            opacity: 0.8;
-          }
+          0%, 100% { transform: translate(0, 0) scale(1); opacity: 0; }
+          25% { opacity: 0.8; }
+          50% { transform: translate(30px, -30px) scale(1.5); opacity: 0.4; }
+          75% { opacity: 0.8; }
         }
         @keyframes pulse-slow {
-          0%,
-          100% {
-            opacity: 0.35;
-          }
-          50% {
-            opacity: 0.55;
-          }
+          0%, 100% { opacity: 0.35; }
+          50% { opacity: 0.55; }
         }
         @keyframes shimmer {
-          0% {
-            transform: translateX(-100%);
-          }
-          100% {
-            transform: translateX(100%);
-          }
+          0% { transform: translateX(-100%); }
+          100% { transform: translateX(100%); }
         }
         @keyframes scanline {
-          0% {
-            transform: translateY(-100%);
-            opacity: 0;
-          }
-          50% {
-            opacity: 1;
-          }
-          100% {
-            transform: translateY(100%);
-            opacity: 0;
-          }
+          0% { transform: translateY(-100%); opacity: 0; }
+          50% { opacity: 1; }
+          100% { transform: translateY(100%); opacity: 0; }
         }
 
-        .animate-spin-slow {
-          animation: spin-slow linear infinite;
-        }
-        .animate-spin-reverse {
-          animation: spin-reverse linear infinite;
-        }
-        .animate-float-particle {
-          animation: float-particle 6s ease-in-out infinite;
-        }
-        .animate-pulse-slow {
-          animation: pulse-slow 4s ease-in-out infinite;
-        }
-        .animate-shimmer {
-          animation: shimmer 2s ease-in-out infinite;
-        }
-        .animate-scanline {
-          animation: scanline 4s linear infinite;
-        }
-        .perspective-500 {
-          perspective: 500px;
-        }
+        .animate-spin-slow { animation: spin-slow linear infinite; }
+        .animate-spin-reverse { animation: spin-reverse linear infinite; }
+        .animate-float-particle { animation: float-particle 6s ease-in-out infinite; }
+        .animate-pulse-slow { animation: pulse-slow 4s ease-in-out infinite; }
+        .animate-shimmer { animation: shimmer 2s ease-in-out infinite; }
+        .animate-scanline { animation: scanline 4s linear infinite; }
+        .perspective-500 { perspective: 500px; }
+
+        html { scroll-behavior: smooth; }
+        ::selection { background: rgba(99, 102, 241, 0.3); color: white; }
       `}</style>
     </div>
   );
@@ -1540,17 +1352,12 @@ function ContactForm({
       <div className="absolute -inset-8 bg-linear-to-r from-indigo-500/5 via-purple-500/5 to-fuchsia-500/5 rounded-3xl blur-2xl pointer-events-none" />
 
       <div className="relative group">
-        <label
-          className={`block text-sm font-medium text-gray-300 mb-2 ${isFa ? "text-right" : "text-left"}`}
-        >
+        <label className={`block text-sm font-medium text-gray-300 mb-2 ${isFa ? "text-right" : "text-left"}`}>
           {t.nameLabel}
         </label>
         <div className="relative">
           <div className="absolute -inset-0.5 bg-linear-to-r from-indigo-500/20 to-purple-500/20 rounded-xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-          <User
-            className={`absolute ${isFa ? "right-4" : "left-4"} top-1/2 -translate-y-1/2 text-indigo-400/60 group-hover:text-indigo-400 transition-colors duration-300 z-10`}
-            size={20}
-          />
+          <User className={`absolute ${isFa ? "right-4" : "left-4"} top-1/2 -translate-y-1/2 text-indigo-400/60 group-hover:text-indigo-400 transition-colors duration-300 z-10`} size={20} />
           <input
             name="name"
             type="text"
@@ -1558,9 +1365,7 @@ function ContactForm({
             onChange={handleChange}
             required
             className={`relative w-full ${isFa ? "pr-12 pl-5 text-right" : "pl-12 pr-5 text-left"} py-3.5 bg-gray-900/80 border ${
-              status === "error"
-                ? "border-red-600"
-                : "border-indigo-600/40 focus:border-indigo-500"
+              status === "error" ? "border-red-600" : "border-indigo-600/40 focus:border-indigo-500"
             } rounded-xl text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 transition-all duration-300 group-hover:border-indigo-500/60`}
             placeholder={t.nameLabel}
             dir={isFa ? "rtl" : "ltr"}
@@ -1569,17 +1374,12 @@ function ContactForm({
       </div>
 
       <div className="relative group">
-        <label
-          className={`block text-sm font-medium text-gray-300 mb-2 ${isFa ? "text-right" : "text-left"}`}
-        >
+        <label className={`block text-sm font-medium text-gray-300 mb-2 ${isFa ? "text-right" : "text-left"}`}>
           {t.phoneLabel}
         </label>
         <div className="relative">
           <div className="absolute -inset-0.5 bg-linear-to-r from-indigo-500/20 to-purple-500/20 rounded-xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-          <Phone
-            className={`absolute ${isFa ? "right-4" : "left-4"} top-1/2 -translate-y-1/2 text-indigo-400/60 group-hover:text-indigo-400 transition-colors duration-300 z-10`}
-            size={20}
-          />
+          <Phone className={`absolute ${isFa ? "right-4" : "left-4"} top-1/2 -translate-y-1/2 text-indigo-400/60 group-hover:text-indigo-400 transition-colors duration-300 z-10`} size={20} />
           <input
             name="number"
             type="tel"
@@ -1587,9 +1387,7 @@ function ContactForm({
             onChange={handleChange}
             required
             className={`relative w-full ${isFa ? "pr-12 pl-5 text-right" : "pl-12 pr-5 text-left"} py-3.5 bg-gray-900/80 border ${
-              status === "error"
-                ? "border-red-600"
-                : "border-indigo-600/40 focus:border-indigo-500"
+              status === "error" ? "border-red-600" : "border-indigo-600/40 focus:border-indigo-500"
             } rounded-xl text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 transition-all duration-300 group-hover:border-indigo-500/60`}
             placeholder={t.phoneLabel}
             dir={isFa ? "rtl" : "ltr"}
@@ -1598,17 +1396,12 @@ function ContactForm({
       </div>
 
       <div className="relative group">
-        <label
-          className={`block text-sm font-medium text-gray-300 mb-2 ${isFa ? "text-right" : "text-left"}`}
-        >
+        <label className={`block text-sm font-medium text-gray-300 mb-2 ${isFa ? "text-right" : "text-left"}`}>
           {t.messageLabel}
         </label>
         <div className="relative">
           <div className="absolute -inset-0.5 bg-linear-to-r from-indigo-500/20 to-purple-500/20 rounded-xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-          <MessageSquare
-            className={`absolute ${isFa ? "right-4" : "left-4"} top-4 text-indigo-400/60 group-hover:text-indigo-400 transition-colors duration-300 z-10`}
-            size={20}
-          />
+          <MessageSquare className={`absolute ${isFa ? "right-4" : "left-4"} top-4 text-indigo-400/60 group-hover:text-indigo-400 transition-colors duration-300 z-10`} size={20} />
           <textarea
             name="message"
             value={form.message}
@@ -1616,9 +1409,7 @@ function ContactForm({
             required
             rows={6}
             className={`relative w-full ${isFa ? "pr-12 pl-5 text-right" : "pl-12 pr-5 text-left"} py-3.5 bg-gray-900/80 border ${
-              status === "error"
-                ? "border-red-600"
-                : "border-indigo-600/40 focus:border-indigo-500"
+              status === "error" ? "border-red-600" : "border-indigo-600/40 focus:border-indigo-500"
             } rounded-xl text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 transition-all duration-300 resize-none group-hover:border-indigo-500/60`}
             placeholder={t.messageLabel}
             dir={isFa ? "rtl" : "ltr"}
@@ -1640,14 +1431,7 @@ function ContactForm({
           {isSubmitting ? (
             <>
               <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
-                <circle
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  strokeWidth="4"
-                  fill="none"
-                />
+                <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
                 <path fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
               </svg>
               {isFa ? "در حال ارسال..." : "Sending..."}
@@ -1655,18 +1439,8 @@ function ContactForm({
           ) : (
             <>
               {t.submit}
-              <svg
-                className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M13 7l5 5m0 0l-5 5m5-5H6"
-                />
+              <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
               </svg>
             </>
           )}
@@ -1682,18 +1456,8 @@ function ContactForm({
             className={`text-center text-green-400 font-medium text-lg mt-4 flex items-center justify-center gap-2 ${isFa ? "flex-row-reverse" : ""}`}
           >
             <span className="w-8 h-8 rounded-full bg-green-500/20 flex items-center justify-center">
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={3}
-                  d="M5 13l4 4L19 7"
-                />
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
               </svg>
             </span>
             {t.success}
@@ -1708,18 +1472,8 @@ function ContactForm({
             className={`text-center text-red-400 font-medium text-lg mt-4 flex items-center justify-center gap-2 ${isFa ? "flex-row-reverse" : ""}`}
           >
             <span className="w-8 h-8 rounded-full bg-red-500/20 flex items-center justify-center">
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={3}
-                  d="M6 18L18 6M6 6l12 12"
-                />
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </span>
             {t.error}
