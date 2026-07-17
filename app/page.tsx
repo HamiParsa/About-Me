@@ -750,7 +750,7 @@ export default function Home() {
           transition={{ duration: 0.8 }}
           className="py-16 relative"
         >
-          <div className="text-center mb-12">
+          <div id="skills" className="text-center mb-12">
             <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-white/5 border border-white/10">
               <Code2 size={14} className="text-indigo-400" />
               <span className="text-xs text-white/40 font-mono tracking-widest">
