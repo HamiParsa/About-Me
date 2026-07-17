@@ -315,7 +315,7 @@ export default function Home() {
       </div>
 
       {/* Navbar */}
-      <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-auto">
+      <nav id="home" className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-auto">
         <div className="relative">
           <div className="absolute -inset-1 rounded-full bg-linear-to-r from-indigo-500/30 via-purple-500/30 to-fuchsia-500/30 blur-xl" />
           <div className="absolute -inset-1 rounded-full bg-linear-to-l from-cyan-500/20 via-indigo-500/20 to-purple-500/20 blur-2xl opacity-50 animate-pulse" />
