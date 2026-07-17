@@ -334,7 +334,7 @@ export default function Home() {
               className="flex items-center gap-2 text-xs font-light text-white/40 hover:text-white/80 tracking-wider transition-all duration-300 group"
             >
               <span className="relative">
-                {isFa ? "فارسی" : "EN"}
+                {isFa ? "EN" : "فارسی"}
                 <span className="absolute -bottom-0.5 left-0 right-0 h-px bg-linear-to-r from-indigo-400 to-purple-400 scale-x-0 group-hover:scale-x-100 transition-transform duration-400" />
               </span>
               <ArrowRightLeft
