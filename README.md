@@ -33,6 +33,10 @@ Tomorrow: Much cooler things.
 | Git • GitHub            | 94%   | <img src="https://skillicons.dev/icons?i=git,github" height="28"/> |
 | MongoDB            | 85%   | <img src="https://skillicons.dev/icons?i=mongodb" height="28"/> |
 | Node.Js            | 80%   | <img src="https://skillicons.dev/icons?i=nodejs" height="28"/> |
+| Express.Js           | 85%   | <img src="https://skillicons.dev/icons?i=express" height="28"/> |
+| Python           | 84%   | <img src="https://skillicons.dev/icons?i=python" height="28"/> |
+| Django           | 70%   | <img src="https://skillicons.dev/icons?i=django" height="28"/> |
+| SqLite           | 75%   | <img src="https://skillicons.dev/icons?i=sqlite" height="28"/> |
 
 ---
 
