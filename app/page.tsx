@@ -949,7 +949,7 @@ export default function Home() {
           transition={{ duration: 1 }}
           className="pt-20 lg:pt-28 relative"
         >
-          <div className="absolute top-1/4 left-0 w-72 h-72 bg-indigo-500/10 rounded-full blur-3xl" />
+          <div id="contact" className="absolute top-1/4 left-0 w-72 h-72 bg-indigo-500/10 rounded-full blur-3xl" />
           <div className="absolute bottom-1/4 right-0 w-72 h-72 bg-purple-500/10 rounded-full blur-3xl" />
 
           <div
