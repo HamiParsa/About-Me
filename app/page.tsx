@@ -444,7 +444,7 @@ export default function Home() {
               <Image
                 width={800}
                 height={800}
-                src="https://yourimageshare.com/ib/GXnJY5bS7c.png"
+                src="https://avatars.githubusercontent.com/u/227557537?v=4"
                 alt="Hami Parsa"
                 className="w-full h-full object-cover transition-all duration-800 group-hover:scale-110 group-hover:brightness-110 group-hover:contrast-110"
                 priority
