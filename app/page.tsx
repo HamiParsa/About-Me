@@ -15,19 +15,20 @@ import {
   Sparkles,
   Zap,
   ChevronUp,
-  Rocket,
-  Cpu,
+  Code2,
+  Menu,
+  X,
+  Layout,
+  Server,
+  Database,
+  Cloud,
 } from "lucide-react";
 import { DiJavascript1, DiReact, DiGit } from "react-icons/di";
-import { TbBrandTailwind } from "react-icons/tb";
+import { TbBrandTailwind, TbBrandNextjs } from "react-icons/tb";
 import { RiSupabaseLine } from "react-icons/ri";
 import { BiLogoMongodb } from "react-icons/bi";
-import { FaNodeJs } from "react-icons/fa";
-import { FaPython } from "react-icons/fa6";
-import { SiDjango } from "react-icons/si";
-import { SiSqlite } from "react-icons/si";
-import { SiExpress } from "react-icons/si";
-import { SiNextdotjs } from "react-icons/si";
+import { FaNodeJs, FaPython } from "react-icons/fa";
+import { SiDjango, SiSqlite, SiExpress, SiTypescript } from "react-icons/si";
 
 import { motion, AnimatePresence, useScroll, useSpring } from "framer-motion";
 import Image from "next/image";
@@ -43,7 +44,10 @@ type Skill = {
   icon: React.ComponentType<{ className?: string; size?: number }>;
   color: string;
   gradient: string;
+  category: "frontend" | "backend" | "database" | "devops";
+  description?: string;
 };
+
 
 // ────────────────────────────────────────────────
 // Content
@@ -56,14 +60,16 @@ const content = {
     about: `I'm Hami Parsa, 20.\nAbove all, I strive to be a decent human—true to humanity, no ego trips.\nI'm deeply passionate about technology and aim to become the best version of myself in this field.\nCurrently focused on full-stack web development, but my vision is much bigger: become a world-class software engineer, contribute to smarter systems, shine, and take pride in my impact on the world.`,
     connect: "Let's connect",
     status: "Open to work",
-    skills: "Skills",
+    skills: "Skills & Expertise",
     skillList: [
       {
         name: "JavaScript / TypeScript",
         percent: 88,
         icon: DiJavascript1,
         color: "text-yellow-400",
-        gradient: "from-yellow-400 via-amber-400 to-yellow-600",
+        gradient: "from-yellow-400 via-amber-400 to-orange-500",
+        category: "frontend",
+        description: "ES6+, TypeScript, JSDoc",
       },
       {
         name: "React • Next.js",
@@ -71,6 +77,8 @@ const content = {
         icon: DiReact,
         color: "text-cyan-400",
         gradient: "from-cyan-400 via-sky-400 to-blue-500",
+        category: "frontend",
+        description: "Hooks, SSR, App Router",
       },
       {
         name: "Tailwind CSS",
@@ -78,13 +86,17 @@ const content = {
         icon: TbBrandTailwind,
         color: "text-teal-400",
         gradient: "from-teal-400 via-cyan-400 to-sky-500",
+        category: "frontend",
+        description: "Responsive, Animations",
       },
       {
-        name: "SupaBase",
+        name: "Supabase",
         percent: 72,
         icon: RiSupabaseLine,
         color: "text-emerald-400",
         gradient: "from-emerald-400 via-green-500 to-teal-500",
+        category: "database",
+        description: "Realtime, Auth, Storage",
       },
       {
         name: "Git • GitHub",
@@ -92,6 +104,8 @@ const content = {
         icon: DiGit,
         color: "text-orange-500",
         gradient: "from-orange-500 via-red-500 to-rose-600",
+        category: "devops",
+        description: "CI/CD, Actions, Version Control",
       },
       {
         name: "MongoDB",
@@ -99,13 +113,17 @@ const content = {
         icon: BiLogoMongodb,
         color: "text-green-500",
         gradient: "from-green-500 via-emerald-500 to-lime-500",
+        category: "database",
+        description: "Aggregation, Indexing",
       },
       {
-        name: "Node.Js",
+        name: "Node.js",
         percent: 80,
         icon: FaNodeJs,
         color: "text-lime-500",
         gradient: "from-lime-500 via-green-500 to-emerald-600",
+        category: "backend",
+        description: "REST APIs, Middleware",
       },
       {
         name: "Express.js",
@@ -113,6 +131,8 @@ const content = {
         icon: SiExpress,
         color: "text-amber-400",
         gradient: "from-amber-500 via-orange-500 to-red-500",
+        category: "backend",
+        description: "Routing, Middleware",
       },
       {
         name: "Python",
@@ -120,6 +140,8 @@ const content = {
         icon: FaPython,
         color: "text-indigo-400",
         gradient: "from-indigo-500 via-blue-500 to-purple-600",
+        category: "backend",
+        description: "Scripting, Automation",
       },
       {
         name: "Django",
@@ -127,6 +149,8 @@ const content = {
         icon: SiDjango,
         color: "text-rose-400",
         gradient: "from-rose-500 via-pink-500 to-fuchsia-600",
+        category: "backend",
+        description: "DRF, ORM, Admin",
       },
       {
         name: "SQLite",
@@ -134,8 +158,53 @@ const content = {
         icon: SiSqlite,
         color: "text-purple-400",
         gradient: "from-purple-500 via-violet-500 to-indigo-600",
+        category: "database",
+        description: "Lightweight, Embedded",
       },
     ] as Skill[],
+
+    // Tech Stack Categories - Complete with icons
+    techCategories: [
+      {
+        name: "Frontend",
+        icon: Layout,
+        technologies: [
+          { name: "JavaScript", icon: DiJavascript1, color: "text-yellow-400" },
+          { name: "TypeScript", icon: SiTypescript, color: "text-blue-500" },
+          { name: "React", icon: DiReact, color: "text-cyan-400" },
+          { name: "Next.js", icon: TbBrandNextjs, color: "text-white" },
+          { name: "Tailwind CSS", icon: TbBrandTailwind, color: "text-teal-400" },
+        ],
+      },
+      {
+        name: "Backend",
+        icon: Server,
+        technologies: [
+          { name: "Node.js", icon: FaNodeJs, color: "text-lime-500" },
+          { name: "Express.js", icon: SiExpress, color: "text-amber-400" },
+          { name: "Python", icon: FaPython, color: "text-indigo-400" },
+          { name: "Django", icon: SiDjango, color: "text-rose-400" },
+        ],
+      },
+      {
+        name: "Database",
+        icon: Database,
+        technologies: [
+          { name: "MongoDB", icon: BiLogoMongodb, color: "text-green-500" },
+          { name: "Supabase", icon: RiSupabaseLine, color: "text-emerald-400" },
+          { name: "SQLite", icon: SiSqlite, color: "text-purple-400" },
+        ],
+      },
+      {
+        name: "DevOps • Tools",
+        icon: Cloud,
+        technologies: [
+          { name: "Git", icon: DiGit, color: "text-orange-500" },
+          { name: "GitHub", icon: DiGit, color: "text-orange-500" },
+        ],
+      },
+    ],
+
     contact: "Get in Touch",
     nameLabel: "Name",
     phoneLabel: "Phone Number",
@@ -145,7 +214,8 @@ const content = {
     error: "Something went wrong. Please try again.",
     motto: "Human first. Coder second.",
     mottoSub: "Building the future, one line at a time.",
-    mottoFooter: "Building the future, one line at a time. Committed to humanity, kindness, and staying far from ego & show-off.",
+    mottoFooter:
+      "Building the future, one line at a time. Committed to humanity, kindness, and staying far from ego & show-off.",
     statusTitle: "Current Status",
     statusHeading: "Full-Stack Developer",
     quickActions: "Quick Actions",
@@ -164,6 +234,9 @@ const content = {
     aboutMe: "About Me",
     explore: "Explore",
     getInTouch: "Get in Touch",
+    technologies: "Technologies",
+    allSkills: "All Skills",
+    expertise: "Expertise",
   },
   fa: {
     greeting: "سلام، من",
@@ -172,14 +245,16 @@ const content = {
     about: `حامی پارسا هستم، ۲۰ ساله.\nاول از همه دوست دارم انسان باشم؛ پایبند به قانون انسانیت و دور از خودنمایی.\nعاشق دنیای تکنولوژی‌ام و می‌خوام روزی بهترین نسخه خودم رو تو این حوزه بسازم.\nالان روی فول‌استک وب کار می‌کنم، اما هدفم خیلی بزرگ‌تره: مهندس نرم‌افزار درجه‌یک بشم، دنیا رو هوشمندتر کنم، بدرخشم و به وجودم تو این دنیا افتخار کنم.`,
     connect: "بیا باهم در ارتباط باشیم",
     status: "آماده همکاری",
-    skills: "مهارت‌ها",
+    skills: "مهارت‌ها و تخصص",
     skillList: [
       {
         name: "JavaScript / TypeScript",
         percent: 88,
         icon: DiJavascript1,
         color: "text-yellow-400",
-        gradient: "from-yellow-400 via-amber-400 to-yellow-600",
+        gradient: "from-yellow-400 via-amber-400 to-orange-500",
+        category: "frontend",
+        description: "ES6+, TypeScript, JSDoc",
       },
       {
         name: "React • Next.js",
@@ -187,6 +262,8 @@ const content = {
         icon: DiReact,
         color: "text-cyan-400",
         gradient: "from-cyan-400 via-sky-400 to-blue-500",
+        category: "frontend",
+        description: "Hooks, SSR, App Router",
       },
       {
         name: "Tailwind CSS",
@@ -194,13 +271,17 @@ const content = {
         icon: TbBrandTailwind,
         color: "text-teal-400",
         gradient: "from-teal-400 via-cyan-400 to-sky-500",
+        category: "frontend",
+        description: "Responsive, Animations",
       },
       {
-        name: "SupaBase",
+        name: "Supabase",
         percent: 72,
         icon: RiSupabaseLine,
         color: "text-emerald-400",
         gradient: "from-emerald-400 via-green-500 to-teal-500",
+        category: "database",
+        description: "Realtime, Auth, Storage",
       },
       {
         name: "Git • GitHub",
@@ -208,6 +289,8 @@ const content = {
         icon: DiGit,
         color: "text-orange-500",
         gradient: "from-orange-500 via-red-500 to-rose-600",
+        category: "devops",
+        description: "CI/CD, Actions, Version Control",
       },
       {
         name: "MongoDB",
@@ -215,13 +298,17 @@ const content = {
         icon: BiLogoMongodb,
         color: "text-green-500",
         gradient: "from-green-500 via-emerald-500 to-lime-500",
+        category: "database",
+        description: "Aggregation, Indexing",
       },
       {
-        name: "Node.Js",
+        name: "Node.js",
         percent: 80,
         icon: FaNodeJs,
         color: "text-lime-500",
         gradient: "from-lime-500 via-green-500 to-emerald-600",
+        category: "backend",
+        description: "REST APIs, Middleware",
       },
       {
         name: "Express.js",
@@ -229,6 +316,8 @@ const content = {
         icon: SiExpress,
         color: "text-amber-400",
         gradient: "from-amber-500 via-orange-500 to-red-500",
+        category: "backend",
+        description: "Routing, Middleware",
       },
       {
         name: "Python",
@@ -236,6 +325,8 @@ const content = {
         icon: FaPython,
         color: "text-indigo-400",
         gradient: "from-indigo-500 via-blue-500 to-purple-600",
+        category: "backend",
+        description: "Scripting, Automation",
       },
       {
         name: "Django",
@@ -243,6 +334,8 @@ const content = {
         icon: SiDjango,
         color: "text-rose-400",
         gradient: "from-rose-500 via-pink-500 to-fuchsia-600",
+        category: "backend",
+        description: "DRF, ORM, Admin",
       },
       {
         name: "SQLite",
@@ -250,8 +343,52 @@ const content = {
         icon: SiSqlite,
         color: "text-purple-400",
         gradient: "from-purple-500 via-violet-500 to-indigo-600",
+        category: "database",
+        description: "Lightweight, Embedded",
       },
     ] as Skill[],
+
+    techCategories: [
+      {
+        name: "فرانت‌اند",
+        icon: Layout,
+        technologies: [
+          { name: "JavaScript", icon: DiJavascript1, color: "text-yellow-400" },
+          { name: "TypeScript", icon: SiTypescript, color: "text-blue-500" },
+          { name: "React", icon: DiReact, color: "text-cyan-400" },
+          { name: "Next.js", icon: TbBrandNextjs, color: "text-white" },
+          { name: "Tailwind CSS", icon: TbBrandTailwind, color: "text-teal-400" },
+        ],
+      },
+      {
+        name: "بک‌اند",
+        icon: Server,
+        technologies: [
+          { name: "Node.js", icon: FaNodeJs, color: "text-lime-500" },
+          { name: "Express.js", icon: SiExpress, color: "text-amber-400" },
+          { name: "Python", icon: FaPython, color: "text-indigo-400" },
+          { name: "Django", icon: SiDjango, color: "text-rose-400" },
+        ],
+      },
+      {
+        name: "پایگاه داده",
+        icon: Database,
+        technologies: [
+          { name: "MongoDB", icon: BiLogoMongodb, color: "text-green-500" },
+          { name: "Supabase", icon: RiSupabaseLine, color: "text-emerald-400" },
+          { name: "SQLite", icon: SiSqlite, color: "text-purple-400" },
+        ],
+      },
+      {
+        name: "دواپس • ابزارها",
+        icon: Cloud,
+        technologies: [
+          { name: "Git", icon: DiGit, color: "text-orange-500" },
+          { name: "GitHub", icon: DiGit, color: "text-orange-500" },
+        ],
+      },
+    ],
+
     contact: "تماس با من",
     nameLabel: "نام",
     phoneLabel: "شماره تماس",
@@ -261,7 +398,8 @@ const content = {
     error: "مشکلی پیش آمد. دوباره امتحان کنید.",
     motto: "اول انسان، دوم برنامه‌نویس.",
     mottoSub: "ساختن آینده، خط به خط.",
-    mottoFooter: "ساختن آینده، خط به خط. متعهد به انسانیت، مهربانی و دوری از خودنمایی و تکبر.",
+    mottoFooter:
+      "ساختن آینده، خط به خط. متعهد به انسانیت، مهربانی و دوری از خودنمایی و تکبر.",
     statusTitle: "وضعیت فعلی",
     statusHeading: "توسعه‌دهنده فول‌استک",
     quickActions: "دسترسی سریع",
@@ -280,14 +418,22 @@ const content = {
     aboutMe: "درباره من",
     explore: "کاوش",
     getInTouch: "در ارتباط باش",
+    technologies: "تکنولوژی‌ها",
+    allSkills: "همه مهارت‌ها",
+    expertise: "تخصص",
   },
 };
 
+// ────────────────────────────────────────────────
+// Main Component
+// ────────────────────────────────────────────────
 export default function Home() {
   const [lang, setLang] = useState<Lang>("en");
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [scrolled, setScrolled] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+
   const readLanguage = useEffectEvent(() => {
     const saved = localStorage.getItem("preferredLang") as Lang | null;
     if (saved === "fa") {
@@ -336,164 +482,209 @@ export default function Home() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  // Premium Dark Golden Palette
+  const colors = {
+    primary: "#D4A853",
+    secondary: "#F59E0B",
+    accent: "#B8860B",
+    dark: "#0A0806",
+    darkCard: "#14100C",
+    border: "rgba(212,168,83,0.15)",
+    glow: "rgba(212,168,83,0.08)",
+    text: "#C9C4B8",
+    textLight: "#E8E0D0",
+  };
+
   return (
     <div
       ref={containerRef}
       dir={isFa ? "rtl" : "ltr"}
-      className={`relative min-h-screen bg-[#0B0909] text-gray-100 overflow-x-hidden ${
+      className={`relative min-h-screen bg-[#0A0806] text-[#C9C4B8] overflow-x-hidden ${
         isFa ? 'font-["Vazirmatn"]' : "font-sans"
       }`}
     >
       {/* Progress Bar */}
       <motion.div
-        className="fixed top-0 left-0 right-0 h-0.5 bg-linear-to-r from-indigo-500 via-purple-500 to-fuchsia-500 z-50 origin-left"
-        style={{ scaleX }}
+        className="fixed top-0 left-0 right-0 h-2px z-50 origin-left"
+        style={{
+          scaleX,
+          background: `linear-gradient(to right, ${colors.primary}, ${colors.secondary}, ${colors.accent})`,
+          boxShadow: "0 0 20px rgba(212,168,83,0.3)",
+        }}
       />
 
-      {/* Mouse Follower Glow */}
+      {/* Mouse Follower */}
       <div
-        className="fixed pointer-events-none z-0 w-600px h-600px rounded-full blur-3xl opacity-20 transition-all duration-300"
+        className="fixed pointer-events-none z-0 w-600px h-600px rounded-full blur-3xl opacity-20 transition-all duration-500"
         style={{
-          background: "radial-gradient(circle, rgba(99,102,241,0.15), transparent 70%)",
+          background: `radial-gradient(circle, ${colors.glow}, transparent 70%)`,
           left: mousePosition.x - 300,
           top: mousePosition.y - 300,
         }}
       />
 
-      {/* Epic CSS Nebula Background */}
+      {/* Background */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-        <div className="absolute inset-0 bg-[#0B0909]" />
-        <div className="absolute inset-0">
-          <div className="nebula-cloud nebula-1" />
-          <div className="nebula-cloud nebula-2" />
-          <div className="nebula-cloud nebula-3" />
-          <div className="nebula-cloud nebula-4" />
-        </div>
-        <div className="absolute inset-0">
-          <div className="shooting-star" />
-          <div className="shooting-star delay-1" />
-          <div className="shooting-star delay-2" />
-        </div>
-        <div className="absolute inset-0">
-          <div className="star star-1" />
-          <div className="star star-2" />
-          <div className="star star-3" />
-          <div className="star star-4" />
-          <div className="star star-5" />
-          <div className="star star-6" />
-          <div className="star star-7" />
-          <div className="star star-8" />
-        </div>
-        <div className="absolute inset-0 aurora-overlay" />
-        <div className="absolute inset-0 bg-radial-vignette" />
+        <div className="absolute inset-0 bg-[#0A0806]" />
+        
+        <div className="absolute top-0 -left-40 w-500px h-500px bg-amber-600/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 -right-40 w-500px h-500px bg-yellow-600/5 rounded-full blur-3xl" />
+        
+        <div className="absolute inset-0 opacity-[0.03]"
+          style={{
+            backgroundImage: `radial-gradient(circle at 20px 20px, ${colors.primary} 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        
+        <div className="shooting-star" />
+        <div className="shooting-star delay-1" />
+        <div className="shooting-star delay-2" />
       </div>
 
       {/* Navbar */}
-      <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-auto">
+      <nav className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-5xl">
         <div className="relative">
-          <div className="absolute -inset-1 rounded-full bg-linear-to-r from-indigo-500/30 via-purple-500/30 to-fuchsia-500/30 blur-xl" />
-          <div className="absolute -inset-1 rounded-full bg-linear-to-l from-cyan-500/20 via-indigo-500/20 to-purple-500/20 blur-2xl opacity-50 animate-pulse" />
-          <div className="relative flex items-center gap-6 px-7 py-3 rounded-full bg-black/60 backdrop-blur-3xl border border-white/10">
-            <div className="flex items-center gap-2">
-              <span className="text-2xl font-black tracking-tight">
-                <span className="text-white">H</span>
-                <span className="bg-linear-to-r from-indigo-400 via-purple-400 to-fuchsia-400 bg-clip-text text-transparent">P</span>
+          <div className="absolute -inset-1 rounded-2xl bg-linear-to-r from-amber-600/20 via-yellow-600/20 to-amber-600/20 blur-xl" />
+          <div className="relative flex items-center justify-between px-6 py-3 rounded-2xl bg-[#14100C]/95 backdrop-blur-2xl border border-[#D4A853]/20">
+            <div className="flex items-center gap-3">
+              <div className="relative">
+                <div className="absolute inset-0 rounded-xl bg-linear-to-br from-amber-500 to-yellow-500 blur-lg opacity-50" />
+                <div className="relative w-9 h-9 rounded-xl bg-linear-to-br from-amber-500 to-yellow-500 flex items-center justify-center shadow-lg shadow-amber-500/30">
+                  <span className="text-[#0A0806] font-bold text-sm">H</span>
+                </div>
+              </div>
+              <span className="text-[#E8E0D0] font-semibold tracking-tight">
+                Hami<span className="text-transparent bg-clip-text bg-linear-to-r from-amber-400 to-yellow-400">Parsa</span>
               </span>
             </div>
-            <div className="w-px h-5 bg-linear-to-b from-transparent via-white/10 to-transparent" />
-            
-            <button
-              onClick={toggleLang}
-              className="flex items-center gap-2 text-xs font-light text-white/40 hover:text-white/80 tracking-wider transition-all duration-300 group"
-            >
-              <span className="relative">
-                {isFa ? "EN" : "فارسی"}
-                <span className="absolute -bottom-0.5 left-0 right-0 h-px bg-linear-to-r from-indigo-400 to-purple-400 scale-x-0 group-hover:scale-x-100 transition-transform duration-400" />
-              </span>
-              <ArrowRightLeft 
-                size={11} 
-                className={`transition-all duration-500 group-hover:rotate-180 ${isFa ? 'rotate-180' : ''}`}
-              />
-            </button>
-            
-            <div className="w-1 h-1 rounded-full bg-linear-to-r from-indigo-400 to-purple-400" />
+
+            <div className="hidden md:flex items-center gap-8">
+              {["home", "skillsLink", "contactLink"].map((key) => (
+                <a
+                  key={key}
+                  href={`#${key === "home" ? "home" : key === "skillsLink" ? "skills" : "contact"}`}
+                  className="text-xs text-[#C9C4B8]/40 hover:text-[#D4A853] transition-all duration-300 tracking-[0.15em] font-medium uppercase"
+                >
+                  {t[key as keyof typeof t] as string}
+                </a>
+              ))}
+            </div>
+
+            <div className="flex items-center gap-3">
+              <button
+                onClick={toggleLang}
+                className="flex items-center gap-2 text-xs font-medium text-[#C9C4B8]/40 hover:text-[#D4A853] transition-all duration-300 group px-3 py-1.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/5"
+              >
+                <span>{isFa ? "EN" : "فا"}</span>
+                <ArrowRightLeft
+                  size={12}
+                  className={`transition-all duration-500 group-hover:rotate-180 ${
+                    isFa ? "rotate-180" : ""
+                  }`}
+                />
+              </button>
+
+              <button
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className="md:hidden p-2 rounded-lg bg-white/5 hover:bg-white/10 transition-colors text-[#C9C4B8]/60"
+              >
+                {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
+              </button>
+            </div>
           </div>
         </div>
+
+        <AnimatePresence>
+          {isMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: -10, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -10, scale: 0.95 }}
+              className="mt-2 p-4 rounded-2xl bg-[#14100C]/98 backdrop-blur-2xl border border-[#D4A853]/20 md:hidden"
+            >
+              <div className="flex flex-col gap-3">
+                {["home", "skillsLink", "contactLink"].map((key) => (
+                  <a
+                    key={key}
+                    href={`#${key === "home" ? "home" : key === "skillsLink" ? "skills" : "contact"}`}
+                    onClick={() => setIsMenuOpen(false)}
+                    className="text-sm text-[#C9C4B8]/60 hover:text-[#D4A853] transition-colors px-3 py-2 rounded-lg hover:bg-white/5"
+                  >
+                    {t[key as keyof typeof t] as string}
+                  </a>
+                ))}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </nav>
 
-      <main className="relative z-10 max-w-6xl mx-auto px-6 pt-32 pb-32">
-        {/* Hero section */}
-        <section id="home" className="flex flex-col lg:flex-row items-center lg:items-start gap-12 lg:gap-20">
-          {/* Avatar with enhanced effects */}
+      <main className="relative z-10 max-w-6xl mx-auto px-6 pt-28 pb-20">
+        {/* Hero Section */}
+        <section id="home" className="flex flex-col lg:flex-row items-center gap-16 lg:gap-24 py-8">
+          {/* Avatar */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.92 }}
+            initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1.2, ease: "easeOut" }}
             className="relative shrink-0 group"
           >
-            {/* Extra orbital ring with glow */}
-            <div className="absolute -inset-8 rounded-full border border-indigo-500/10 animate-spin-slow" style={{ animationDuration: '20s' }} />
-            <div className="absolute -inset-12 rounded-full border border-purple-500/10 animate-spin-reverse" style={{ animationDuration: '25s' }} />
-            <div className="absolute -inset-16 rounded-full border border-fuchsia-500/10 animate-spin-slow" style={{ animationDuration: '30s' }} />
-            <div className="absolute -inset-20 rounded-full border border-cyan-500/5 animate-spin-reverse" style={{ animationDuration: '35s' }} />
-            
-            <div className="absolute -inset-4 bg-linear-to-r from-indigo-500/20 via-purple-500/20 to-fuchsia-500/20 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 animate-pulse" />
-            <div className="absolute -inset-2 bg-linear-to-r from-indigo-500/10 to-purple-500/10 rounded-3xl blur-xl group-hover:blur-2xl transition-all duration-700" />
-            
-            <div className="w-72 h-72 md:w-80 md:h-80 rounded-3xl overflow-hidden border-2 border-indigo-500/40 shadow-2xl shadow-indigo-950/60 relative">
+            <div className="absolute -inset-8 rounded-full border border-[#D4A853]/10 animate-spin-slow" />
+            <div className="absolute -inset-16 rounded-full border border-[#D4A853]/10 animate-spin-reverse" style={{ animationDuration: "25s" }} />
+            <div className="absolute -inset-24 rounded-full border border-[#D4A853]/5 animate-spin-slow" style={{ animationDuration: "30s" }} />
+
+            <div className="absolute -inset-4 bg-linear-to-r from-amber-500/20 via-yellow-500/20 to-amber-500/20 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+
+            <div className="w-72 h-72 md:w-80 md:h-80 rounded-3xl overflow-hidden border-2 border-[#D4A853]/40 shadow-2xl shadow-[#D4A853]/20 relative">
               <Image
                 width={800}
                 height={800}
                 src="https://avatars.githubusercontent.com/u/227557537?v=4"
                 alt="Hami Parsa"
-                className="w-full h-full object-cover transition-all duration-800 group-hover:scale-110 group-hover:brightness-110 group-hover:contrast-110"
+                className="w-full h-full object-cover transition-all duration-700 group-hover:scale-105"
                 priority
               />
-              <div className="absolute inset-0 bg-linear-to-t from-black/65 via-transparent to-transparent pointer-events-none" />
-              <div className="absolute inset-0 bg-linear-to-r from-indigo-500/10 via-transparent to-purple-500/10 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-              <div className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-70 transition-opacity duration-800 shadow-[0_0_40px_15px_rgba(99,102,241,0.45)] pointer-events-none" />
-              <div className="absolute inset-0 bg-linear-to-b from-transparent via-white/5 to-transparent -translate-y-full group-hover:translate-y-full transition-transform duration-1000 pointer-events-none" />
+              <div className="absolute inset-0 bg-linear-to-t from-[#0A0806]/80 via-transparent to-transparent pointer-events-none" />
+              <div className="absolute inset-0 bg-linear-to-r from-[#D4A853]/10 via-transparent to-amber-500/10 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
             </div>
 
-            <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 bg-linear-to-r from-indigo-700/95 to-purple-700/95 text-white text-xs font-semibold px-7 py-2.5 rounded-full shadow-xl flex items-center gap-2.5 backdrop-blur-md border border-indigo-400/40">
+            <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-linear-to-r from-[#D4A853] to-[#F59E0B] text-[#0A0806] text-xs font-bold px-6 py-2.5 rounded-full shadow-xl flex items-center gap-2.5 backdrop-blur-md border border-amber-400/30">
               <div className="relative">
-                <div className="w-3 h-3 bg-cyan-400 rounded-full animate-ping" />
-                <div className="absolute inset-0 w-3 h-3 bg-cyan-400 rounded-full" />
+                <div className="w-2.5 h-2.5 bg-emerald-400 rounded-full animate-ping" />
+                <div className="absolute inset-0 w-2.5 h-2.5 bg-emerald-400 rounded-full" />
               </div>
               {t.status}
             </div>
-
-            <div className="absolute -top-2 -left-2 w-8 h-8 border-t-2 border-l-2 border-indigo-500/30 rounded-tl-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            <div className="absolute -top-2 -right-2 w-8 h-8 border-t-2 border-r-2 border-purple-500/30 rounded-tr-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            <div className="absolute -bottom-2 -left-2 w-8 h-8 border-b-2 border-l-2 border-fuchsia-500/30 rounded-bl-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            <div className="absolute -bottom-2 -right-2 w-8 h-8 border-b-2 border-r-2 border-indigo-500/30 rounded-br-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
           </motion.div>
 
           {/* Intro */}
-          <div className={`flex-1 space-y-12 ${isFa ? "text-right" : "text-left"}`}>
+          <div className={`flex-1 space-y-8 ${isFa ? "text-right" : "text-left"}`}>
             <motion.div
-              initial={{ opacity: 0, y: 35 }}
+              initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2, duration: 1 }}
-              className="space-y-5"
+              transition={{ delay: 0.2, duration: 0.8 }}
+              className="space-y-4"
             >
               <div className="flex items-center gap-4">
-                <div className="w-12 h-0.5 bg-linear-to-r from-indigo-400/0 via-indigo-400/50 to-indigo-400/0" />
-                <p className="text-2xl md:text-3xl text-indigo-300/80 font-light">
+                <div className="w-12 h-px bg-linear-to-r from-[#D4A853]/0 via-[#D4A853]/50 to-[#D4A853]/0" />
+                <p className="text-xl text-[#D4A853]/60 font-light tracking-wide">
                   {t.greeting}
                 </p>
-                <div className="w-12 h-0.5 bg-linear-to-r from-indigo-400/0 via-indigo-400/50 to-indigo-400/0" />
+                <div className="w-12 h-px bg-linear-to-r from-[#D4A853]/0 via-[#D4A853]/50 to-[#D4A853]/0" />
               </div>
-              
-              <h1 className="relative text-5xl md:text-7xl font-black tracking-tight">
-                <span className="bg-linear-to-r from-white via-indigo-200 to-purple-300 bg-clip-text text-transparent">
+
+              <h1 className="text-5xl md:text-7xl font-black tracking-tight leading-[1.1]">
+                <span className="bg-linear-to-r from-white via-amber-200 to-yellow-200 bg-clip-text text-transparent">
                   {t.name}
                 </span>
-                <span className="absolute -inset-1 blur-3xl bg-linear-to-r from-indigo-500/10 via-purple-500/10 to-fuchsia-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
               </h1>
-              
-              <p className="text-xl md:text-2xl text-gray-300 font-medium">
-                {t.age} • <span className="bg-linear-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">Full-Stack Developer</span>
+
+              <p className="text-xl md:text-2xl text-[#C9C4B8]/60 font-medium">
+                {t.age} •{" "}
+                <span className="bg-linear-to-r from-[#D4A853] to-[#F59E0B] bg-clip-text text-transparent font-semibold">
+                  Full-Stack Developer
+                </span>
               </p>
             </motion.div>
 
@@ -503,14 +694,13 @@ export default function Home() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.8 }}
-                className="text-lg leading-relaxed text-gray-300 max-w-3xl whitespace-pre-line"
+                transition={{ duration: 0.6 }}
+                className="text-base leading-relaxed text-[#C9C4B8]/60 max-w-2xl whitespace-pre-line"
               >
                 {t.about}
               </motion.p>
             </AnimatePresence>
 
-            {/* Quick action buttons */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -521,7 +711,7 @@ export default function Home() {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="px-6 py-2.5 bg-linear-to-r from-indigo-600 to-purple-600 rounded-full text-sm font-medium text-white shadow-lg shadow-indigo-500/30 hover:shadow-indigo-500/50 transition-all duration-300 flex items-center gap-2"
+                  className="px-6 py-3 bg-linear-to-r from-[#D4A853] to-[#F59E0B] rounded-full text-sm font-bold text-[#0A0806] shadow-lg shadow-[#D4A853]/30 hover:shadow-[#D4A853]/50 transition-all duration-300 flex items-center gap-2"
                 >
                   <Send size={16} />
                   {t.getInTouch}
@@ -531,115 +721,59 @@ export default function Home() {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="px-6 py-2.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full text-sm font-medium text-white/70 hover:text-white transition-all duration-300 flex items-center gap-2"
+                  className="px-6 py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full text-sm font-medium text-[#C9C4B8]/60 hover:text-[#D4A853] transition-all duration-300 flex items-center gap-2"
                 >
-                  <Rocket size={16} />
+                  <Code2 size={16} />
                   {t.explore}
                 </motion.button>
               </a>
             </motion.div>
 
-            {/* Social cards */}
+            {/* Social */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.7 }}
-              className="pt-6"
+              className="pt-4"
             >
-              <div className="flex items-center gap-4 mb-8">
-                <div className="w-12 h-0.5 bg-linear-to-r from-indigo-400/0 via-indigo-400/30 to-indigo-400/0" />
-                <p className="uppercase tracking-widest text-sm text-indigo-400/70 font-medium text-center">
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-12 h-px bg-linear-to-r from-[#D4A853]/0 via-[#D4A853]/30 to-[#D4A853]/0" />
+                <p className="uppercase tracking-[0.2em] text-xs text-[#D4A853]/40 font-medium">
                   {t.connect}
                 </p>
-                <div className="w-12 h-0.5 bg-linear-to-r from-indigo-400/0 via-indigo-400/30 to-indigo-400/0" />
+                <div className="w-12 h-px bg-linear-to-r from-[#D4A853]/0 via-[#D4A853]/30 to-[#D4A853]/0" />
               </div>
 
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 md:gap-8">
+              <div className="flex flex-wrap gap-3">
                 {[
-                  {
-                    Icon: Linkedin,
-                    name: "LinkedIn",
-                    href: "https://www.linkedin.com/in/HamiParsa",
-                    gradient: "from-[#0A66C2]/30 to-[#0A66C2]/10",
-                    hoverGradient: "hover:from-[#0A66C2] hover:to-[#0A66C2]/80",
-                    iconColor: "text-[#0A66C2] group-hover:text-white",
-                    glow: "shadow-[#0A66C2]/30",
-                  },
-                  {
-                    Icon: Github,
-                    name: "GitHub",
-                    href: "https://github.com/HamiParsa",
-                    gradient: "from-gray-700/30 to-gray-600/10",
-                    hoverGradient: "hover:from-gray-800 hover:to-gray-700",
-                    iconColor: "text-gray-300 group-hover:text-white",
-                    glow: "shadow-gray-400/20",
-                  },
-                  {
-                    Icon: Send,
-                    name: "Telegram",
-                    href: "https://t.me/HamiParsa",
-                    gradient: "from-[#26A5E4]/30 to-[#26A5E4]/10",
-                    hoverGradient: "hover:from-[#26A5E4] hover:to-[#26A5E4]/80",
-                    iconColor: "text-[#26A5E4] group-hover:text-white",
-                    glow: "shadow-[#26A5E4]/30",
-                  },
-                  {
-                    Icon: Globe,
-                    name: "Website",
-                    href: "https://hamiparsa.github.io/Profile-Bio/",
-                    gradient: "from-emerald-600/30 to-emerald-400/10",
-                    hoverGradient: "hover:from-emerald-600 hover:to-emerald-500",
-                    iconColor: "text-emerald-400 group-hover:text-white",
-                    glow: "shadow-emerald-500/30",
-                  },
-                  {
-                    Icon: Instagram,
-                    name: "Instagram",
-                    href: "https://www.instagram.com/hamii.parsa",
-                    gradient: "from-[#E4405F]/30 via-[#E4405F]/20 to-[#E4405F]/10",
-                    hoverGradient: "hover:from-[#E4405F] hover:to-[#E4405F]/80",
-                    iconColor: "text-[#E4405F] group-hover:text-white",
-                    glow: "shadow-[#E4405F]/30",
-                  },
-                ].map(
-                  (
-                    { Icon, name, href, gradient, hoverGradient, iconColor, glow },
-                    i,
-                  ) => (
-                    <motion.a
-                      key={i}
-                      href={href}
-                      target="_blank"
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.8 + i * 0.12 }}
-                      whileHover={{ 
-                        scale: 1.08, 
-                        y: -10,
-                        transition: { type: "spring", stiffness: 300 }
-                      }}
-                      className={`group relative overflow-hidden rounded-2xl bg-linear-to-br ${gradient} backdrop-blur-xl border border-gray-700/40 hover:border-transparent p-6 flex flex-col items-center justify-center gap-4 transition-all duration-500 ease-out ${hoverGradient} hover:shadow-2xl shadow-lg shadow-black/30 ${glow}`}
-                    >
-                      <div className="absolute inset-0 opacity-0 group-hover:opacity-30 bg-[linear-gradient(120deg,transparent_30%,white_50%,transparent_70%)] translate-x-[-150%] group-hover:translate-x-[150%] transition-transform duration-1000 pointer-events-none" />
-                      <div className="absolute inset-0 opacity-0 group-hover:opacity-20 bg-linear-to-r from-white/10 via-white/20 to-white/10 blur-2xl transition-opacity duration-500" />
-                      <Icon
-                        size={52}
-                        strokeWidth={1.2}
-                        className={`transition-all duration-500 group-hover:scale-110 group-hover:rotate-12 ${iconColor}`}
-                      />
-                      <span className="text-base font-semibold text-gray-200 group-hover:text-white transition-colors duration-500">
-                        {name}
-                      </span>
-                      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-linear-to-r from-transparent via-white/30 to-transparent group-hover:w-full transition-all duration-500" />
-                    </motion.a>
-                  ),
-                )}
+                  { Icon: Linkedin, name: "LinkedIn", href: "https://www.linkedin.com/in/HamiParsa" },
+                  { Icon: Github, name: "GitHub", href: "https://github.com/HamiParsa" },
+                  { Icon: Send, name: "Telegram", href: "https://t.me/HamiParsa" },
+                  { Icon: Globe, name: "Website", href: "https://hamiparsa.github.io/Profile-Bio/" },
+                  { Icon: Instagram, name: "Instagram", href: "https://www.instagram.com/hamii.parsa" },
+                ].map(({ Icon, name, href }, i) => (
+                  <motion.a
+                    key={i}
+                    href={href}
+                    target="_blank"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.8 + i * 0.08 }}
+                    whileHover={{ scale: 1.05, y: -4 }}
+                    className="group px-4 py-2.5 rounded-xl bg-white/5 border border-white/5 hover:border-[#D4A853]/40 transition-all duration-300 flex items-center gap-2.5 hover:bg-[#D4A853]/5"
+                  >
+                    <Icon size={18} className="text-[#C9C4B8]/30 group-hover:text-[#D4A853] transition-colors" />
+                    <span className="text-sm text-[#C9C4B8]/40 group-hover:text-[#D4A853] transition-colors">
+                      {name}
+                    </span>
+                  </motion.a>
+                ))}
               </div>
             </motion.div>
           </div>
         </section>
 
-        {/* Motto Section */}
+        {/* Motto */}
         <motion.section
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -648,24 +782,24 @@ export default function Home() {
           className="py-20 relative"
         >
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="w-96 h-96 bg-indigo-500/5 rounded-full blur-3xl" />
-            <div className="w-64 h-64 bg-purple-500/5 rounded-full blur-3xl absolute" />
+            <div className="w-96 h-96 bg-[#D4A853]/5 rounded-full blur-3xl" />
+            <div className="w-64 h-64 bg-amber-500/5 rounded-full blur-3xl absolute" />
           </div>
-          
+
           <div className="relative max-w-4xl mx-auto text-center">
-            <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-8 backdrop-blur-sm">
-              <Sparkles size={14} className="text-indigo-400" />
-              <span className="text-xs text-white/40 font-mono tracking-widest">✦ MOTTO</span>
+            <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-white/5 border border-[#D4A853]/20 mb-8 backdrop-blur-sm">
+              <Sparkles size={14} className="text-[#D4A853]" />
+              <span className="text-xs text-[#C9C4B8]/30 font-mono tracking-widest">✦ MOTTO</span>
             </div>
-            
-            <blockquote className="text-3xl md:text-4xl font-light leading-relaxed text-white/80">
+
+            <blockquote className="text-3xl md:text-4xl font-light leading-relaxed text-[#E8E0D0]/80">
               {t.motto}
-              <span className="block text-indigo-300/60 text-2xl md:text-3xl mt-3">
+              <span className="block text-[#D4A853]/40 text-2xl md:text-3xl mt-3">
                 {t.mottoSub}
               </span>
             </blockquote>
-            
-            <div className="mt-6 flex items-center justify-center gap-4 text-sm text-white/20">
+
+            <div className="mt-6 flex items-center justify-center gap-4 text-sm text-white/10">
               <span>— Hami Parsa</span>
               <span className="w-px h-4 bg-white/10" />
               <span className="font-mono tracking-widest text-[10px]">2025</span>
@@ -673,314 +807,173 @@ export default function Home() {
           </div>
         </motion.section>
 
-        {/* Current Status & Quick Actions */}
+        {/* Status & Quick Actions */}
         <motion.section
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="py-10 relative"
+          className="py-10"
         >
-          <div className="absolute top-1/2 left-0 w-64 h-64 bg-purple-500/5 rounded-full blur-3xl -translate-x-1/2" />
-          <div className="absolute bottom-0 right-0 w-64 h-64 bg-fuchsia-500/5 rounded-full blur-3xl translate-x-1/2" />
-
-          <div className="relative max-w-5xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {/* Current Status */}
-              <div className="p-8 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-500 group relative overflow-hidden">
-                <div className="absolute inset-0 bg-linear-to-r from-indigo-500/0 via-indigo-500/5 to-indigo-500/0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-                
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="relative">
-                    <div className="w-3 h-3 bg-emerald-400 rounded-full animate-pulse" />
-                    <div className="absolute inset-0 w-3 h-3 bg-emerald-400 rounded-full animate-ping" />
-                  </div>
-                  <span className="text-sm font-mono text-white/40 tracking-widest">
-                    {t.statusTitle}
-                  </span>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="group p-6 rounded-2xl bg-white/5 backdrop-blur-xl border border-[#D4A853]/10 hover:border-[#D4A853]/30 transition-all duration-500 relative overflow-hidden">
+              <div className="absolute inset-0 bg-linear-to-r from-[#D4A853]/0 via-[#D4A853]/5 to-[#D4A853]/0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+              <div className="flex items-center gap-3 mb-4">
+                <div className="relative">
+                  <div className="w-2.5 h-2.5 bg-emerald-400 rounded-full animate-pulse" />
+                  <div className="absolute inset-0 w-2.5 h-2.5 bg-emerald-400 rounded-full animate-ping" />
                 </div>
-
-                <h3 className="text-2xl font-semibold text-white mb-4 group-hover:text-indigo-300 transition-colors">
-                  {t.statusHeading}
-                </h3>
-
-                <div className="flex flex-wrap gap-3">
-                  <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 group-hover:bg-indigo-500/20 transition-all duration-300">
-                    <SiNextdotjs className="w-3.5 h-3.5 text-white/60" />
-                    <span className="text-[10px] text-white/60 font-mono">Next.js</span>
-                  </div>
-                  <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/20 group-hover:bg-purple-500/20 transition-all duration-300">
-                    <FaNodeJs className="w-3.5 h-3.5 text-white/60" />
-                    <span className="text-[10px] text-white/60 font-mono">Node.js</span>
-                  </div>
-                  <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-fuchsia-500/10 border border-fuchsia-500/20 group-hover:bg-fuchsia-500/20 transition-all duration-300">
-                    <SiDjango className="w-3.5 h-3.5 text-white/60" />
-                    <span className="text-[10px] text-white/60 font-mono">Django</span>
-                  </div>
-                  <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 group-hover:bg-emerald-500/20 transition-all duration-300">
-                    <DiJavascript1 className="w-3.5 h-3.5 text-white/60" />
-                    <span className="text-[10px] text-white/60 font-mono">TypeScript</span>
-                  </div>
-                </div>
+                <span className="text-xs font-mono text-[#C9C4B8]/30 tracking-widest">
+                  {t.statusTitle}
+                </span>
               </div>
-              
-              {/* Quick Actions */}
-              <div className="p-8 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-500 group relative overflow-hidden">
-                <div className="absolute inset-0 bg-linear-to-r from-purple-500/0 via-purple-500/5 to-purple-500/0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-                
-                <div className="flex items-center gap-3 mb-6">
-                  <Zap size={16} className="text-white/20" />
-                  <span className="text-sm font-mono text-white/40 tracking-widest">
-                    {t.quickActions}
+              <h3 className="text-xl font-semibold text-[#E8E0D0] mb-3 group-hover:text-[#D4A853] transition-colors">
+                {t.statusHeading}
+              </h3>
+              <div className="flex flex-wrap gap-2">
+                {["Next.js", "Node.js", "Django", "TypeScript"].map((tech) => (
+                  <span
+                    key={tech}
+                    className="px-3 py-1 text-[10px] font-mono text-[#C9C4B8]/40 bg-white/5 rounded-full border border-white/5"
+                  >
+                    {tech}
                   </span>
-                </div>
+                ))}
+              </div>
+            </div>
 
-                <div className="space-y-3">
+            <div className="group p-6 rounded-2xl bg-white/5 backdrop-blur-xl border border-[#D4A853]/10 hover:border-[#D4A853]/30 transition-all duration-500 relative overflow-hidden">
+              <div className="absolute inset-0 bg-linear-to-r from-[#D4A853]/0 via-[#D4A853]/5 to-[#D4A853]/0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+              <div className="flex items-center gap-3 mb-4">
+                <Zap size={14} className="text-[#C9C4B8]/20" />
+                <span className="text-xs font-mono text-[#C9C4B8]/30 tracking-widest">
+                  {t.quickActions}
+                </span>
+              </div>
+              <div className="space-y-2">
+                {[
+                  { icon: Github, label: t.viewGitHub, href: "https://github.com/HamiParsa" },
+                  { icon: Linkedin, label: t.viewLinkedIn, href: "https://www.linkedin.com/in/HamiParsa" },
+                  { icon: Send, label: t.viewTelegram, href: "https://t.me/HamiParsa" },
+                ].map((item, i) => (
                   <motion.a
-                    whileHover={{ scale: 1.02, x: 5 }}
-                    href="https://github.com/HamiParsa"
+                    key={i}
+                    whileHover={{ x: 4 }}
+                    href={item.href}
                     target="_blank"
-                    className="flex items-center justify-between p-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/20 transition-all duration-300 group/action"
+                    className="flex items-center gap-3 px-4 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 transition-all duration-300 group/action"
                   >
-                    <span className="flex items-center gap-3 text-sm text-white/60 group-hover/action:text-white transition-colors">
-                      <Github
-                        size={18}
-                        className="text-white/30 group-hover/action:text-white transition-colors"
-                      />
-                      {t.viewGitHub}
+                    <item.icon size={16} className="text-[#C9C4B8]/30 group-hover/action:text-[#D4A853] transition-colors" />
+                    <span className="text-sm text-[#C9C4B8]/40 group-hover/action:text-[#D4A853] transition-colors">
+                      {item.label}
                     </span>
-                    <svg
-                      className="w-4 h-4 text-white/20 group-hover/action:text-white/40 transition-colors"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9 5l7 7-7 7"
-                      />
-                    </svg>
                   </motion.a>
-
-                  <motion.a
-                    whileHover={{ scale: 1.02, x: 5 }}
-                    href="https://www.linkedin.com/in/HamiParsa"
-                    target="_blank"
-                    className="flex items-center justify-between p-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/20 transition-all duration-300 group/action"
-                  >
-                    <span className="flex items-center gap-3 text-sm text-white/60 group-hover/action:text-white transition-colors">
-                      <Linkedin
-                        size={18}
-                        className="text-white/30 group-hover/action:text-white transition-colors"
-                      />
-                      {t.viewLinkedIn}
-                    </span>
-                    <svg
-                      className="w-4 h-4 text-white/20 group-hover/action:text-white/40 transition-colors"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9 5l7 7-7 7"
-                      />
-                    </svg>
-                  </motion.a>
-
-                  <motion.a
-                    whileHover={{ scale: 1.02, x: 5 }}
-                    href="https://t.me/HamiParsa"
-                    target="_blank"
-                    className="flex items-center justify-between p-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/20 transition-all duration-300 group/action"
-                  >
-                    <span className="flex items-center gap-3 text-sm text-white/60 group-hover/action:text-white transition-colors">
-                      <Send
-                        size={18}
-                        className="text-white/30 group-hover/action:text-white transition-colors"
-                      />
-                      {t.viewTelegram}
-                    </span>
-                    <svg
-                      className="w-4 h-4 text-white/20 group-hover/action:text-white/40 transition-colors"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9 5l7 7-7 7"
-                      />
-                    </svg>
-                  </motion.a>
-                </div>
+                ))}
               </div>
             </div>
           </div>
         </motion.section>
 
-        {/* Tech Stack */}
-        <motion.section
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="py-16 relative"
-        >
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm">
-              <Cpu size={14} className="text-indigo-400" />
-              <span className="text-xs text-white/40 font-mono tracking-widest">{t.techStack}</span>
-            </div>
-          </div>
-
-          <div className="flex flex-wrap justify-center gap-4">
-            {[
-              { icon: DiJavascript1, name: "JavaScript", color: "text-yellow-400" },
-              { icon: DiReact, name: "React", color: "text-cyan-400" },
-              { icon: SiNextdotjs, name: "Next.js", color: "text-white" },
-              { icon: TbBrandTailwind, name: "Tailwind", color: "text-teal-400" },
-              { icon: BiLogoMongodb, name: "MongoDB", color: "text-green-500" },
-              { icon: FaNodeJs, name: "Node.js", color: "text-lime-500" },
-              { icon: SiExpress, name: "Express", color: "text-amber-400" },
-              { icon: FaPython, name: "Python", color: "text-indigo-400" },
-              { icon: SiDjango, name: "Django", color: "text-rose-400" },
-              { icon: DiGit, name: "Git", color: "text-orange-500" },
-            ].map((tech, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: i * 0.05 }}
-                whileHover={{ y: -5, scale: 1.05 }}
-                className="flex flex-col items-center gap-2 p-4 px-6 rounded-xl bg-white/5 border border-white/5 hover:border-white/20 transition-all duration-300 group"
-              >
-                <tech.icon size={32} className={`${tech.color} group-hover:scale-110 transition-transform duration-300`} />
-                <span className="text-[10px] text-white/30 font-mono">{tech.name}</span>
-              </motion.div>
-            ))}
-          </div>
-        </motion.section>
-
-        {/* Skills section */}
-        <section id="skills" className="relative pt-20 lg:pt-28">
+        {/* Skills Section */}
+        <section id="skills" className="relative pt-20">
           <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 1 }}
           >
-            <div className="absolute inset-0 overflow-hidden">
-              <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-indigo-400/30 rounded-full animate-float-particle" style={{ animationDelay: '0s' }} />
-              <div className="absolute top-1/3 right-1/3 w-3 h-3 bg-purple-400/20 rounded-full animate-float-particle" style={{ animationDelay: '2s' }} />
-              <div className="absolute bottom-1/4 left-1/3 w-2 h-2 bg-fuchsia-400/20 rounded-full animate-float-particle" style={{ animationDelay: '4s' }} />
-              <div className="absolute top-2/3 right-1/4 w-4 h-4 bg-indigo-400/10 rounded-full animate-float-particle" style={{ animationDelay: '1s' }} />
-              <div className="absolute bottom-1/3 right-1/2 w-2 h-2 bg-purple-400/20 rounded-full animate-float-particle" style={{ animationDelay: '3s' }} />
-            </div>
-
-            <div className="absolute -top-40 -right-40 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl animate-pulse-slow" />
-            <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse-slow" style={{ animationDelay: '1s' }} />
-
-            <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 relative">
-              <span className="bg-linear-to-r from-indigo-300 via-purple-300 to-fuchsia-300 bg-clip-text text-transparent">
+            <h2 className="text-4xl md:text-5xl font-bold text-center mb-4">
+              <span className="bg-linear-to-r from-[#D4A853] via-amber-300 to-yellow-300 bg-clip-text text-transparent">
                 {t.skills}
               </span>
-              <span className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-32 h-1 bg-linear-to-r from-transparent via-indigo-400 to-transparent rounded-full">
-                <span className="absolute inset-0 bg-linear-to-r from-transparent via-fuchsia-400 to-transparent rounded-full animate-pulse" />
-              </span>
             </h2>
+            <p className="text-center text-[#C9C4B8]/40 text-sm mb-12">
+              {t.expertise} • {t.techStack}
+            </p>
 
-            <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-4">
+            {/* Tech Categories - Complete with all icons */}
+            <div className="mb-16">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+                {t.techCategories.map((category, idx) => (
+                  <motion.div
+                    key={idx}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: idx * 0.1 }}
+                    className="group p-6 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/5 hover:border-[#D4A853]/30 transition-all duration-500"
+                  >
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="p-2 rounded-lg bg-white/5">
+                        <category.icon size={20} className="text-[#D4A853]" />
+                      </div>
+                      <span className="text-sm font-semibold text-[#E8E0D0]">
+                        {category.name}
+                      </span>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {category.technologies.map((tech, i) => (
+                        <div
+                          key={i}
+                          className="group/tech flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 transition-all duration-300 border border-white/5 hover:border-[#D4A853]/20"
+                        >
+                          <tech.icon size={14} className={tech.color} />
+                          <span className="text-[10px] text-[#C9C4B8]/60 group-hover/tech:text-[#D4A853] transition-colors">
+                            {tech.name}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+
+            {/* Skill Bars */}
+            <h3 className="text-2xl font-semibold text-center mb-8 text-[#E8E0D0]/80">
+              {t.allSkills}
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
               {t.skillList.map((skill, i) => (
                 <motion.div
                   key={i}
-                  initial={{ opacity: 0, y: 30, rotateX: -10 }}
-                  whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ 
-                    duration: 0.8, 
-                    delay: i * 0.1,
-                    type: "spring",
-                    stiffness: 100
-                  }}
-                  whileHover={{ 
-                    scale: 1.06, 
-                    y: -12,
-                    rotateX: 5,
-                    transition: { type: "spring", stiffness: 400 }
-                  }}
-                  className="group relative bg-linear-to-br from-gray-900/90 to-gray-800/70 backdrop-blur-xl border border-gray-700/50 rounded-2xl p-7 shadow-xl hover:shadow-2xl hover:border-gray-500/70 transition-all duration-500 overflow-hidden perspective-500"
+                  transition={{ duration: 0.5, delay: i * 0.05 }}
+                  whileHover={{ scale: 1.02, y: -4 }}
+                  className="group relative p-5 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/5 hover:border-[#D4A853]/30 transition-all duration-500"
                 >
-                  <div className="absolute inset-0 rounded-2xl p-px bg-linear-to-r from-indigo-500/0 via-purple-500/0 to-fuchsia-500/0 group-hover:from-indigo-500/50 group-hover:via-purple-500/50 group-hover:to-fuchsia-500/50 transition-all duration-700">
-                    <div className="absolute inset-0 rounded-2xl bg-linear-to-br from-gray-900/90 to-gray-800/70" />
-                  </div>
-                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 bg-linear-to-r from-indigo-500/10 via-purple-500/10 to-fuchsia-500/10 transition-opacity duration-700" />
-                  <div className="absolute top-0 right-0 w-20 h-20 bg-linear-to-br from-white/5 to-transparent rounded-bl-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  <div className="absolute bottom-0 left-0 w-20 h-20 bg-linear-to-tr from-white/5 to-transparent rounded-tr-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  <div className="absolute top-3 right-3 text-[10px] font-mono text-white/10 group-hover:text-white/20 transition-colors duration-500">
-                    #{String(i + 1).padStart(2, '0')}
-                  </div>
+                  <div className="absolute inset-0 rounded-2xl bg-linear-to-r from-[#D4A853]/0 via-[#D4A853]/5 to-amber-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-                  <div className="relative">
-                    <div className="flex items-center gap-5 mb-6">
-                      <div
-                        className={`p-4 rounded-xl bg-gray-800/70 border border-gray-600/40 ${skill.color} transition-all duration-500 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-current/30 relative`}
-                      >
-                        <skill.icon size={44} className="drop-shadow-lg" />
-                        <div className="absolute inset-0 rounded-xl blur-xl opacity-0 group-hover:opacity-50 transition-opacity duration-500 bg-current/30" />
-                      </div>
-                      <div className="flex-1">
-                        <h3 className="text-xl font-semibold text-white mb-1 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-linear-to-r group-hover:from-white group-hover:to-indigo-200 transition-all duration-500">
+                  <div className="relative flex items-center gap-4">
+                    <div className={`p-3 rounded-xl bg-white/5 ${skill.color} transition-all duration-500 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-current/20`}>
+                      <skill.icon size={32} />
+                    </div>
+
+                    <div className="flex-1">
+                      <div className="flex justify-between items-center mb-1.5">
+                        <span className="text-sm font-medium text-[#E8E0D0] group-hover:text-[#D4A853] transition-colors">
                           {skill.name}
-                        </h3>
-                        <div className="flex items-center gap-2">
-                          <p className={`text-lg font-bold ${skill.color}`}>
-                            {skill.percent}%
-                          </p>
-                          <div className="flex gap-0.5 ml-2">
-                            {[...Array(5)].map((_, j) => (
-                              <div
-                                key={j}
-                                className={`w-1.5 h-1.5 rounded-full transition-all duration-500 ${
-                                  j < Math.floor(skill.percent / 20)
-                                    ? `bg-current ${skill.color}`
-                                    : 'bg-gray-700/50'
-                                }`}
-                              />
-                            ))}
-                          </div>
-                        </div>
+                        </span>
+                        <span className={`text-sm font-bold ${skill.color}`}>
+                          {skill.percent}%
+                        </span>
                       </div>
-                    </div>
-
-                    <div className="h-4 bg-gray-800/80 rounded-full overflow-hidden border border-gray-700/50 shadow-inner relative">
-                      <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-                      <motion.div
-                        initial={{ width: 0 }}
-                        whileInView={{ width: `${skill.percent}%` }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 2, ease: [0.34, 1.56, 0.64, 1] }}
-                        className={`h-full bg-linear-to-r ${skill.gradient} shadow-[0_0_20px] shadow-current/60 transition-all duration-500 group-hover:shadow-[0_0_30px] group-hover:shadow-current/80 relative`}
-                      >
-                        <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/20 to-transparent -translate-x-full animate-shimmer" />
-                        <div className="absolute -right-1 top-1/2 -translate-y-1/2 w-3 h-3 bg-white/30 rounded-full blur-sm" />
-                      </motion.div>
-                    </div>
-
-                    <div className="flex justify-between mt-2">
-                      <span className="text-[10px] font-mono text-white/20">
-                        {skill.percent >= 80 ? '⚡ EXPERT' : skill.percent >= 60 ? '🚀 ADVANCED' : '📈 INTERMEDIATE'}
-                      </span>
-                      <span className="text-[10px] font-mono text-white/10">
-                        {skill.percent}%
-                      </span>
+                      {skill.description && (
+                        <p className="text-[10px] text-[#C9C4B8]/30 mb-1">
+                          {skill.description}
+                        </p>
+                      )}
+                      <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
+                        <motion.div
+                          initial={{ width: 0 }}
+                          whileInView={{ width: `${skill.percent}%` }}
+                          viewport={{ once: true }}
+                          transition={{ duration: 1.5, ease: "easeOut" }}
+                          className={`h-full bg-linear-to-r ${skill.gradient} rounded-full shadow-lg shadow-current/20`}
+                        />
+                      </div>
                     </div>
                   </div>
                 </motion.div>
@@ -989,30 +982,22 @@ export default function Home() {
           </motion.div>
         </section>
 
-        {/* Contact Form */}
-        <section id="contact" className="relative pt-20 lg:pt-28">
+        {/* Contact */}
+        <section id="contact" className="relative pt-20">
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 1 }}
+            transition={{ duration: 0.8 }}
           >
-            <div className="absolute top-1/4 left-0 w-72 h-72 bg-indigo-500/10 rounded-full blur-3xl" />
-            <div className="absolute bottom-1/4 right-0 w-72 h-72 bg-purple-500/10 rounded-full blur-3xl" />
-            
-            <div className="absolute inset-0 opacity-20" style={{
-              backgroundImage: 'radial-gradient(circle, rgba(99,102,241,0.1) 1px, transparent 1px)',
-              backgroundSize: '40px 40px'
-            }} />
-
-            <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 relative">
-              <span className="bg-linear-to-r from-indigo-300 via-purple-300 to-fuchsia-300 bg-clip-text text-transparent">
+            <h2 className="text-4xl md:text-5xl font-bold text-center mb-4">
+              <span className="bg-linear-to-r from-[#D4A853] via-amber-300 to-yellow-300 bg-clip-text text-transparent">
                 {t.contact}
               </span>
-              <span className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-24 h-1 bg-linear-to-r from-transparent via-indigo-400 to-transparent rounded-full">
-                <span className="absolute inset-0 bg-linear-to-r from-transparent via-fuchsia-400 to-transparent rounded-full animate-pulse" />
-              </span>
             </h2>
+            <p className="text-center text-[#C9C4B8]/40 text-sm mb-12">
+              {t.getInTouch}
+            </p>
 
             <ContactForm t={t} isFa={isFa} />
           </motion.div>
@@ -1020,104 +1005,62 @@ export default function Home() {
       </main>
 
       {/* Footer */}
-      <footer className="relative z-10 overflow-hidden">
-        <div className="relative pt-16 pb-8 border-t border-indigo-900/30">
-          <div className="absolute top-0 left-1/4 w-96 h-96 bg-indigo-500/5 rounded-full blur-3xl" />
-          <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl" />
-          <div className="absolute inset-0 bg-linear-to-b from-transparent via-white/5 to-transparent -translate-y-full animate-scanline pointer-events-none" />
-
-          <div className="max-w-6xl mx-auto px-6 relative">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
-              <div className="space-y-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-linear-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-500/30">
-                    <span className="text-white font-bold text-lg">H</span>
-                  </div>
-                  <div>
-                    <span className="text-white font-semibold text-lg">Hami<span className="text-indigo-400">Parsa</span></span>
-                    <div className="flex items-center gap-2">
-                      <span className="text-[10px] text-white/30 font-mono tracking-widest">FULL-STACK</span>
-                      <span className="w-1 h-1 rounded-full bg-emerald-400" />
-                      <span className="text-[10px] text-white/20 font-mono">v3.0</span>
-                    </div>
-                  </div>
+      <footer className="relative z-10 border-t border-[#D4A853]/10 mt-12">
+        <div className="max-w-6xl mx-auto px-6 py-12">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="flex items-center gap-4">
+              <div className="relative">
+                <div className="absolute inset-0 rounded-xl bg-linear-to-br from-amber-500 to-yellow-500 blur-lg opacity-30" />
+                <div className="relative w-10 h-10 rounded-xl bg-linear-to-br from-[#D4A853] to-[#F59E0B] flex items-center justify-center shadow-lg shadow-[#D4A853]/30">
+                  <span className="text-[#0A0806] font-bold text-sm">H</span>
                 </div>
-                <p className="text-gray-400 text-sm leading-relaxed max-w-sm">
-                  {t.mottoFooter}
-                </p>
               </div>
-
               <div>
-                <h4 className="text-white/60 text-sm font-semibold tracking-wider mb-4">QUICK LINKS</h4>
-                <ul className="space-y-2.5">
-                  {[
-                    { label: t.home, href: "#home" },
-                    { label: t.skillsLink, href: "#skills" },
-                    { label: t.contactLink, href: "#contact" },
-                  ].map((item) => (
-                    <li key={item.label}>
-                      <a href={item.href} className="text-gray-400 hover:text-white text-sm transition-colors duration-300 flex items-center gap-2 group">
-                        <span className="w-1 h-1 rounded-full bg-indigo-400/30 group-hover:bg-indigo-400 transition-colors" />
-                        {item.label}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
+                <span className="text-[#E8E0D0] font-semibold">Hami<span className="text-[#D4A853]">Parsa</span></span>
+                <p className="text-xs text-[#C9C4B8]/30 font-mono tracking-widest">FULL-STACK</p>
               </div>
+            </div>
 
-              <div>
-                <h4 className="text-white/60 text-sm font-semibold tracking-wider mb-4">CONNECT</h4>
-                <div className="flex flex-wrap gap-3">
-                  <a href="https://github.com/HamiParsa" target="_blank" className="p-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 transition-all duration-300 group">
-                    <Github size={20} className="text-white/40 group-hover:text-white transition-colors" />
-                  </a>
-                  <a href="https://www.linkedin.com/in/HamiParsa" target="_blank" className="p-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 transition-all duration-300 group">
-                    <Linkedin size={20} className="text-white/40 group-hover:text-white transition-colors" />
-                  </a>
-                  <a href="https://t.me/HamiParsa" target="_blank" className="p-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 transition-all duration-300 group">
-                    <Send size={20} className="text-white/40 group-hover:text-white transition-colors" />
-                  </a>
-                  <a href="https://www.instagram.com/hamii.parsa" target="_blank" className="p-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 transition-all duration-300 group">
-                    <Instagram size={20} className="text-white/40 group-hover:text-white transition-colors" />
-                  </a>
-                </div>
-                
-                <motion.a
-                  href="https://github.com/HamiParsa/About-Me"
-                  target="_blank"
-                  whileHover={{ scale: 1.02 }}
-                  className="mt-4 inline-flex items-center gap-3 px-4 py-2.5 rounded-xl bg-linear-to-r from-indigo-500/20 to-purple-500/20 hover:from-indigo-500/30 hover:to-purple-500/30 border border-indigo-500/30 hover:border-indigo-500/50 transition-all duration-300 group w-full"
+            <div className="flex items-center gap-6">
+              <a
+                href="https://github.com/HamiParsa/About-Me"
+                target="_blank"
+                className="text-xs text-[#C9C4B8]/30 hover:text-[#D4A853] transition-colors flex items-center gap-2"
+              >
+                <Github size={14} />
+                {t.repository}
+              </a>
+              <span className="text-white/10">|</span>
+              <span className="text-xs text-[#C9C4B8]/20">
+                {t.builtWith} <span className="text-[#D4A853]">✦</span>
+              </span>
+            </div>
+
+            <div className="flex gap-3">
+              {[Github, Linkedin, Send, Instagram].map((Icon, i) => (
+                <a
+                  key={i}
+                  href="#"
+                  className="p-2 rounded-lg bg-white/5 hover:bg-white/10 transition-colors"
                 >
-                  <Github size={18} className="text-indigo-400 group-hover:text-indigo-300 transition-colors" />
-                  <span className="text-sm text-indigo-300/80 group-hover:text-indigo-200 transition-colors">
-                    {t.repository}
-                  </span>
-                  <svg className="w-4 h-4 text-indigo-400/60 group-hover:translate-x-1 transition-transform ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                  </svg>
-                </motion.a>
-              </div>
+                  <Icon size={16} className="text-[#C9C4B8]/30 hover:text-[#D4A853] transition-colors" />
+                </a>
+              ))}
             </div>
+          </div>
 
-            <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4">
-              <p className="text-gray-500 text-sm font-light tracking-wider">
-                © {new Date().getFullYear()} Hami Parsa
-              </p>
-              <div className="flex items-center gap-6">
-                <span className="text-gray-600/60 text-xs tracking-[0.15em]">
-                  {t.builtWith} <span className="text-indigo-400">❤</span> & code
-                </span>
-                <span className="w-px h-4 bg-white/10" />
-                <span className="text-gray-600/40 text-[10px] font-mono tracking-widest">
-                  {t.openSource}
-                </span>
-              </div>
-            </div>
+          <div className="mt-8 pt-6 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4">
+            <p className="text-xs text-[#C9C4B8]/20">
+              © {new Date().getFullYear()} Hami Parsa
+            </p>
+            <p className="text-xs text-[#C9C4B8]/10 font-mono tracking-widest">
+              {t.openSource}
+            </p>
           </div>
         </div>
       </footer>
 
-      {/* Scroll to Top Button */}
+      {/* Scroll to Top */}
       <AnimatePresence>
         {scrolled && (
           <motion.button
@@ -1125,132 +1068,14 @@ export default function Home() {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.8 }}
             onClick={scrollToTop}
-            className="fixed bottom-8 right-8 z-50 p-3 rounded-full bg-linear-to-r from-indigo-600 to-purple-600 text-white shadow-lg shadow-indigo-500/30 hover:shadow-indigo-500/50 transition-all duration-300 group"
+            className="fixed bottom-6 right-6 z-50 p-3 rounded-xl bg-linear-to-r from-[#D4A853] to-[#F59E0B] text-[#0A0806] shadow-lg shadow-[#D4A853]/30 hover:shadow-[#D4A853]/50 transition-all duration-300 group"
           >
-            <ChevronUp size={24} className="group-hover:-translate-y-0.5 transition-transform" />
+            <ChevronUp size={22} className="group-hover:-translate-y-0.5 transition-transform" />
           </motion.button>
         )}
       </AnimatePresence>
 
-      {/* CSS Styles */}
       <style jsx global>{`
-        .nebula-cloud {
-          position: absolute;
-          border-radius: 50%;
-          filter: blur(100px);
-          opacity: 0.4;
-          animation: nebulaDrift 25s ease-in-out infinite alternate;
-        }
-        .nebula-1 {
-          width: 70%;
-          height: 60%;
-          top: -10%;
-          left: -20%;
-          background: radial-gradient(ellipse, rgba(99, 102, 241, 0.15), transparent 70%);
-          animation-duration: 30s;
-        }
-        .nebula-2 {
-          width: 60%;
-          height: 70%;
-          bottom: -20%;
-          right: -15%;
-          background: radial-gradient(ellipse, rgba(139, 92, 246, 0.12), transparent 70%);
-          animation-duration: 35s;
-          animation-delay: -5s;
-        }
-        .nebula-3 {
-          width: 50%;
-          height: 50%;
-          top: 40%;
-          left: 40%;
-          background: radial-gradient(ellipse, rgba(236, 72, 153, 0.1), transparent 70%);
-          animation-duration: 28s;
-          animation-delay: -10s;
-        }
-        .nebula-4 {
-          width: 40%;
-          height: 40%;
-          top: 20%;
-          right: 10%;
-          background: radial-gradient(ellipse, rgba(59, 130, 246, 0.08), transparent 70%);
-          animation-duration: 32s;
-          animation-delay: -15s;
-        }
-        @keyframes nebulaDrift {
-          0% { transform: translate(0, 0) scale(1) rotate(0deg); }
-          25% { transform: translate(50px, -30px) scale(1.2) rotate(5deg); }
-          50% { transform: translate(-30px, 40px) scale(0.8) rotate(-3deg); }
-          75% { transform: translate(40px, 20px) scale(1.1) rotate(4deg); }
-          100% { transform: translate(-20px, -40px) scale(0.9) rotate(-5deg); }
-        }
-
-        .shooting-star {
-          position: absolute;
-          width: 150px;
-          height: 2px;
-          background: linear-gradient(to right, rgba(255,255,255,0), rgba(255,255,255,0.8));
-          border-radius: 50%;
-          filter: drop-shadow(0 0 6px rgba(255,255,255,0.3));
-          animation: shoot 8s linear infinite;
-          opacity: 0;
-        }
-        .shooting-star::after {
-          content: '';
-          position: absolute;
-          top: -3px;
-          right: 0;
-          width: 6px;
-          height: 8px;
-          background: radial-gradient(circle, rgba(255,255,255,0.9), transparent);
-          border-radius: 50%;
-        }
-        .shooting-star.delay-1 { animation-delay: 3s; top: 20%; left: 60%; transform: rotate(-25deg); }
-        .shooting-star.delay-2 { animation-delay: 5.5s; top: 60%; left: 30%; transform: rotate(-35deg); width: 100px; }
-        @keyframes shoot {
-          0% { transform: translateX(0) translateY(0) scale(1); opacity: 0; }
-          5% { opacity: 1; }
-          15% { opacity: 1; }
-          20% { opacity: 0; transform: translateX(-300px) translateY(100px) scale(0.5); }
-          100% { opacity: 0; }
-        }
-
-        .star {
-          position: absolute;
-          background: white;
-          border-radius: 50%;
-          animation: twinkle var(--duration) ease-in-out infinite;
-          box-shadow: 0 0 8px rgba(255,255,255,0.3);
-        }
-        .star-1 { top: 15%; left: 20%; width: 3px; height: 3px; --duration: 2.5s; }
-        .star-2 { top: 25%; right: 25%; width: 2px; height: 2px; --duration: 3.2s; animation-delay: 0.5s; }
-        .star-3 { top: 50%; left: 10%; width: 4px; height: 4px; --duration: 2.8s; animation-delay: 1s; }
-        .star-4 { bottom: 30%; right: 15%; width: 2.5px; height: 2.5px; --duration: 3.5s; animation-delay: 0.3s; }
-        .star-5 { top: 70%; left: 40%; width: 3px; height: 3px; --duration: 2.3s; animation-delay: 1.5s; }
-        .star-6 { top: 40%; right: 40%; width: 1.5px; height: 1.5px; --duration: 4s; animation-delay: 0.8s; }
-        .star-7 { bottom: 15%; left: 60%; width: 2px; height: 2px; --duration: 3.8s; animation-delay: 1.2s; }
-        .star-8 { top: 80%; right: 50%; width: 3.5px; height: 3.5px; --duration: 2.7s; animation-delay: 0.7s; }
-        @keyframes twinkle {
-          0%, 100% { opacity: 0.2; transform: scale(0.8); }
-          50% { opacity: 1; transform: scale(1.3); box-shadow: 0 0 20px rgba(255,255,255,0.6), 0 0 40px rgba(139,92,246,0.3); }
-        }
-
-        .aurora-overlay {
-          background: 
-            radial-gradient(ellipse at 20% 50%, rgba(99,102,241,0.05), transparent 50%),
-            radial-gradient(ellipse at 80% 30%, rgba(139,92,246,0.04), transparent 40%),
-            radial-gradient(ellipse at 50% 80%, rgba(236,72,153,0.03), transparent 45%);
-          animation: auroraPulse 15s ease-in-out infinite alternate;
-          mix-blend-mode: screen;
-        }
-        @keyframes auroraPulse {
-          0% { opacity: 0.5; transform: scale(1) rotate(0deg); }
-          100% { opacity: 1; transform: scale(1.1) rotate(3deg); }
-        }
-
-        .bg-radial-vignette {
-          background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.5) 100%);
-        }
-
         @keyframes spin-slow {
           from { transform: rotate(0deg); }
           to { transform: rotate(360deg); }
@@ -1259,50 +1084,72 @@ export default function Home() {
           from { transform: rotate(360deg); }
           to { transform: rotate(0deg); }
         }
-        @keyframes float-particle {
-          0%, 100% { transform: translate(0, 0) scale(1); opacity: 0; }
-          25% { opacity: 0.8; }
-          50% { transform: translate(30px, -30px) scale(1.5); opacity: 0.4; }
-          75% { opacity: 0.8; }
-        }
         @keyframes pulse-slow {
-          0%, 100% { opacity: 0.35; }
-          50% { opacity: 0.55; }
+          0%, 100% { opacity: 0.3; }
+          50% { opacity: 0.6; }
         }
-        @keyframes shimmer {
-          0% { transform: translateX(-100%); }
-          100% { transform: translateX(100%); }
+
+        .shooting-star {
+          position: absolute;
+          width: 100px;
+          height: 2px;
+          background: linear-gradient(to right, transparent, rgba(212,168,83,0.4));
+          border-radius: 50%;
+          animation: shoot 7s linear infinite;
+          opacity: 0;
         }
-        @keyframes scanline {
-          0% { transform: translateY(-100%); opacity: 0; }
-          50% { opacity: 1; }
-          100% { transform: translateY(100%); opacity: 0; }
+        .shooting-star::after {
+          content: '';
+          position: absolute;
+          top: -3px;
+          right: 0;
+          width: 5px;
+          height: 7px;
+          background: radial-gradient(circle, rgba(212,168,83,0.8), transparent);
+          border-radius: 50%;
+        }
+        .shooting-star.delay-1 { animation-delay: 2.5s; top: 20%; left: 65%; transform: rotate(-25deg); width: 80px; }
+        .shooting-star.delay-2 { animation-delay: 4.5s; top: 55%; left: 35%; transform: rotate(-35deg); width: 60px; }
+
+        @keyframes shoot {
+          0% { transform: translateX(0) translateY(0) scale(1); opacity: 0; }
+          5% { opacity: 1; }
+          15% { opacity: 1; }
+          20% { opacity: 0; transform: translateX(-300px) translateY(120px) scale(0.5); }
+          100% { opacity: 0; }
         }
 
         .animate-spin-slow { animation: spin-slow linear infinite; }
         .animate-spin-reverse { animation: spin-reverse linear infinite; }
-        .animate-float-particle { animation: float-particle 6s ease-in-out infinite; }
         .animate-pulse-slow { animation: pulse-slow 4s ease-in-out infinite; }
-        .animate-shimmer { animation: shimmer 2s ease-in-out infinite; }
-        .animate-scanline { animation: scanline 4s linear infinite; }
-        .perspective-500 { perspective: 500px; }
 
+        ::selection {
+          background: rgba(212, 168, 83, 0.3);
+          color: white;
+        }
         html { scroll-behavior: smooth; }
-        ::selection { background: rgba(99, 102, 241, 0.3); color: white; }
+
+        ::-webkit-scrollbar {
+          width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+          background: #0A0806;
+        }
+        ::-webkit-scrollbar-thumb {
+          background: linear-gradient(to bottom, #D4A853, #F59E0B);
+          border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+          background: linear-gradient(to bottom, #F59E0B, #D4A853);
+        }
       `}</style>
     </div>
   );
 }
 
 // ────────────────────────────────────────────────
-// Contact Form with EmailJS
+// Contact Form
 // ────────────────────────────────────────────────
-type FormData = {
-  name: string;
-  number: string;
-  message: string;
-};
-
 function ContactForm({
   t,
   isFa,
@@ -1310,16 +1157,12 @@ function ContactForm({
   t: (typeof content)["en"];
   isFa: boolean;
 }) {
-  const [form, setForm] = useState<FormData>({
-    name: "",
-    number: "",
-    message: "",
-  });
+  const [form, setForm] = useState({ name: "", number: "", message: "" });
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
@@ -1334,7 +1177,7 @@ function ContactForm({
         "service_97usflj",
         "template_m9immuc",
         form,
-        "q1s3x3DSUxpAVErUh",
+        "q1s3x3DSUxpAVErUh"
       );
       setStatus("success");
       setForm({ name: "", number: "", message: "" });
@@ -1348,69 +1191,60 @@ function ContactForm({
   };
 
   return (
-    <form onSubmit={onSubmit} className="max-w-2xl mx-auto space-y-7 relative">
-      <div className="absolute -inset-8 bg-linear-to-r from-indigo-500/5 via-purple-500/5 to-fuchsia-500/5 rounded-3xl blur-2xl pointer-events-none" />
+    <form onSubmit={onSubmit} className="max-w-2xl mx-auto space-y-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="relative group">
+          <label className={`block text-xs font-medium text-[#C9C4B8]/40 mb-1.5 ${isFa ? "text-right" : "text-left"}`}>
+            {t.nameLabel}
+          </label>
+          <div className="relative">
+            <User size={16} className={`absolute ${isFa ? "right-3" : "left-3"} top-1/2 -translate-y-1/2 text-[#C9C4B8]/20 group-hover:text-[#D4A853] transition-colors`} />
+            <input
+              name="name"
+              type="text"
+              value={form.name}
+              onChange={handleChange}
+              required
+              className={`w-full ${isFa ? "pr-9 pl-4 text-right" : "pl-9 pr-4 text-left"} py-2.5 bg-white/5 border ${status === "error" ? "border-red-500/50" : "border-white/10"} rounded-xl text-[#E8E0D0] placeholder-[#C9C4B8]/20 focus:border-[#D4A853]/50 focus:ring-2 focus:ring-[#D4A853]/20 transition-all duration-300 outline-none`}
+              placeholder={t.nameLabel}
+              dir={isFa ? "rtl" : "ltr"}
+            />
+          </div>
+        </div>
 
-      <div className="relative group">
-        <label className={`block text-sm font-medium text-gray-300 mb-2 ${isFa ? "text-right" : "text-left"}`}>
-          {t.nameLabel}
-        </label>
-        <div className="relative">
-          <div className="absolute -inset-0.5 bg-linear-to-r from-indigo-500/20 to-purple-500/20 rounded-xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-          <User className={`absolute ${isFa ? "right-4" : "left-4"} top-1/2 -translate-y-1/2 text-indigo-400/60 group-hover:text-indigo-400 transition-colors duration-300 z-10`} size={20} />
-          <input
-            name="name"
-            type="text"
-            value={form.name}
-            onChange={handleChange}
-            required
-            className={`relative w-full ${isFa ? "pr-12 pl-5 text-right" : "pl-12 pr-5 text-left"} py-3.5 bg-gray-900/80 border ${
-              status === "error" ? "border-red-600" : "border-indigo-600/40 focus:border-indigo-500"
-            } rounded-xl text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 transition-all duration-300 group-hover:border-indigo-500/60`}
-            placeholder={t.nameLabel}
-            dir={isFa ? "rtl" : "ltr"}
-          />
+        <div className="relative group">
+          <label className={`block text-xs font-medium text-[#C9C4B8]/40 mb-1.5 ${isFa ? "text-right" : "text-left"}`}>
+            {t.phoneLabel}
+          </label>
+          <div className="relative">
+            <Phone size={16} className={`absolute ${isFa ? "right-3" : "left-3"} top-1/2 -translate-y-1/2 text-[#C9C4B8]/20 group-hover:text-[#D4A853] transition-colors`} />
+            <input
+              name="number"
+              type="tel"
+              value={form.number}
+              onChange={handleChange}
+              required
+              className={`w-full ${isFa ? "pr-9 pl-4 text-right" : "pl-9 pr-4 text-left"} py-2.5 bg-white/5 border ${status === "error" ? "border-red-500/50" : "border-white/10"} rounded-xl text-[#E8E0D0] placeholder-[#C9C4B8]/20 focus:border-[#D4A853]/50 focus:ring-2 focus:ring-[#D4A853]/20 transition-all duration-300 outline-none`}
+              placeholder={t.phoneLabel}
+              dir={isFa ? "rtl" : "ltr"}
+            />
+          </div>
         </div>
       </div>
 
       <div className="relative group">
-        <label className={`block text-sm font-medium text-gray-300 mb-2 ${isFa ? "text-right" : "text-left"}`}>
-          {t.phoneLabel}
-        </label>
-        <div className="relative">
-          <div className="absolute -inset-0.5 bg-linear-to-r from-indigo-500/20 to-purple-500/20 rounded-xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-          <Phone className={`absolute ${isFa ? "right-4" : "left-4"} top-1/2 -translate-y-1/2 text-indigo-400/60 group-hover:text-indigo-400 transition-colors duration-300 z-10`} size={20} />
-          <input
-            name="number"
-            type="tel"
-            value={form.number}
-            onChange={handleChange}
-            required
-            className={`relative w-full ${isFa ? "pr-12 pl-5 text-right" : "pl-12 pr-5 text-left"} py-3.5 bg-gray-900/80 border ${
-              status === "error" ? "border-red-600" : "border-indigo-600/40 focus:border-indigo-500"
-            } rounded-xl text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 transition-all duration-300 group-hover:border-indigo-500/60`}
-            placeholder={t.phoneLabel}
-            dir={isFa ? "rtl" : "ltr"}
-          />
-        </div>
-      </div>
-
-      <div className="relative group">
-        <label className={`block text-sm font-medium text-gray-300 mb-2 ${isFa ? "text-right" : "text-left"}`}>
+        <label className={`block text-xs font-medium text-[#C9C4B8]/40 mb-1.5 ${isFa ? "text-right" : "text-left"}`}>
           {t.messageLabel}
         </label>
         <div className="relative">
-          <div className="absolute -inset-0.5 bg-linear-to-r from-indigo-500/20 to-purple-500/20 rounded-xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-          <MessageSquare className={`absolute ${isFa ? "right-4" : "left-4"} top-4 text-indigo-400/60 group-hover:text-indigo-400 transition-colors duration-300 z-10`} size={20} />
+          <MessageSquare size={16} className={`absolute ${isFa ? "right-3" : "left-3"} top-3.5 text-[#C9C4B8]/20 group-hover:text-[#D4A853] transition-colors`} />
           <textarea
             name="message"
             value={form.message}
             onChange={handleChange}
             required
-            rows={6}
-            className={`relative w-full ${isFa ? "pr-12 pl-5 text-right" : "pl-12 pr-5 text-left"} py-3.5 bg-gray-900/80 border ${
-              status === "error" ? "border-red-600" : "border-indigo-600/40 focus:border-indigo-500"
-            } rounded-xl text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 transition-all duration-300 resize-none group-hover:border-indigo-500/60`}
+            rows={5}
+            className={`w-full ${isFa ? "pr-9 pl-4 text-right" : "pl-9 pr-4 text-left"} py-2.5 bg-white/5 border ${status === "error" ? "border-red-500/50" : "border-white/10"} rounded-xl text-[#E8E0D0] placeholder-[#C9C4B8]/20 focus:border-[#D4A853]/50 focus:ring-2 focus:ring-[#D4A853]/20 transition-all duration-300 outline-none resize-none`}
             placeholder={t.messageLabel}
             dir={isFa ? "rtl" : "ltr"}
           />
@@ -1422,12 +1256,10 @@ function ContactForm({
         whileTap={{ scale: 0.98 }}
         disabled={isSubmitting}
         type="submit"
-        className="relative w-full py-4 overflow-hidden group"
+        className="relative w-full py-3.5 overflow-hidden group rounded-xl bg-linear-to-r from-[#D4A853] to-[#F59E0B] text-[#0A0806] font-bold shadow-lg shadow-[#D4A853]/25 hover:shadow-[#D4A853]/50 transition-all duration-300"
       >
-        <div className="absolute inset-0 bg-linear-to-r from-indigo-600 via-purple-600 to-fuchsia-600 group-hover:from-indigo-500 group-hover:via-purple-500 group-hover:to-fuchsia-500 transition-all duration-300 rounded-xl" />
-        <div className="absolute inset-0 bg-linear-to-r from-indigo-500/0 via-white/10 to-fuchsia-500/0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-        <div className="absolute -inset-0.5 bg-linear-to-r from-indigo-400/0 via-indigo-400/30 to-fuchsia-400/0 rounded-xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-        <div className="relative flex items-center justify-center gap-3 text-white font-semibold disabled:opacity-60 disabled:cursor-not-allowed">
+        <div className="absolute inset-0 bg-linear-to-r from-[#D4A853]/0 via-white/20 to-[#F59E0B]/0 -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
+        <div className="relative flex items-center justify-center gap-2">
           {isSubmitting ? (
             <>
               <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
@@ -1439,9 +1271,7 @@ function ContactForm({
           ) : (
             <>
               {t.submit}
-              <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-              </svg>
+              <Send size={16} className="group-hover:translate-x-1 transition-transform" />
             </>
           )}
         </div>
@@ -1450,13 +1280,13 @@ function ContactForm({
       <AnimatePresence>
         {status === "success" && (
           <motion.div
-            initial={{ opacity: 0, y: 10, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -10, scale: 0.95 }}
-            className={`text-center text-green-400 font-medium text-lg mt-4 flex items-center justify-center gap-2 ${isFa ? "flex-row-reverse" : ""}`}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            className="text-center text-emerald-400 text-sm flex items-center justify-center gap-2"
           >
-            <span className="w-8 h-8 rounded-full bg-green-500/20 flex items-center justify-center">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <span className="w-6 h-6 rounded-full bg-emerald-500/20 flex items-center justify-center">
+              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
               </svg>
             </span>
@@ -1466,13 +1296,13 @@ function ContactForm({
 
         {status === "error" && (
           <motion.div
-            initial={{ opacity: 0, y: 10, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -10, scale: 0.95 }}
-            className={`text-center text-red-400 font-medium text-lg mt-4 flex items-center justify-center gap-2 ${isFa ? "flex-row-reverse" : ""}`}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            className="text-center text-red-400 text-sm flex items-center justify-center gap-2"
           >
-            <span className="w-8 h-8 rounded-full bg-red-500/20 flex items-center justify-center">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <span className="w-6 h-6 rounded-full bg-red-500/20 flex items-center justify-center">
+              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </span>
