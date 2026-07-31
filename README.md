@@ -27,7 +27,6 @@
 
 
 
-
 <div align="center">
   <h1>✨ Hami Parsa – Full-Stack Developer Portfolio</h1>
   <p>Human first. Coder second. Building the future, one line at a time.</p>
