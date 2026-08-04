@@ -628,173 +628,142 @@ function ContactForm({ t }: { t: any; isFa: boolean }) {
   };
 
   return (
-    <form onSubmit={onSubmit} className="max-w-2xl mx-auto space-y-6">
-  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-    <div className="group">
-      <label className="block text-xs font-medium mb-1.5 transition-colors duration-300 group-focus-within:text-orange-400" style={{ color: c.textMuted }}>
-        {t.nameLabel}
-      </label>
+    <form onSubmit={onSubmit} className="max-w-2xl mx-auto">
+  <div className="space-y-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
       <div className="relative">
-        <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 transition-colors duration-300 group-focus-within:text-orange-400" style={{ color: c.textMuted }} />
-        <input
-          name="name"
-          type="text"
-          value={form.name}
-          onChange={handleChange}
-          required
-          className="w-full pl-9 pr-4 py-3.5 rounded-xl text-sm outline-none transition-all duration-300 bg-white/5 hover:bg-white/10 focus:bg-white/10 border-2"
-          style={{
-            background: c.bgCard,
-            border: `2px solid ${c.border}`,
-            color: c.text,
-          }}
-          onFocus={(e) => {
-            e.target.style.borderColor = "#FB923C";
-            e.target.style.boxShadow = "0 0 0 4px rgba(251, 146, 60, 0.1)";
-          }}
-          onBlur={(e) => {
-            e.target.style.borderColor = c.border;
-            e.target.style.boxShadow = "none";
-          }}
-          placeholder={t.nameLabel}
-        />
+        <div className="absolute -inset-0.5 bg-gradient-to-r from-orange-400/20 to-orange-600/20 rounded-2xl blur opacity-0 group-hover:opacity-100 transition duration-500" />
+        <div className="relative bg-[#111] rounded-2xl border border-white/5 p-5 hover:border-orange-400/30 transition-all duration-300">
+          <div className="flex items-center gap-3 mb-2">
+            <div className="p-2 rounded-lg bg-orange-400/10">
+              <User className="w-4 h-4 text-orange-400" />
+            </div>
+            <label className="text-xs font-medium text-gray-400">
+              {t.nameLabel}
+            </label>
+          </div>
+          <input
+            name="name"
+            type="text"
+            value={form.name}
+            onChange={handleChange}
+            required
+            className="w-full bg-transparent text-white text-base outline-none placeholder-gray-600"
+            placeholder={t.nameLabel}
+          />
+          <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-orange-400/0 via-orange-400/50 to-orange-400/0 scale-x-0 focus-within:scale-x-100 transition-transform duration-500" />
+        </div>
+      </div>
+
+      <div className="relative">
+        <div className="absolute -inset-0.5 bg-gradient-to-r from-orange-400/20 to-orange-600/20 rounded-2xl blur opacity-0 group-hover:opacity-100 transition duration-500" />
+        <div className="relative bg-[#111] rounded-2xl border border-white/5 p-5 hover:border-orange-400/30 transition-all duration-300">
+          <div className="flex items-center gap-3 mb-2">
+            <div className="p-2 rounded-lg bg-orange-400/10">
+              <Phone className="w-4 h-4 text-orange-400" />
+            </div>
+            <label className="text-xs font-medium text-gray-400">
+              {t.phoneLabel}
+            </label>
+          </div>
+          <input
+            name="number"
+            type="tel"
+            value={form.number}
+            onChange={handleChange}
+            required
+            className="w-full bg-transparent text-white text-base outline-none placeholder-gray-600"
+            placeholder={t.phoneLabel}
+          />
+          <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-orange-400/0 via-orange-400/50 to-orange-400/0 scale-x-0 focus-within:scale-x-100 transition-transform duration-500" />
+        </div>
       </div>
     </div>
 
-    <div className="group">
-      <label className="block text-xs font-medium mb-1.5 transition-colors duration-300 group-focus-within:text-orange-400" style={{ color: c.textMuted }}>
-        {t.phoneLabel}
-      </label>
-      <div className="relative">
-        <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 transition-colors duration-300 group-focus-within:text-orange-400" style={{ color: c.textMuted }} />
-        <input
-          name="number"
-          type="tel"
-          value={form.number}
-          onChange={handleChange}
-          required
-          className="w-full pl-9 pr-4 py-3.5 rounded-xl text-sm outline-none transition-all duration-300 bg-white/5 hover:bg-white/10 focus:bg-white/10 border-2"
-          style={{
-            background: c.bgCard,
-            border: `2px solid ${c.border}`,
-            color: c.text,
-          }}
-          onFocus={(e) => {
-            e.target.style.borderColor = "#FB923C";
-            e.target.style.boxShadow = "0 0 0 4px rgba(251, 146, 60, 0.1)";
-          }}
-          onBlur={(e) => {
-            e.target.style.borderColor = c.border;
-            e.target.style.boxShadow = "none";
-          }}
-          placeholder={t.phoneLabel}
-        />
-      </div>
-    </div>
-  </div>
-
-  <div className="group">
-    <label className="block text-xs font-medium mb-1.5 transition-colors duration-300 group-focus-within:text-orange-400" style={{ color: c.textMuted }}>
-      {t.messageLabel}
-    </label>
     <div className="relative">
-      <MessageSquare className="absolute left-3 top-3.5 w-4 h-4 transition-colors duration-300 group-focus-within:text-orange-400" style={{ color: c.textMuted }} />
-      <textarea
-        name="message"
-        value={form.message}
-        onChange={handleChange}
-        required
-        rows={4}
-        className="w-full pl-9 pr-4 py-3.5 rounded-xl text-sm outline-none transition-all duration-300 bg-white/5 hover:bg-white/10 focus:bg-white/10 resize-none border-2"
-        style={{
-          background: c.bgCard,
-          border: `2px solid ${c.border}`,
-          color: c.text,
-        }}
-        onFocus={(e) => {
-          e.target.style.borderColor = "#FB923C";
-          e.target.style.boxShadow = "0 0 0 4px rgba(251, 146, 60, 0.1)";
-        }}
-        onBlur={(e) => {
-          e.target.style.borderColor = c.border;
-          e.target.style.boxShadow = "none";
-        }}
-        placeholder={t.messageLabel}
-      />
+      <div className="absolute -inset-0.5 bg-gradient-to-r from-orange-400/20 to-orange-600/20 rounded-2xl blur opacity-0 group-hover:opacity-100 transition duration-500" />
+      <div className="relative bg-[#111] rounded-2xl border border-white/5 p-5 hover:border-orange-400/30 transition-all duration-300">
+        <div className="flex items-center gap-3 mb-2">
+          <div className="p-2 rounded-lg bg-orange-400/10">
+            <MessageSquare className="w-4 h-4 text-orange-400" />
+          </div>
+          <label className="text-xs font-medium text-gray-400">
+            {t.messageLabel}
+          </label>
+        </div>
+        <textarea
+          name="message"
+          value={form.message}
+          onChange={handleChange}
+          required
+          rows={4}
+          className="w-full bg-transparent text-white text-base outline-none placeholder-gray-600 resize-none"
+          placeholder={t.messageLabel}
+        />
+        <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-orange-400/0 via-orange-400/50 to-orange-400/0 scale-x-0 focus-within:scale-x-100 transition-transform duration-500" />
+      </div>
     </div>
-  </div>
 
-  <motion.button
-    type="submit"
-    disabled={isSubmitting}
-    whileHover={{ scale: 1.01 }}
-    whileTap={{ scale: 0.99 }}
-    className="relative w-full py-4 rounded-xl font-bold transition-all duration-300 overflow-hidden group"
-    style={{
-      background: `linear-gradient(135deg, ${c.primary}, ${c.secondary})`,
-      color: "#0A0A0A",
-      boxShadow: `0 0 40px ${c.glow}`,
-      opacity: isSubmitting ? 0.7 : 1,
-      cursor: isSubmitting ? "not-allowed" : "pointer",
-    }}
-  >
-    {/* Shine effect */}
-    <div
-      className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700"
-      style={{ background: "linear-gradient(to right, transparent, rgba(255,255,255,0.3), transparent)" }}
-    />
-    
-    {/* Content */}
-    <div className="relative flex items-center justify-center gap-2.5">
-      {isSubmitting ? (
-        <>
-          <Loader2 className="w-5 h-5 animate-spin" />
-          <span>{t.sending}</span>
-        </>
-      ) : (
-        <>
-          <span>{t.submit}</span>
-          <Send className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-0.5 transition-transform duration-300" />
-        </>
+    <motion.button
+      type="submit"
+      disabled={isSubmitting}
+      whileHover={{ scale: 1.01 }}
+      whileTap={{ scale: 0.98 }}
+      className="relative w-full group"
+    >
+      <div className="absolute -inset-0.5 bg-gradient-to-r from-orange-400 to-orange-600 rounded-2xl blur-xl opacity-60 group-hover:opacity-100 transition duration-500" />
+      <div className="relative bg-gradient-to-r from-orange-400 to-orange-600 rounded-2xl px-6 py-4 flex items-center justify-center gap-3 text-black font-bold text-base">
+        {isSubmitting ? (
+          <>
+            <Loader2 className="w-5 h-5 animate-spin" />
+            <span>{t.sending}</span>
+          </>
+        ) : (
+          <>
+            <span>{t.submit}</span>
+            <Send className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-0.5 transition-transform duration-300" />
+          </>
+        )}
+      </div>
+    </motion.button>
+
+    <AnimatePresence>
+      {status === "success" && (
+        <motion.div
+          initial={{ opacity: 0, y: 10, scale: 0.95 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: -10, scale: 0.95 }}
+          className="flex items-center justify-center gap-3 px-5 py-3.5 rounded-2xl"
+          style={{
+            background: "rgba(34, 197, 94, 0.08)",
+            border: "1px solid rgba(34, 197, 94, 0.2)",
+          }}
+        >
+          <div className="p-1.5 rounded-full bg-green-400/20">
+            <FaCheckCircle className="w-4 h-4 text-green-400" />
+          </div>
+          <span className="text-sm text-green-400 font-medium">{t.success}</span>
+        </motion.div>
       )}
-    </div>
-  </motion.button>
-
-  {/* Status Messages */}
-  <AnimatePresence>
-    {status === "success" && (
-      <motion.div
-        initial={{ opacity: 0, y: 10, scale: 0.95 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        exit={{ opacity: 0, y: -10, scale: 0.95 }}
-        className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-medium"
-        style={{
-          background: "rgba(34, 197, 94, 0.1)",
-          border: "1px solid rgba(34, 197, 94, 0.2)",
-          color: "#4ADE80",
-        }}
-      >
-        <FaCheckCircle className="w-4 h-4" />
-        {t.success}
-      </motion.div>
-    )}
-    {status === "error" && (
-      <motion.div
-        initial={{ opacity: 0, y: 10, scale: 0.95 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        exit={{ opacity: 0, y: -10, scale: 0.95 }}
-        className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-medium"
-        style={{
-          background: "rgba(239, 68, 68, 0.1)",
-          border: "1px solid rgba(239, 68, 68, 0.2)",
-          color: "#F87171",
-        }}
-      >
-        <FaTimes className="w-4 h-4" />
-        {t.error}
-      </motion.div>
-    )}
-  </AnimatePresence>
+      {status === "error" && (
+        <motion.div
+          initial={{ opacity: 0, y: 10, scale: 0.95 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: -10, scale: 0.95 }}
+          className="flex items-center justify-center gap-3 px-5 py-3.5 rounded-2xl"
+          style={{
+            background: "rgba(239, 68, 68, 0.08)",
+            border: "1px solid rgba(239, 68, 68, 0.2)",
+          }}
+        >
+          <div className="p-1.5 rounded-full bg-red-400/20">
+            <FaTimes className="w-4 h-4 text-red-400" />
+          </div>
+          <span className="text-sm text-red-400 font-medium">{t.error}</span>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  </div>
 </form>
   );
 }
