@@ -38,10 +38,10 @@ import { TbBrandTailwind } from "react-icons/tb";
 import { RiSupabaseLine } from "react-icons/ri";
 import { BiLogoMongodb } from "react-icons/bi";
 import { FaNodeJs, FaPython } from "react-icons/fa";
-import {SiExpress } from "react-icons/si";
+import { SiExpress } from "react-icons/si";
 
 // ============================================================
-// CONFIGURATION - CRIMSON GOLD THEME
+// CONFIGURATION
 // ============================================================
 
 const CONFIG = {
@@ -55,15 +55,14 @@ const CONFIG = {
     textSecondary: "#D4D4D4",
     textMuted: "#A3A3A3",
     textDim: "#737373",
-    primary: "#DC2626", // Crimson Red
-    primaryDark: "#991B1B",
-    primaryLight: "#EF4444",
-    secondary: "#F59E0B", // Gold
-    secondaryLight: "#FBBF24",
-    accent: "#FCD34D", // Light Gold
+    primary: "#F59E0B", // Orange
+    primaryDark: "#D97706",
+    primaryLight: "#FBBF24",
+    secondary: "#F97316",
+    accent: "#FCD34D",
     border: "rgba(255,255,255,0.06)",
     borderLight: "rgba(255,255,255,0.1)",
-    glow: "rgba(220, 38, 38, 0.2)",
+    glow: "rgba(245, 158, 11, 0.2)",
     glowGold: "rgba(245, 158, 11, 0.2)",
   },
   nav: {
@@ -171,9 +170,19 @@ const CONFIG = {
     },
   },
   skills: [
-    { name: "JavaScript / TypeScript", percent: 88, icon: DiJavascript1, color: "#F7DF1E" },
+    {
+      name: "JavaScript / TypeScript",
+      percent: 88,
+      icon: DiJavascript1,
+      color: "#F7DF1E",
+    },
     { name: "React / Next.js", percent: 85, icon: DiReact, color: "#61DAFB" },
-    { name: "Tailwind CSS", percent: 92, icon: TbBrandTailwind, color: "#06B6D4" },
+    {
+      name: "Tailwind CSS",
+      percent: 92,
+      icon: TbBrandTailwind,
+      color: "#06B6D4",
+    },
     { name: "Node.js", percent: 80, icon: FaNodeJs, color: "#339933" },
     { name: "Express.js", percent: 85, icon: SiExpress, color: "#FFFFFF" },
     { name: "Python / Django", percent: 75, icon: FaPython, color: "#3776AB" },
@@ -329,19 +338,12 @@ function LoadingScreen() {
       initial={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.8, ease: "easeInOut" }}
-      className="fixed inset-0 z-100 flex flex-col items-center justify-center"
+      className="fixed inset-0 z-9999 flex flex-col items-center justify-center"
       style={{ background: c.bg }}
     >
       <motion.div
-        animate={{
-          scale: [1, 1.2, 1],
-          rotate: [0, 360],
-        }}
-        transition={{
-          duration: 2,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
+        animate={{ scale: [1, 1.2, 1], rotate: [0, 360] }}
+        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
         className="relative"
       >
         <div
@@ -375,14 +377,8 @@ function LoadingScreen() {
           {[...Array(3)].map((_, i) => (
             <motion.div
               key={i}
-              animate={{
-                y: [0, -10, 0],
-              }}
-              transition={{
-                duration: 0.6,
-                repeat: Infinity,
-                delay: i * 0.15,
-              }}
+              animate={{ y: [0, -10, 0] }}
+              transition={{ duration: 0.6, repeat: Infinity, delay: i * 0.15 }}
               className="w-2 h-2 rounded-full"
               style={{ background: c.secondary }}
             />
@@ -475,7 +471,7 @@ function CircularProgress({
           observer.disconnect();
         }
       },
-      { threshold: 0.2 }
+      { threshold: 0.2 },
     );
 
     if (containerRef.current) {
@@ -495,7 +491,10 @@ function CircularProgress({
       className="p-4 rounded-2xl text-center backdrop-blur-sm transition-all duration-300 hover:-translate-y-2"
       style={{ background: c.bgCard, border: `1px solid ${c.border}` }}
     >
-      <div className="relative" style={{ width: size, height: size, margin: "0 auto" }}>
+      <div
+        className="relative"
+        style={{ width: size, height: size, margin: "0 auto" }}
+      >
         <svg className="w-full h-full -rotate-90">
           <circle
             cx={size / 2}
@@ -529,10 +528,16 @@ function CircularProgress({
         </div>
       </div>
       <div className="mt-2">
-        <span className="text-xs font-medium" style={{ color: c.textSecondary }}>
+        <span
+          className="text-xs font-medium"
+          style={{ color: c.textSecondary }}
+        >
           {label}
         </span>
-        <div className="text-sm font-bold" style={{ color: isVisible ? color : c.textDim }}>
+        <div
+          className="text-sm font-bold"
+          style={{ color: isVisible ? color : c.textDim }}
+        >
           {isVisible ? percent : 0}%
         </div>
       </div>
@@ -556,7 +561,11 @@ function TypewriterNeon({
   const [currentWord, setCurrentWord] = useState(0);
   const [text, setText] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
-  const colors = [CONFIG.colors.primary, CONFIG.colors.secondary, CONFIG.colors.accent];
+  const colors = [
+    CONFIG.colors.primary,
+    CONFIG.colors.secondary,
+    CONFIG.colors.accent,
+  ];
 
   useEffect(() => {
     const timeout = setTimeout(
@@ -579,7 +588,7 @@ function TypewriterNeon({
           }
         }
       },
-      isDeleting ? speed / 2 : speed
+      isDeleting ? speed / 2 : speed,
     );
 
     return () => clearTimeout(timeout);
@@ -588,24 +597,30 @@ function TypewriterNeon({
   const currentColor = colors[currentWord % colors.length];
 
   return (
-    <span className="text-xl font-bold" style={{ color: currentColor, textShadow: `0 0 30px ${currentColor}30` }}>
+    <span
+      className="text-xl font-bold"
+      style={{ color: currentColor, textShadow: `0 0 30px ${currentColor}30` }}
+    >
       {text}
-      <span className="inline-block w-0.5 h-6 ml-1 animate-pulse" style={{ background: currentColor }} />
+      <span
+        className="inline-block w-0.5 h-6 ml-1 animate-pulse"
+        style={{ background: currentColor }}
+      />
     </span>
   );
 }
 
 // ============================================================
-// CONTACT FORM
+// CONTACT FORM - FIXED
 // ============================================================
 // eslint-disable-next-line
-function ContactForm({ t }: { t: any; isFa: boolean }) {
+function ContactForm({ t, isFa }: { t: any; isFa: boolean }) {
   const [form, setForm] = useState({ name: "", number: "", message: "" });
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const c = CONFIG.colors;
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
@@ -615,7 +630,12 @@ function ContactForm({ t }: { t: any; isFa: boolean }) {
     setStatus("idle");
 
     try {
-      await emailjs.send("service_np5zft2", "template_m9immuc", form, "q1s3x3DSUxpAVErUh");
+      await emailjs.send(
+        "service_np5zft2",
+        "template_m9immuc",
+        form,
+        "q1s3x3DSUxpAVErUh",
+      );
       setStatus("success");
       setForm({ name: "", number: "", message: "" });
     } catch (error) {
@@ -628,143 +648,172 @@ function ContactForm({ t }: { t: any; isFa: boolean }) {
   };
 
   return (
-    <form onSubmit={onSubmit} className="max-w-2xl mx-auto">
-  <div className="space-y-6">
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div className="relative">
-        <div className="absolute -inset-0.5 bg-gradient-to-r from-orange-400/20 to-orange-600/20 rounded-2xl blur opacity-0 group-hover:opacity-100 transition duration-500" />
-        <div className="relative bg-[#111] rounded-2xl border border-white/5 p-5 hover:border-orange-400/30 transition-all duration-300">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="p-2 rounded-lg bg-orange-400/10">
-              <User className="w-4 h-4 text-orange-400" />
-            </div>
-            <label className="text-xs font-medium text-gray-400">
+    <form onSubmit={onSubmit} className="max-w-2xl mx-auto w-full">
+      <div className="space-y-5">
+        {/* Name & Phone - Grid with proper RTL */}
+        <div
+          className={`grid grid-cols-1 md:grid-cols-2 gap-5 ${isFa ? "rtl" : ""}`}
+        >
+          {/* Name Field */}
+          <div className="relative group">
+            <label className="block text-xs font-medium mb-1.5 transition-colors duration-300 text-gray-400 group-focus-within:text-orange-400">
               {t.nameLabel}
             </label>
-          </div>
-          <input
-            name="name"
-            type="text"
-            value={form.name}
-            onChange={handleChange}
-            required
-            className="w-full bg-transparent text-white text-base outline-none placeholder-gray-600"
-            placeholder={t.nameLabel}
-          />
-          <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-orange-400/0 via-orange-400/50 to-orange-400/0 scale-x-0 focus-within:scale-x-100 transition-transform duration-500" />
-        </div>
-      </div>
-
-      <div className="relative">
-        <div className="absolute -inset-0.5 bg-gradient-to-r from-orange-400/20 to-orange-600/20 rounded-2xl blur opacity-0 group-hover:opacity-100 transition duration-500" />
-        <div className="relative bg-[#111] rounded-2xl border border-white/5 p-5 hover:border-orange-400/30 transition-all duration-300">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="p-2 rounded-lg bg-orange-400/10">
-              <Phone className="w-4 h-4 text-orange-400" />
+            <div className="relative">
+              <User
+                className={`absolute ${isFa ? "right-3" : "left-3"} top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 group-focus-within:text-orange-400 transition-colors duration-300`}
+              />
+              <input
+                name="name"
+                type="text"
+                value={form.name}
+                onChange={handleChange}
+                required
+                className={`w-full ${isFa ? "pr-9 pl-4 text-right" : "pl-9 pr-4 text-left"} py-3.5 rounded-xl text-sm outline-none transition-all duration-300 bg-white/5 hover:bg-white/10 focus:bg-white/10 border-2 border-white/10 focus:border-orange-400/50 focus:shadow-[0_0_0_4px_rgba(251,146,60,0.1)] text-white placeholder-gray-500`}
+                placeholder={t.nameLabel}
+                dir={isFa ? "rtl" : "ltr"}
+              />
             </div>
-            <label className="text-xs font-medium text-gray-400">
+          </div>
+
+          {/* Phone Field */}
+          <div className="relative group">
+            <label className="block text-xs font-medium mb-1.5 transition-colors duration-300 text-gray-400 group-focus-within:text-orange-400">
               {t.phoneLabel}
             </label>
+            <div className="relative">
+              <Phone
+                className={`absolute ${isFa ? "right-3" : "left-3"} top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 group-focus-within:text-orange-400 transition-colors duration-300`}
+              />
+              <input
+                name="number"
+                type="tel"
+                value={form.number}
+                onChange={handleChange}
+                required
+                className={`w-full ${isFa ? "pr-9 pl-4 text-right" : "pl-9 pr-4 text-left"} py-3.5 rounded-xl text-sm outline-none transition-all duration-300 bg-white/5 hover:bg-white/10 focus:bg-white/10 border-2 border-white/10 focus:border-orange-400/50 focus:shadow-[0_0_0_4px_rgba(251,146,60,0.1)] text-white placeholder-gray-500`}
+                placeholder={t.phoneLabel}
+                dir={isFa ? "rtl" : "ltr"}
+              />
+            </div>
           </div>
-          <input
-            name="number"
-            type="tel"
-            value={form.number}
-            onChange={handleChange}
-            required
-            className="w-full bg-transparent text-white text-base outline-none placeholder-gray-600"
-            placeholder={t.phoneLabel}
-          />
-          <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-orange-400/0 via-orange-400/50 to-orange-400/0 scale-x-0 focus-within:scale-x-100 transition-transform duration-500" />
         </div>
-      </div>
-    </div>
 
-    <div className="relative">
-      <div className="absolute -inset-0.5 bg-gradient-to-r from-orange-400/20 to-orange-600/20 rounded-2xl blur opacity-0 group-hover:opacity-100 transition duration-500" />
-      <div className="relative bg-[#111] rounded-2xl border border-white/5 p-5 hover:border-orange-400/30 transition-all duration-300">
-        <div className="flex items-center gap-3 mb-2">
-          <div className="p-2 rounded-lg bg-orange-400/10">
-            <MessageSquare className="w-4 h-4 text-orange-400" />
-          </div>
-          <label className="text-xs font-medium text-gray-400">
+        {/* Message Field */}
+        <div className="relative group">
+          <label className="block text-xs font-medium mb-1.5 transition-colors duration-300 text-gray-400 group-focus-within:text-orange-400">
             {t.messageLabel}
           </label>
+          <div className="relative">
+            <MessageSquare
+              className={`absolute ${isFa ? "right-3" : "left-3"} top-3.5 w-4 h-4 text-gray-500 group-focus-within:text-orange-400 transition-colors duration-300`}
+            />
+            <textarea
+              name="message"
+              value={form.message}
+              onChange={handleChange}
+              required
+              rows={4}
+              className={`w-full ${isFa ? "pr-9 pl-4 text-right" : "pl-9 pr-4 text-left"} py-3.5 rounded-xl text-sm outline-none transition-all duration-300 bg-white/5 hover:bg-white/10 focus:bg-white/10 border-2 border-white/10 focus:border-orange-400/50 focus:shadow-[0_0_0_4px_rgba(251,146,60,0.1)] text-white placeholder-gray-500 resize-none`}
+              placeholder={t.messageLabel}
+              dir={isFa ? "rtl" : "ltr"}
+            />
+          </div>
         </div>
-        <textarea
-          name="message"
-          value={form.message}
-          onChange={handleChange}
-          required
-          rows={4}
-          className="w-full bg-transparent text-white text-base outline-none placeholder-gray-600 resize-none"
-          placeholder={t.messageLabel}
-        />
-        <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-orange-400/0 via-orange-400/50 to-orange-400/0 scale-x-0 focus-within:scale-x-100 transition-transform duration-500" />
-      </div>
-    </div>
 
-    <motion.button
-      type="submit"
-      disabled={isSubmitting}
-      whileHover={{ scale: 1.01 }}
-      whileTap={{ scale: 0.98 }}
-      className="relative w-full group"
-    >
-      <div className="absolute -inset-0.5 bg-gradient-to-r from-orange-400 to-orange-600 rounded-2xl blur-xl opacity-60 group-hover:opacity-100 transition duration-500" />
-      <div className="relative bg-gradient-to-r from-orange-400 to-orange-600 rounded-2xl px-6 py-4 flex items-center justify-center gap-3 text-black font-bold text-base">
-        {isSubmitting ? (
-          <>
-            <Loader2 className="w-5 h-5 animate-spin" />
-            <span>{t.sending}</span>
-          </>
-        ) : (
-          <>
-            <span>{t.submit}</span>
-            <Send className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-0.5 transition-transform duration-300" />
-          </>
-        )}
-      </div>
-    </motion.button>
+        {/* Submit Button */}
+        <motion.button
+          type="submit"
+          disabled={isSubmitting}
+          whileHover={{ scale: 1.01 }}
+          whileTap={{ scale: 0.98 }}
+          className="relative w-full group overflow-hidden rounded-xl"
+        >
+          <div className="absolute inset-0 bg-linear-to-r from-orange-400 to-orange-500 opacity-90 group-hover:opacity-100 transition-opacity duration-300" />
+          <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-linear-to-r from-transparent via-white/20 to-transparent" />
 
-    <AnimatePresence>
-      {status === "success" && (
-        <motion.div
-          initial={{ opacity: 0, y: 10, scale: 0.95 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          exit={{ opacity: 0, y: -10, scale: 0.95 }}
-          className="flex items-center justify-center gap-3 px-5 py-3.5 rounded-2xl"
-          style={{
-            background: "rgba(34, 197, 94, 0.08)",
-            border: "1px solid rgba(34, 197, 94, 0.2)",
-          }}
-        >
-          <div className="p-1.5 rounded-full bg-green-400/20">
-            <FaCheckCircle className="w-4 h-4 text-green-400" />
+          <div className="relative px-6 py-4 flex items-center justify-center gap-3 text-black font-bold text-base">
+            {isSubmitting ? (
+              <>
+                <Loader2 className="w-5 h-5 animate-spin" />
+                <span>{t.sending}</span>
+              </>
+            ) : (
+              <>
+                <span>{t.submit}</span>
+                <Send className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-0.5 transition-transform duration-300" />
+              </>
+            )}
           </div>
-          <span className="text-sm text-green-400 font-medium">{t.success}</span>
-        </motion.div>
-      )}
-      {status === "error" && (
-        <motion.div
-          initial={{ opacity: 0, y: 10, scale: 0.95 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          exit={{ opacity: 0, y: -10, scale: 0.95 }}
-          className="flex items-center justify-center gap-3 px-5 py-3.5 rounded-2xl"
-          style={{
-            background: "rgba(239, 68, 68, 0.08)",
-            border: "1px solid rgba(239, 68, 68, 0.2)",
-          }}
-        >
-          <div className="p-1.5 rounded-full bg-red-400/20">
-            <FaTimes className="w-4 h-4 text-red-400" />
-          </div>
-          <span className="text-sm text-red-400 font-medium">{t.error}</span>
-        </motion.div>
-      )}
-    </AnimatePresence>
-  </div>
-</form>
+        </motion.button>
+
+        {/* Status Messages */}
+        <AnimatePresence>
+          {status === "success" && (
+            <motion.div
+              initial={{ opacity: 0, y: 10, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -10, scale: 0.95 }}
+              className="flex items-center justify-center gap-3 px-5 py-3.5 rounded-xl"
+              style={{
+                background: "rgba(34, 197, 94, 0.08)",
+                border: "1px solid rgba(34, 197, 94, 0.2)",
+              }}
+            >
+              <div className="p-1.5 rounded-full bg-green-400/20">
+                <svg
+                  className="w-4 h-4 text-green-400"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+              </div>
+              <span className="text-sm text-green-400 font-medium">
+                {t.success}
+              </span>
+            </motion.div>
+          )}
+          {status === "error" && (
+            <motion.div
+              initial={{ opacity: 0, y: 10, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -10, scale: 0.95 }}
+              className="flex items-center justify-center gap-3 px-5 py-3.5 rounded-xl"
+              style={{
+                background: "rgba(239, 68, 68, 0.08)",
+                border: "1px solid rgba(239, 68, 68, 0.2)",
+              }}
+            >
+              <div className="p-1.5 rounded-full bg-red-400/20">
+                <svg
+                  className="w-4 h-4 text-red-400"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </div>
+              <span className="text-sm text-red-400 font-medium">
+                {t.error}
+              </span>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </form>
   );
 }
 
@@ -785,7 +834,10 @@ function ServicesSection({ t, isFa }: { t: any; isFa: boolean }) {
         transition={{ duration: 0.8 }}
       >
         <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-6xl font-black tracking-tight" style={{ color: c.text }}>
+          <h2
+            className="text-4xl md:text-6xl font-black tracking-tight"
+            style={{ color: c.text }}
+          >
             {t.servicesTitle}
           </h2>
           <p className="mt-2 text-sm" style={{ color: c.textMuted }}>
@@ -805,7 +857,10 @@ function ServicesSection({ t, isFa }: { t: any; isFa: boolean }) {
               className="p-6 rounded-2xl text-center backdrop-blur-sm transition-all duration-300"
               style={{ background: c.bgCard, border: `1px solid ${c.border}` }}
             >
-              <service.icon className="w-10 h-10 mx-auto mb-4" style={{ color: c.primary }} />
+              <service.icon
+                className="w-10 h-10 mx-auto mb-4"
+                style={{ color: c.primary }}
+              />
               <h3 className="text-lg font-bold" style={{ color: c.text }}>
                 {service.title}
               </h3>
@@ -837,7 +892,10 @@ function TimelineSection({ t, isFa }: { t: any; isFa: boolean }) {
         transition={{ duration: 0.8 }}
       >
         <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-6xl font-black tracking-tight" style={{ color: c.text }}>
+          <h2
+            className="text-4xl md:text-6xl font-black tracking-tight"
+            style={{ color: c.text }}
+          >
             {t.timelineTitle}
           </h2>
           <p className="mt-2 text-sm" style={{ color: c.textMuted }}>
@@ -855,15 +913,15 @@ function TimelineSection({ t, isFa }: { t: any; isFa: boolean }) {
               transition={{ delay: i * 0.1 }}
               className="relative flex gap-6 pb-12 last:pb-0"
             >
-              {/* Timeline line */}
               {i < timeline.length - 1 && (
                 <div
                   className="absolute left-29px top-64px w-2px h-[calc(100%-60px)]"
-                  style={{ background: `linear-gradient(to bottom, ${c.primary}, ${c.secondary}50)` }}
+                  style={{
+                    background: `linear-gradient(to bottom, ${c.primary}, ${c.secondary}50)`,
+                  }}
                 />
               )}
 
-              {/* Year badge */}
               <div
                 className="shrink-0 w-14 h-14 rounded-full flex items-center justify-center text-sm font-bold z-10"
                 style={{
@@ -875,10 +933,12 @@ function TimelineSection({ t, isFa }: { t: any; isFa: boolean }) {
                 {item.year}
               </div>
 
-              {/* Content */}
               <div
                 className="flex-1 p-5 rounded-2xl backdrop-blur-sm transition-all duration-300 hover:-translate-y-1"
-                style={{ background: c.bgCard, border: `1px solid ${c.border}` }}
+                style={{
+                  background: c.bgCard,
+                  border: `1px solid ${c.border}`,
+                }}
               >
                 <div className="flex items-center gap-3">
                   <item.icon className="w-5 h-5" style={{ color: c.primary }} />
@@ -915,7 +975,10 @@ function FAQSection({ t, isFa }: { t: any; isFa: boolean }) {
         transition={{ duration: 0.8 }}
       >
         <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-6xl font-black tracking-tight" style={{ color: c.text }}>
+          <h2
+            className="text-4xl md:text-6xl font-black tracking-tight"
+            style={{ color: c.text }}
+          >
             {t.faqTitle}
           </h2>
           <p className="mt-2 text-sm" style={{ color: c.textMuted }}>
@@ -935,7 +998,10 @@ function FAQSection({ t, isFa }: { t: any; isFa: boolean }) {
               style={{ background: c.bgCard, border: `1px solid ${c.border}` }}
             >
               <div className="flex items-start gap-3">
-                <HelpCircle className="w-4 h-4 mt-0.5 shrink-0" style={{ color: c.primary }} />
+                <HelpCircle
+                  className="w-4 h-4 mt-0.5 shrink-0"
+                  style={{ color: c.primary }}
+                />
                 <div>
                   <div className="font-bold text-sm" style={{ color: c.text }}>
                     {item.q}
@@ -952,7 +1018,6 @@ function FAQSection({ t, isFa }: { t: any; isFa: boolean }) {
     </section>
   );
 }
-
 
 // ============================================================
 // MAIN COMPONENT
@@ -977,11 +1042,9 @@ export default function Home() {
 
   useEffect(() => {
     const saved = localStorage.getItem("preferredLang") as "en" | "fa" | null;
-// eslint-disable-next-line
+    // eslint-disable-next-line
     if (saved === "fa") setLang("fa");
-
-    // Simulate loading
-    const timer = setTimeout(() => setIsLoading(false), 2000);
+    const timer = setTimeout(() => setIsLoading(false), 1500);
     return () => clearTimeout(timer);
   }, []);
 
@@ -1010,7 +1073,9 @@ export default function Home() {
       style={{
         background: c.bg,
         color: c.text,
-        fontFamily: isFa ? "Vazirmatn, sans-serif" : "Geist, system-ui, sans-serif",
+        fontFamily: isFa
+          ? "Vazirmatn, sans-serif"
+          : "Geist, system-ui, sans-serif",
       }}
     >
       <StaticBackground />
@@ -1024,10 +1089,6 @@ export default function Home() {
         }}
       />
 
-      {/* ==========================================================
-          NAVIGATION
-          ========================================================== */}
-
       <nav className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-5xl">
         <div
           className="flex items-center justify-between px-6 py-3 rounded-2xl backdrop-blur-xl transition-all duration-500"
@@ -1037,7 +1098,10 @@ export default function Home() {
             boxShadow: scrolled ? "0 8px 32px rgba(0,0,0,0.5)" : "none",
           }}
         >
-          <span className="text-lg font-black tracking-tight" style={{ color: c.text }}>
+          <span
+            className="text-lg font-black tracking-tight"
+            style={{ color: c.text }}
+          >
             H<span style={{ color: c.primary }}>.</span>Parsa
           </span>
 
@@ -1062,7 +1126,11 @@ export default function Home() {
             <button
               onClick={toggleLang}
               className="px-3 py-1.5 rounded-xl text-xs font-medium transition-all duration-300 hover:scale-105"
-              style={{ background: c.bgCard, border: `1px solid ${c.border}`, color: c.textMuted }}
+              style={{
+                background: c.bgCard,
+                border: `1px solid ${c.border}`,
+                color: c.textMuted,
+              }}
             >
               {isFa ? "EN" : "FA"}
             </button>
@@ -1084,7 +1152,10 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               className="mt-2 p-4 rounded-2xl backdrop-blur-xl md:hidden"
-              style={{ background: "rgba(10,10,10,0.95)", border: `1px solid ${c.border}` }}
+              style={{
+                background: "rgba(10,10,10,0.95)",
+                border: `1px solid ${c.border}`,
+              }}
             >
               {navItems.map((section, index) => (
                 <a
@@ -1102,16 +1173,11 @@ export default function Home() {
         </AnimatePresence>
       </nav>
 
-      {/* ==========================================================
-          MAIN CONTENT
-          ========================================================== */}
-
       <main className="relative z-10 max-w-6xl mx-auto px-6 pt-28 pb-20">
-        {/* ==========================================================
-            HERO SECTION
-            ========================================================== */}
-
-        <section id="home" className="min-h-[70vh] flex flex-col lg:flex-row items-center gap-16 lg:gap-24 py-8">
+        <section
+          id="home"
+          className="min-h-[70vh] flex flex-col lg:flex-row items-center gap-16 lg:gap-24 py-8"
+        >
           <motion.div
             initial={{ opacity: 0, scale: 0.8, rotateY: 90 }}
             animate={{ opacity: 1, scale: 1, rotateY: 0 }}
@@ -1133,7 +1199,10 @@ export default function Home() {
 
             <div
               className="w-64 h-64 md:w-72 md:h-72 rounded-2xl overflow-hidden border-2 transition-transform duration-700 group-hover:scale-105"
-              style={{ borderColor: `${c.primary}40`, boxShadow: `0 0 60px ${c.glow}` }}
+              style={{
+                borderColor: `${c.primary}40`,
+                boxShadow: `0 0 60px ${c.glow}`,
+              }}
             >
               <Image
                 width={400}
@@ -1158,7 +1227,9 @@ export default function Home() {
             </div>
           </motion.div>
 
-          <div className={`flex-1 space-y-6 ${isFa ? "text-right" : "text-left"}`}>
+          <div
+            className={`flex-1 space-y-6 ${isFa ? "text-right" : "text-left"}`}
+          >
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -1167,18 +1238,25 @@ export default function Home() {
               <div className="flex items-center gap-4">
                 <div
                   className="w-12 h-px"
-                  style={{ background: `linear-gradient(to right, transparent, ${c.primary}50, transparent)` }}
+                  style={{
+                    background: `linear-gradient(to right, transparent, ${c.primary}50, transparent)`,
+                  }}
                 />
                 <p className="text-lg" style={{ color: c.textMuted }}>
                   {t.greeting}
                 </p>
                 <div
                   className="w-12 h-px"
-                  style={{ background: `linear-gradient(to right, transparent, ${c.primary}50, transparent)` }}
+                  style={{
+                    background: `linear-gradient(to right, transparent, ${c.primary}50, transparent)`,
+                  }}
                 />
               </div>
 
-              <h1 className="text-6xl md:text-8xl font-black tracking-tight leading-[1.05] mt-4" style={{ color: c.text }}>
+              <h1
+                className="text-6xl md:text-8xl font-black tracking-tight leading-[1.05] mt-4"
+                style={{ color: c.text }}
+              >
                 {t.name}
               </h1>
 
@@ -1197,7 +1275,11 @@ export default function Home() {
               className="space-y-2 max-w-xl"
             >
               {t.bio.map((line: string, i: number) => (
-                <p key={i} className="text-sm leading-relaxed" style={{ color: c.textMuted }}>
+                <p
+                  key={i}
+                  className="text-sm leading-relaxed"
+                  style={{ color: c.textMuted }}
+                >
                   {line}
                 </p>
               ))}
@@ -1218,16 +1300,25 @@ export default function Home() {
                     boxShadow: `0 0 40px ${c.glow}`,
                   }}
                 >
+                  <Mail className="inline w-4 h-4 mr-2" />
+                  Get in Touch
                   <div
                     className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700"
-                    style={{ background: "linear-gradient(to right, transparent, rgba(255,255,255,0.2), transparent)" }}
+                    style={{
+                      background:
+                        "linear-gradient(to right, transparent, rgba(255,255,255,0.2), transparent)",
+                    }}
                   />
                 </button>
               </a>
               <a href="#services">
                 <button
                   className="px-7 py-3.5 rounded-full text-sm font-medium transition-all duration-300"
-                  style={{ background: c.bgCard, border: `1px solid ${c.border}`, color: c.textMuted }}
+                  style={{
+                    background: c.bgCard,
+                    border: `1px solid ${c.border}`,
+                    color: c.textMuted,
+                  }}
                 >
                   <Code2 className="inline w-4 h-4 mr-2" />
                   {t.viewWork}
@@ -1248,7 +1339,10 @@ export default function Home() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="p-3 rounded-xl transition-all duration-300 hover:-translate-y-1 hover:scale-110"
-                  style={{ background: c.bgCard, border: `1px solid ${c.border}` }}
+                  style={{
+                    background: c.bgCard,
+                    border: `1px solid ${c.border}`,
+                  }}
                 >
                   <Icon className="w-5 h-5" style={{ color: c.textMuted }} />
                 </a>
@@ -1256,10 +1350,6 @@ export default function Home() {
             </motion.div>
           </div>
         </section>
-
-        {/* ==========================================================
-            MOTTO SECTION
-            ========================================================== */}
 
         <motion.section
           initial={{ opacity: 0, y: 30 }}
@@ -1269,7 +1359,10 @@ export default function Home() {
           className="py-20 relative"
         >
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="w-96 h-96 rounded-full blur-3xl opacity-20" style={{ background: c.primary }} />
+            <div
+              className="w-96 h-96 rounded-full blur-3xl opacity-20"
+              style={{ background: c.primary }}
+            />
           </div>
 
           <div className="relative text-center max-w-4xl mx-auto">
@@ -1278,12 +1371,18 @@ export default function Home() {
               style={{ background: c.bgCard, borderColor: c.border }}
             >
               <Sparkles className="w-4 h-4" style={{ color: c.primary }} />
-              <span className="text-xs tracking-[0.2em]" style={{ color: c.textMuted }}>
+              <span
+                className="text-xs tracking-[0.2em]"
+                style={{ color: c.textMuted }}
+              >
                 MOTTO
               </span>
             </div>
 
-            <h2 className="text-4xl md:text-6xl font-light leading-[1.2]" style={{ color: c.text }}>
+            <h2
+              className="text-4xl md:text-6xl font-light leading-[1.2]"
+              style={{ color: c.text }}
+            >
               Build with{" "}
               <span
                 className="font-bold bg-clip-text text-transparent"
@@ -1292,19 +1391,22 @@ export default function Home() {
                   WebkitBackgroundClip: "text",
                 }}
               >
-                <TypewriterNeon words={["purpose", "passion", "love", "creativity"]} speed={150} delay={2000} />
+                <TypewriterNeon
+                  words={["purpose", "passion", "love", "creativity"]}
+                  speed={150}
+                  delay={2000}
+                />
               </span>
             </h2>
 
-            <p className="mt-6 text-sm tracking-widest" style={{ color: c.textMuted }}>
+            <p
+              className="mt-6 text-sm tracking-widest"
+              style={{ color: c.textMuted }}
+            >
               — Hami Parsa • 2025
             </p>
           </div>
         </motion.section>
-
-        {/* ==========================================================
-            STATS SECTION
-            ========================================================== */}
 
         <motion.section
           initial={{ opacity: 0, y: 30 }}
@@ -1328,7 +1430,10 @@ export default function Home() {
               className="p-6 rounded-2xl text-center backdrop-blur-sm transition-all duration-300 hover:-translate-y-2"
               style={{ background: c.bgCard, border: `1px solid ${c.border}` }}
             >
-              <stat.icon className="w-6 h-6 mx-auto mb-2" style={{ color: c.primary }} />
+              <stat.icon
+                className="w-6 h-6 mx-auto mb-2"
+                style={{ color: c.primary }}
+              />
               <div className="text-2xl font-bold" style={{ color: c.text }}>
                 {stat.value}
               </div>
@@ -1339,10 +1444,6 @@ export default function Home() {
           ))}
         </motion.section>
 
-        {/* ==========================================================
-            SKILLS SECTION
-            ========================================================== */}
-
         <section id="skills" className="pt-20">
           <motion.div
             initial={{ opacity: 0 }}
@@ -1351,7 +1452,10 @@ export default function Home() {
             transition={{ duration: 0.8 }}
           >
             <div className="text-center mb-12">
-              <h2 className="text-4xl md:text-6xl font-black tracking-tight" style={{ color: c.text }}>
+              <h2
+                className="text-4xl md:text-6xl font-black tracking-tight"
+                style={{ color: c.text }}
+              >
                 {t.skillsTitle}
               </h2>
               <p className="mt-2 text-sm" style={{ color: c.textMuted }}>
@@ -1374,27 +1478,9 @@ export default function Home() {
           </motion.div>
         </section>
 
-        {/* ==========================================================
-            SERVICES SECTION
-            ========================================================== */}
-
         <ServicesSection t={t} isFa={isFa} />
-
-        {/* ==========================================================
-            TIMELINE SECTION
-            ========================================================== */}
-
         <TimelineSection t={t} isFa={isFa} />
-
-        {/* ==========================================================
-            FAQ SECTION
-            ========================================================== */}
-
         <FAQSection t={t} isFa={isFa} />
-
-        {/* ==========================================================
-            CONTACT SECTION
-            ========================================================== */}
 
         <section id="contact" className="pt-20">
           <motion.div
@@ -1404,28 +1490,35 @@ export default function Home() {
             transition={{ duration: 0.8 }}
           >
             <div className="text-center mb-12">
-              <h2 className="text-4xl md:text-6xl font-black tracking-tight" style={{ color: c.text }}>
+              <h2
+                className="text-4xl md:text-6xl font-black tracking-tight"
+                style={{ color: c.text }}
+              >
                 {t.contactTitle}
               </h2>
+              <p className="mt-2 text-sm" style={{ color: c.textMuted }}>
+                Lets work together
+              </p>
             </div>
-
             <ContactForm t={t} isFa={isFa} />
           </motion.div>
         </section>
       </main>
 
-      {/* ==========================================================
-          FOOTER
-          ========================================================== */}
-
-      <footer className="relative z-10 border-t" style={{ borderColor: c.border }}>
+      <footer
+        className="relative z-10 border-t"
+        style={{ borderColor: c.border }}
+      >
         <div className="max-w-6xl mx-auto px-6 py-10">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="flex items-center gap-4">
               <span className="text-lg font-black" style={{ color: c.text }}>
                 H<span style={{ color: c.primary }}>.</span>Parsa
               </span>
-              <span className="text-xs tracking-widest" style={{ color: c.textMuted }}>
+              <span
+                className="text-xs tracking-widest"
+                style={{ color: c.textMuted }}
+              >
                 FULL-STACK
               </span>
             </div>
@@ -1442,7 +1535,11 @@ export default function Home() {
                 {t.repository}
               </a>
               <span className="text-xs" style={{ color: c.textMuted }}>
-                {t.builtWith} <Heart className="inline w-3 h-3" style={{ color: c.primary }} />
+                {t.builtWith}{" "}
+                <Heart
+                  className="inline w-3 h-3"
+                  style={{ color: c.primary }}
+                />
               </span>
             </div>
 
@@ -1452,10 +1549,6 @@ export default function Home() {
           </div>
         </div>
       </footer>
-
-      {/* ==========================================================
-          SCROLL TO TOP
-          ========================================================== */}
 
       <AnimatePresence>
         {scrolled && (
@@ -1474,10 +1567,6 @@ export default function Home() {
           </motion.button>
         )}
       </AnimatePresence>
-
-      {/* ==========================================================
-          GLOBAL STYLES
-          ========================================================== */}
 
       <style jsx global>{`
         @keyframes spin-slow {
