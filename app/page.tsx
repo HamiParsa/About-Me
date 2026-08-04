@@ -67,8 +67,8 @@ const CONFIG = {
     glowGold: "rgba(245, 158, 11, 0.2)",
   },
   nav: {
-    en: ["Home", "Skills", "Services", "Timeline", "FAQ", "Tools", "Contact"],
-    fa: ["خانه", "مهارت‌ها", "خدمات", "تایم‌لاین", "سوالات", "ابزارها", "تماس"],
+    en: ["Home", "Skills", "Services", "Timeline", "FAQ", "Contact"],
+    fa: ["خانه", "مهارت‌ها", "خدمات", "تایم‌لاین", "سوالات", "تماس"],
   },
   content: {
     en: {
@@ -308,10 +308,6 @@ const CONFIG = {
         a: "قطعاً. نگهداری، بروزرسانی و پشتیبانی بعد از راه‌اندازی رو ارائه می‌دم.",
       },
     ],
-  },
-  tools: {
-    en: ["VS Code", "Figma", "Docker", "Postman", "Git", "Vercel", "Supabase", "Redis"],
-    fa: ["VS Code", "Figma", "Docker", "Postman", "Git", "Vercel", "Supabase", "Redis"],
   },
   social: [
     { icon: Github, href: "https://github.com/HamiParsa" },
@@ -946,45 +942,6 @@ function FAQSection({ t, isFa }: { t: any; isFa: boolean }) {
   );
 }
 
-// ============================================================
-// TOOLS SECTION
-// ============================================================
-// eslint-disable-next-line
-function ToolsSection({ t, isFa }: { t: any; isFa: boolean }) {
-  const c = CONFIG.colors;
-  const tools = isFa ? CONFIG.tools.fa : CONFIG.tools.en;
-
-  return (
-    <section id="tools" className="pt-20">
-      <motion.div
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.8 }}
-      >
-        <div className="flex flex-wrap justify-center gap-3 max-w-3xl mx-auto">
-          {tools.map((tool, i) => (
-            <motion.span
-              key={i}
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.03 }}
-              className="px-5 py-2.5 rounded-full text-sm font-medium backdrop-blur-sm transition-all duration-300 hover:scale-105"
-              style={{
-                background: c.bgCard,
-                border: `1px solid ${c.border}`,
-                color: c.textSecondary,
-              }}
-            >
-              {tool}
-            </motion.span>
-          ))}
-        </div>
-      </motion.div>
-    </section>
-  );
-}
 
 // ============================================================
 // MAIN COMPONENT
@@ -1004,8 +961,8 @@ export default function Home() {
   const isFa = lang === "fa";
   const navItems = isFa ? CONFIG.nav.fa : CONFIG.nav.en;
   const navHrefs = isFa
-    ? ["#home", "#skills", "#services", "#timeline", "#faq", "#tools", "#contact"]
-    : ["#home", "#skills", "#services", "#timeline", "#faq", "#tools", "#contact"];
+    ? ["#home", "#skills", "#services", "#timeline", "#faq", "#contact"]
+    : ["#home", "#skills", "#services", "#timeline", "#faq", "#contact"];
 
   useEffect(() => {
     const saved = localStorage.getItem("preferredLang") as "en" | "fa" | null;
@@ -1423,12 +1380,6 @@ export default function Home() {
             ========================================================== */}
 
         <FAQSection t={t} isFa={isFa} />
-
-        {/* ==========================================================
-            TOOLS SECTION
-            ========================================================== */}
-
-        <ToolsSection t={t} isFa={isFa} />
 
         {/* ==========================================================
             CONTACT SECTION
