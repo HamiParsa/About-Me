@@ -628,132 +628,174 @@ function ContactForm({ t }: { t: any; isFa: boolean }) {
   };
 
   return (
-    <form onSubmit={onSubmit} className="max-w-2xl mx-auto space-y-5">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-        <div>
-          <label className="block text-xs font-medium mb-1.5" style={{ color: c.textMuted }}>
-            {t.nameLabel}
-          </label>
-          <div className="relative">
-            <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: c.textMuted }} />
-            <input
-              name="name"
-              type="text"
-              value={form.name}
-              onChange={handleChange}
-              required
-              className="w-full pl-9 pr-4 py-3 rounded-xl text-sm outline-none transition-all duration-300"
-              style={{
-                background: c.bgCard,
-                border: `1px solid ${c.border}`,
-                color: c.text,
-              }}
-              placeholder={t.nameLabel}
-            />
-          </div>
-        </div>
-
-        <div>
-          <label className="block  text-xs font-medium mb-1.5" style={{ color: c.textMuted }}>
-            {t.phoneLabel}
-          </label>
-          <div className="relative">
-            <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: c.textMuted }} />
-            <input
-              name="number"
-              type="tel"
-              value={form.number}
-              onChange={handleChange}
-              required
-              className="w-full pl-9 pr-4 py-3 rounded-xl text-sm outline-none transition-all duration-300"
-              style={{
-                background: c.bgCard,
-                border: `1px solid ${c.border}`,
-                color: c.text,
-              }}
-              placeholder={t.phoneLabel}
-            />
-          </div>
-        </div>
+    <form onSubmit={onSubmit} className="max-w-2xl mx-auto space-y-6">
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+    <div className="group">
+      <label className="block text-xs font-medium mb-1.5 transition-colors duration-300 group-focus-within:text-orange-400" style={{ color: c.textMuted }}>
+        {t.nameLabel}
+      </label>
+      <div className="relative">
+        <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 transition-colors duration-300 group-focus-within:text-orange-400" style={{ color: c.textMuted }} />
+        <input
+          name="name"
+          type="text"
+          value={form.name}
+          onChange={handleChange}
+          required
+          className="w-full pl-9 pr-4 py-3.5 rounded-xl text-sm outline-none transition-all duration-300 bg-white/5 hover:bg-white/10 focus:bg-white/10 border-2"
+          style={{
+            background: c.bgCard,
+            border: `2px solid ${c.border}`,
+            color: c.text,
+          }}
+          onFocus={(e) => {
+            e.target.style.borderColor = "#FB923C";
+            e.target.style.boxShadow = "0 0 0 4px rgba(251, 146, 60, 0.1)";
+          }}
+          onBlur={(e) => {
+            e.target.style.borderColor = c.border;
+            e.target.style.boxShadow = "none";
+          }}
+          placeholder={t.nameLabel}
+        />
       </div>
+    </div>
 
-      <div>
-        <label className="block text-xs font-medium mb-1.5" style={{ color: c.textMuted }}>
-          {t.messageLabel}
-        </label>
-        <div className="relative">
-          <MessageSquare className="absolute left-3 top-3.5 w-4 h-4" style={{ color: c.textMuted }} />
-          <textarea
-            name="message"
-            value={form.message}
-            onChange={handleChange}
-            required
-            rows={4}
-            className="w-full pl-9 pr-4 py-3 rounded-xl text-sm outline-none transition-all duration-300 resize-none"
-            style={{
-              background: c.bgCard,
-              border: `1px solid ${c.border}`,
-              color: c.text,
-            }}
-            placeholder={t.messageLabel}
-          />
-        </div>
+    <div className="group">
+      <label className="block text-xs font-medium mb-1.5 transition-colors duration-300 group-focus-within:text-orange-400" style={{ color: c.textMuted }}>
+        {t.phoneLabel}
+      </label>
+      <div className="relative">
+        <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 transition-colors duration-300 group-focus-within:text-orange-400" style={{ color: c.textMuted }} />
+        <input
+          name="number"
+          type="tel"
+          value={form.number}
+          onChange={handleChange}
+          required
+          className="w-full pl-9 pr-4 py-3.5 rounded-xl text-sm outline-none transition-all duration-300 bg-white/5 hover:bg-white/10 focus:bg-white/10 border-2"
+          style={{
+            background: c.bgCard,
+            border: `2px solid ${c.border}`,
+            color: c.text,
+          }}
+          onFocus={(e) => {
+            e.target.style.borderColor = "#FB923C";
+            e.target.style.boxShadow = "0 0 0 4px rgba(251, 146, 60, 0.1)";
+          }}
+          onBlur={(e) => {
+            e.target.style.borderColor = c.border;
+            e.target.style.boxShadow = "none";
+          }}
+          placeholder={t.phoneLabel}
+        />
       </div>
+    </div>
+  </div>
 
-      <button
-        type="submit"
-        disabled={isSubmitting}
-        className="relative w-full py-3.5 rounded-xl font-bold transition-all duration-300 overflow-hidden group"
+  <div className="group">
+    <label className="block text-xs font-medium mb-1.5 transition-colors duration-300 group-focus-within:text-orange-400" style={{ color: c.textMuted }}>
+      {t.messageLabel}
+    </label>
+    <div className="relative">
+      <MessageSquare className="absolute left-3 top-3.5 w-4 h-4 transition-colors duration-300 group-focus-within:text-orange-400" style={{ color: c.textMuted }} />
+      <textarea
+        name="message"
+        value={form.message}
+        onChange={handleChange}
+        required
+        rows={4}
+        className="w-full pl-9 pr-4 py-3.5 rounded-xl text-sm outline-none transition-all duration-300 bg-white/5 hover:bg-white/10 focus:bg-white/10 resize-none border-2"
         style={{
-          background: `linear-gradient(135deg, ${c.primary}, ${c.secondary})`,
-          color: "#0A0A0A",
-          boxShadow: `0 0 40px ${c.glow}`,
+          background: c.bgCard,
+          border: `2px solid ${c.border}`,
+          color: c.text,
+        }}
+        onFocus={(e) => {
+          e.target.style.borderColor = "#FB923C";
+          e.target.style.boxShadow = "0 0 0 4px rgba(251, 146, 60, 0.1)";
+        }}
+        onBlur={(e) => {
+          e.target.style.borderColor = c.border;
+          e.target.style.boxShadow = "none";
+        }}
+        placeholder={t.messageLabel}
+      />
+    </div>
+  </div>
+
+  <motion.button
+    type="submit"
+    disabled={isSubmitting}
+    whileHover={{ scale: 1.01 }}
+    whileTap={{ scale: 0.99 }}
+    className="relative w-full py-4 rounded-xl font-bold transition-all duration-300 overflow-hidden group"
+    style={{
+      background: `linear-gradient(135deg, ${c.primary}, ${c.secondary})`,
+      color: "#0A0A0A",
+      boxShadow: `0 0 40px ${c.glow}`,
+      opacity: isSubmitting ? 0.7 : 1,
+      cursor: isSubmitting ? "not-allowed" : "pointer",
+    }}
+  >
+    {/* Shine effect */}
+    <div
+      className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700"
+      style={{ background: "linear-gradient(to right, transparent, rgba(255,255,255,0.3), transparent)" }}
+    />
+    
+    {/* Content */}
+    <div className="relative flex items-center justify-center gap-2.5">
+      {isSubmitting ? (
+        <>
+          <Loader2 className="w-5 h-5 animate-spin" />
+          <span>{t.sending}</span>
+        </>
+      ) : (
+        <>
+          <span>{t.submit}</span>
+          <Send className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-0.5 transition-transform duration-300" />
+        </>
+      )}
+    </div>
+  </motion.button>
+
+  {/* Status Messages */}
+  <AnimatePresence>
+    {status === "success" && (
+      <motion.div
+        initial={{ opacity: 0, y: 10, scale: 0.95 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        exit={{ opacity: 0, y: -10, scale: 0.95 }}
+        className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-medium"
+        style={{
+          background: "rgba(34, 197, 94, 0.1)",
+          border: "1px solid rgba(34, 197, 94, 0.2)",
+          color: "#4ADE80",
         }}
       >
-        <div
-          className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700"
-          style={{ background: "linear-gradient(to right, transparent, rgba(255,255,255,0.2), transparent)" }}
-        />
-        <div className="relative flex items-center justify-center gap-2">
-          {isSubmitting ? (
-            <>
-              <Loader2 className="w-5 h-5 animate-spin" />
-              {t.sending}
-            </>
-          ) : (
-            <>
-              {t.submit}
-              <Send className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </>
-          )}
-        </div>
-      </button>
-
-      <AnimatePresence>
-        {status === "success" && (
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            className="text-center text-sm"
-            style={{ color: "#22c55e" }}
-          >
-            {t.success}
-          </motion.div>
-        )}
-        {status === "error" && (
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            className="text-center text-sm"
-            style={{ color: "#ef4444" }}
-          >
-            {t.error}
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </form>
+        <FaCheckCircle className="w-4 h-4" />
+        {t.success}
+      </motion.div>
+    )}
+    {status === "error" && (
+      <motion.div
+        initial={{ opacity: 0, y: 10, scale: 0.95 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        exit={{ opacity: 0, y: -10, scale: 0.95 }}
+        className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-medium"
+        style={{
+          background: "rgba(239, 68, 68, 0.1)",
+          border: "1px solid rgba(239, 68, 68, 0.2)",
+          color: "#F87171",
+        }}
+      >
+        <FaTimes className="w-4 h-4" />
+        {t.error}
+      </motion.div>
+    )}
+  </AnimatePresence>
+</form>
   );
 }
 
