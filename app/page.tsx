@@ -92,7 +92,7 @@ const CONFIG = {
       faqSub: "Answers to common questions",
       toolsTitle: "Daily Tools",
       toolsSub: "Tools I work with daily",
-      contactTitle: "Let's create something amazing",
+      contactTitle: "Get in Touch",
       nameLabel: "Your Name",
       phoneLabel: "Phone Number",
       messageLabel: "Message",
@@ -101,7 +101,6 @@ const CONFIG = {
       success: "Message sent successfully! ✓",
       error: "Something went wrong. Please try again.",
       viewWork: "View Work",
-      getInTouch: "Get in Touch",
       motto: "Build with purpose. Code with passion.",
       builtWith: "Built with",
       openSource: "OPEN SOURCE",
@@ -144,7 +143,7 @@ const CONFIG = {
       faqSub: "پاسخ به سوالات پرتکرار",
       toolsTitle: "ابزارهای روزمره",
       toolsSub: "ابزارهایی که هر روز باهاشون کار می‌کنم",
-      contactTitle: "بیا یه چیزی خفن بسازیم",
+      contactTitle: "در ارتباط باش",
       nameLabel: "نام شما",
       phoneLabel: "شماره تماس",
       messageLabel: "پیام",
@@ -153,7 +152,6 @@ const CONFIG = {
       success: "پیام با موفقیت ارسال شد ✓",
       error: "مشکلی پیش آمد. دوباره امتحان کنید.",
       viewWork: "مشاهده کارها",
-      getInTouch: "در ارتباط باش",
       motto: "با هدف بساز. با شوق کدنویس.",
       builtWith: "ساخته شده با",
       openSource: "متن‌باز",
@@ -664,7 +662,7 @@ function ContactForm({ t }: { t: any; isFa: boolean }) {
         </div>
 
         <div>
-          <label className="block text-xs font-medium mb-1.5" style={{ color: c.textMuted }}>
+          <label className="block  text-xs font-medium mb-1.5" style={{ color: c.textMuted }}>
             {t.phoneLabel}
           </label>
           <div className="relative">
@@ -1265,10 +1263,6 @@ export default function Home() {
                     boxShadow: `0 0 40px ${c.glow}`,
                   }}
                 >
-                  <span className="relative z-10 flex items-center gap-2">
-                    <Mail className="w-4 h-4" />
-                    {t.getInTouch}
-                  </span>
                   <div
                     className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700"
                     style={{ background: "linear-gradient(to right, transparent, rgba(255,255,255,0.2), transparent)" }}
@@ -1464,9 +1458,6 @@ export default function Home() {
               <h2 className="text-4xl md:text-6xl font-black tracking-tight" style={{ color: c.text }}>
                 {t.contactTitle}
               </h2>
-              <p className="mt-2 text-sm" style={{ color: c.textMuted }}>
-                {t.getInTouch}
-              </p>
             </div>
 
             <ContactForm t={t} isFa={isFa} />
