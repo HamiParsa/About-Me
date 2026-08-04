@@ -90,8 +90,6 @@ const CONFIG = {
       timelineSub: "My path to becoming a developer",
       faqTitle: "FAQ",
       faqSub: "Answers to common questions",
-      toolsTitle: "Daily Tools",
-      toolsSub: "Tools I work with daily",
       contactTitle: "Get in Touch",
       nameLabel: "Your Name",
       phoneLabel: "Phone Number",
@@ -141,8 +139,6 @@ const CONFIG = {
       timelineSub: "مسیر من برای تبدیل شدن به یک توسعه‌دهنده",
       faqTitle: "سوالات متداول",
       faqSub: "پاسخ به سوالات پرتکرار",
-      toolsTitle: "ابزارهای روزمره",
-      toolsSub: "ابزارهایی که هر روز باهاشون کار می‌کنم",
       contactTitle: "در ارتباط باش",
       nameLabel: "نام شما",
       phoneLabel: "شماره تماس",
@@ -966,15 +962,6 @@ function ToolsSection({ t, isFa }: { t: any; isFa: boolean }) {
         viewport={{ once: true }}
         transition={{ duration: 0.8 }}
       >
-        <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-6xl font-black tracking-tight" style={{ color: c.text }}>
-            {t.toolsTitle}
-          </h2>
-          <p className="mt-2 text-sm" style={{ color: c.textMuted }}>
-            {t.toolsSub}
-          </p>
-        </div>
-
         <div className="flex flex-wrap justify-center gap-3 max-w-3xl mx-auto">
           {tools.map((tool, i) => (
             <motion.span
