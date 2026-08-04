@@ -220,25 +220,25 @@ const CONFIG = {
   timeline: {
     en: [
       {
-        year: "2021",
+        year: "1",
         title: "Started Coding",
         desc: "Began learning HTML, CSS, and JavaScript fundamentals.",
         icon: Code2,
       },
       {
-        year: "2022",
+        year: "2",
         title: "React & Frontend",
         desc: "Mastered React, Next.js, and modern frontend development.",
         icon: DiReact,
       },
       {
-        year: "2023",
+        year: "3",
         title: "Backend & Databases",
         desc: "Learned Node.js, Python, Django, MongoDB, and SQL databases.",
         icon: Server,
       },
       {
-        year: "2024",
+        year: "4",
         title: "Full-Stack Professional",
         desc: "Built real-world applications and started freelancing.",
         icon: Crown,
@@ -246,25 +246,25 @@ const CONFIG = {
     ],
     fa: [
       {
-        year: "۲۰۲۱",
+        year: "۱",
         title: "شروع کدنویسی",
         desc: "شروع یادگیری HTML، CSS و مبانی JavaScript",
         icon: Code2,
       },
       {
-        year: "۲۰۲۲",
+        year: "۲",
         title: "React و فرانت‌اند",
         desc: "تسلط بر React، Next.js و توسعه فرانت‌اند مدرن",
         icon: DiReact,
       },
       {
-        year: "۲۰۲۳",
+        year: "۳",
         title: "بک‌اند و پایگاه داده",
         desc: "یادگیری Node.js، Python، Django، MongoDB و پایگاه داده",
         icon: Server,
       },
       {
-        year: "۲۰۲۴",
+        year: "۴",
         title: "توسعه‌دهنده فول‌استک حرفه‌ای",
         desc: "ساخت اپلیکیشن‌های واقعی و شروع فریلنسینگ",
         icon: Crown,
