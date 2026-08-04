@@ -1,1537 +1,621 @@
 "use client";
 
+// ============================================================
+// IMPORTS
+// ============================================================
+
 import { useState, useEffect, useRef } from "react";
 import emailjs from "emailjs-com";
 import {
-  Linkedin,
   Github,
+  Linkedin,
   Send,
-  Globe,
-  ArrowRightLeft,
-  User,
+  Mail,
   Phone,
+  User,
   MessageSquare,
-  Instagram,
-  Sparkles,
-  Zap,
-  ChevronUp,
   Code2,
+  Briefcase,
+  Users,
+  Award,
+  Clock,
+  Heart,
+  ChevronUp,
+  Sparkles,
   Menu,
   X,
+  Globe,
   Layout,
   Server,
-  Database,
-  Cloud,
+  HelpCircle,
+  Crown,
+  Loader2,
 } from "lucide-react";
+import { motion, AnimatePresence, useScroll, useSpring } from "framer-motion";
+import Image from "next/image";
 import { DiJavascript1, DiReact, DiGit } from "react-icons/di";
-import { TbBrandTailwind, TbBrandNextjs } from "react-icons/tb";
+import { TbBrandTailwind } from "react-icons/tb";
 import { RiSupabaseLine } from "react-icons/ri";
 import { BiLogoMongodb } from "react-icons/bi";
 import { FaNodeJs, FaPython } from "react-icons/fa";
-import { SiDjango, SiSqlite, SiExpress, SiTypescript } from "react-icons/si";
-import { motion, AnimatePresence, useScroll, useSpring } from "framer-motion";
-import Image from "next/image";
+import {SiExpress } from "react-icons/si";
 
-// ──────────────────────────────────────────────────────────────────────────────
-// SECTION 1: Theme Configuration
-// ──────────────────────────────────────────────────────────────────────────────
+// ============================================================
+// CONFIGURATION - CRIMSON GOLD THEME
+// ============================================================
 
-const THEME = {
-  // Primary palette - Cyberpunk Neon
+const CONFIG = {
   colors: {
-    primary: "#8B5CF6", // Purple neon
-    primaryDark: "#6D28D9",
-    secondary: "#06B6D4", // Cyan electric
-    accent: "#F472B6", // Pink neon
-    accent2: "#34D399", // Emerald
-    bg: "#0A0A0F",
-    bgCard: "rgba(255, 255, 255, 0.05)",
-    bgCardHover: "rgba(255, 255, 255, 0.08)",
-    text: "#E2E8F0",
-    textMuted: "#94A3B8",
-    border: "rgba(139, 92, 246, 0.2)",
-    glow: "rgba(139, 92, 246, 0.15)",
-    glowSecondary: "rgba(6, 182, 212, 0.15)",
-    glowPink: "rgba(244, 114, 182, 0.15)",
+    bg: "#0A0A0A",
+    bgSecondary: "#121212",
+    bgCard: "rgba(255,255,255,0.04)",
+    bgCardHover: "rgba(255,255,255,0.08)",
+    text: "#FFFFFF",
+    textPrimary: "#F5F5F5",
+    textSecondary: "#D4D4D4",
+    textMuted: "#A3A3A3",
+    textDim: "#737373",
+    primary: "#DC2626", // Crimson Red
+    primaryDark: "#991B1B",
+    primaryLight: "#EF4444",
+    secondary: "#F59E0B", // Gold
+    secondaryLight: "#FBBF24",
+    accent: "#FCD34D", // Light Gold
+    border: "rgba(255,255,255,0.06)",
+    borderLight: "rgba(255,255,255,0.1)",
+    glow: "rgba(220, 38, 38, 0.2)",
+    glowGold: "rgba(245, 158, 11, 0.2)",
   },
-  // Glassmorphism settings
-  glass: {
-    backdrop: "blur(20px)",
-    bg: "rgba(255, 255, 255, 0.05)",
-    border: "rgba(255, 255, 255, 0.08)",
-    shadow: "0 8px 32px rgba(0, 0, 0, 0.4)",
+  nav: {
+    en: ["Home", "Skills", "Services", "Timeline", "FAQ", "Tools", "Contact"],
+    fa: ["خانه", "مهارت‌ها", "خدمات", "تایم‌لاین", "سوالات", "ابزارها", "تماس"],
   },
-  // Animation speeds
-  animation: {
-    fast: 0.3,
-    normal: 0.5,
-    slow: 0.8,
+  content: {
+    en: {
+      greeting: "Hey, I'm",
+      name: "Hami Parsa",
+      title: "Full-Stack Developer",
+      titleWords: ["Developer", "Designer", "Creator", "Innovator"],
+      age: "20",
+      bio: [
+        "Building elegant, high-performance applications with modern web technologies.",
+        "Passionate about clean code, AI integration, and pushing the boundaries.",
+        "I believe in writing code that tells a story and solves real problems.",
+      ],
+      status: "Open to work",
+      skillsTitle: "Skills & Expertise",
+      servicesTitle: "My Services",
+      servicesSub: "What I can do for you",
+      timelineTitle: "Learning Journey",
+      timelineSub: "My path to becoming a developer",
+      faqTitle: "FAQ",
+      faqSub: "Answers to common questions",
+      toolsTitle: "Daily Tools",
+      toolsSub: "Tools I work with daily",
+      contactTitle: "Let's create something amazing",
+      nameLabel: "Your Name",
+      phoneLabel: "Phone Number",
+      messageLabel: "Message",
+      submit: "Send Message",
+      sending: "Sending...",
+      success: "Message sent successfully! ✓",
+      error: "Something went wrong. Please try again.",
+      viewWork: "View Work",
+      getInTouch: "Get in Touch",
+      motto: "Build with purpose. Code with passion.",
+      builtWith: "Built with",
+      openSource: "OPEN SOURCE",
+      repository: "View Repository",
+      quickActions: "Quick Actions",
+      viewGitHub: "View GitHub",
+      viewLinkedIn: "View LinkedIn",
+      statusTitle: "Current Status",
+      statusActive: "Available for projects",
+      techStack: "Tech Stack",
+      allSkills: "All Skills",
+      viewProject: "View Project",
+      viewCode: "View Code",
+      loading: "Loading...",
+      stats: {
+        projects: "Projects",
+        experience: "Experience",
+        clients: "Clients",
+        commits: "Commits",
+      },
+    },
+    fa: {
+      greeting: "سلام، من",
+      name: "حامی پارسا",
+      title: "توسعه‌دهنده فول‌استک",
+      titleWords: ["توسعه‌دهنده", "طراح", "خلاق", "نوآور"],
+      age: "۲۰",
+      bio: [
+        "ساخت اپلیکیشن‌های زیبا و با عملکرد بالا با تکنولوژی‌های مدرن.",
+        "علاقه‌مند به کدنویسی تمیز، هوش مصنوعی و عبور از مرزهای ممکن.",
+        "به کدی که داستان بگه و مشکلات واقعی رو حل کنه باور دارم.",
+      ],
+      status: "آماده همکاری",
+      skillsTitle: "مهارت‌ها و تخصص",
+      servicesTitle: "خدمات من",
+      servicesSub: "چیزی که می‌تونم برات انجام بدم",
+      timelineTitle: "مسیر یادگیری",
+      timelineSub: "مسیر من برای تبدیل شدن به یک توسعه‌دهنده",
+      faqTitle: "سوالات متداول",
+      faqSub: "پاسخ به سوالات پرتکرار",
+      toolsTitle: "ابزارهای روزمره",
+      toolsSub: "ابزارهایی که هر روز باهاشون کار می‌کنم",
+      contactTitle: "بیا یه چیزی خفن بسازیم",
+      nameLabel: "نام شما",
+      phoneLabel: "شماره تماس",
+      messageLabel: "پیام",
+      submit: "ارسال پیام",
+      sending: "در حال ارسال...",
+      success: "پیام با موفقیت ارسال شد ✓",
+      error: "مشکلی پیش آمد. دوباره امتحان کنید.",
+      viewWork: "مشاهده کارها",
+      getInTouch: "در ارتباط باش",
+      motto: "با هدف بساز. با شوق کدنویس.",
+      builtWith: "ساخته شده با",
+      openSource: "متن‌باز",
+      repository: "مشاهده ریپازیتوری",
+      quickActions: "دسترسی سریع",
+      viewGitHub: "مشاهده گیت‌هاب",
+      viewLinkedIn: "مشاهده لینکدین",
+      statusTitle: "وضعیت فعلی",
+      statusActive: "در دسترس برای پروژه",
+      techStack: "تکنولوژی‌ها",
+      allSkills: "همه مهارت‌ها",
+      viewProject: "مشاهده پروژه",
+      viewCode: "مشاهده کد",
+      loading: "در حال بارگذاری...",
+      stats: {
+        projects: "پروژه",
+        experience: "تجربه",
+        clients: "مشتری",
+        commits: "کامیت",
+      },
+    },
   },
+  skills: [
+    { name: "JavaScript / TypeScript", percent: 88, icon: DiJavascript1, color: "#F7DF1E" },
+    { name: "React / Next.js", percent: 85, icon: DiReact, color: "#61DAFB" },
+    { name: "Tailwind CSS", percent: 92, icon: TbBrandTailwind, color: "#06B6D4" },
+    { name: "Node.js", percent: 80, icon: FaNodeJs, color: "#339933" },
+    { name: "Express.js", percent: 85, icon: SiExpress, color: "#FFFFFF" },
+    { name: "Python / Django", percent: 75, icon: FaPython, color: "#3776AB" },
+    { name: "MongoDB", percent: 85, icon: BiLogoMongodb, color: "#47A248" },
+    { name: "Supabase", percent: 72, icon: RiSupabaseLine, color: "#3ECF8E" },
+    { name: "Git / GitHub", percent: 94, icon: DiGit, color: "#F05032" },
+  ],
+  services: {
+    en: [
+      {
+        title: "Web Development",
+        desc: "Full-stack web applications with Next.js, React, Node.js, and Django.",
+        icon: Code2,
+      },
+      {
+        title: "UI/UX Design",
+        desc: "Beautiful, responsive interfaces with Tailwind CSS and Framer Motion.",
+        icon: Layout,
+      },
+      {
+        title: "API & Backend",
+        desc: "RESTful APIs, authentication, databases, and cloud deployment.",
+        icon: Server,
+      },
+    ],
+    fa: [
+      {
+        title: "توسعه وب",
+        desc: "اپلیکیشن‌های فول‌استک با Next.js، React، Node.js و Django",
+        icon: Code2,
+      },
+      {
+        title: "طراحی UI/UX",
+        desc: "رابط‌های زیبا و ریسپانسیو با Tailwind CSS و Framer Motion",
+        icon: Layout,
+      },
+      {
+        title: "API و بک‌اند",
+        desc: "APIهای RESTful، احراز هویت، پایگاه داده و استقرار در ابر",
+        icon: Server,
+      },
+    ],
+  },
+  timeline: {
+    en: [
+      {
+        year: "2021",
+        title: "Started Coding",
+        desc: "Began learning HTML, CSS, and JavaScript fundamentals.",
+        icon: Code2,
+      },
+      {
+        year: "2022",
+        title: "React & Frontend",
+        desc: "Mastered React, Next.js, and modern frontend development.",
+        icon: DiReact,
+      },
+      {
+        year: "2023",
+        title: "Backend & Databases",
+        desc: "Learned Node.js, Python, Django, MongoDB, and SQL databases.",
+        icon: Server,
+      },
+      {
+        year: "2024",
+        title: "Full-Stack Professional",
+        desc: "Built real-world applications and started freelancing.",
+        icon: Crown,
+      },
+    ],
+    fa: [
+      {
+        year: "۲۰۲۱",
+        title: "شروع کدنویسی",
+        desc: "شروع یادگیری HTML، CSS و مبانی JavaScript",
+        icon: Code2,
+      },
+      {
+        year: "۲۰۲۲",
+        title: "React و فرانت‌اند",
+        desc: "تسلط بر React، Next.js و توسعه فرانت‌اند مدرن",
+        icon: DiReact,
+      },
+      {
+        year: "۲۰۲۳",
+        title: "بک‌اند و پایگاه داده",
+        desc: "یادگیری Node.js، Python، Django، MongoDB و پایگاه داده",
+        icon: Server,
+      },
+      {
+        year: "۲۰۲۴",
+        title: "توسعه‌دهنده فول‌استک حرفه‌ای",
+        desc: "ساخت اپلیکیشن‌های واقعی و شروع فریلنسینگ",
+        icon: Crown,
+      },
+    ],
+  },
+  faq: {
+    en: [
+      {
+        q: "What technologies do you work with?",
+        a: "Next.js, React, TypeScript, Tailwind, Node.js, Python, Django, MongoDB, Supabase, and more.",
+      },
+      {
+        q: "Do you work remotely?",
+        a: "Yes! I'm available for remote work worldwide.",
+      },
+      {
+        q: "How long does a typical project take?",
+        a: "It depends on scope. Simple site: 1-2 weeks. Complex apps: 4-8 weeks.",
+      },
+      {
+        q: "Do you offer post-launch support?",
+        a: "Absolutely. I provide maintenance, updates, and support after launch.",
+      },
+    ],
+    fa: [
+      {
+        q: "با چه تکنولوژی‌هایی کار می‌کنی؟",
+        a: "Next.js، React، TypeScript، Tailwind، Node.js، Python، Django، MongoDB، Supabase و بیشتر.",
+      },
+      {
+        q: "دورکاری هم قبول می‌کنی؟",
+        a: "بله! برای کارهای دورکاری در سراسر جهان در دسترس هستم.",
+      },
+      {
+        q: "هر پروژه چقدر زمان می‌بره؟",
+        a: "به بزرگی پروژه بستگی داره. سایت ساده: ۱-۲ هفته. اپلیکیشن‌های پیچیده: ۴-۸ هفته.",
+      },
+      {
+        q: "پشتیبانی بعد از راه‌اندازی هم داری؟",
+        a: "قطعاً. نگهداری، بروزرسانی و پشتیبانی بعد از راه‌اندازی رو ارائه می‌دم.",
+      },
+    ],
+  },
+  tools: {
+    en: ["VS Code", "Figma", "Docker", "Postman", "Git", "Vercel", "Supabase", "Redis"],
+    fa: ["VS Code", "Figma", "Docker", "Postman", "Git", "Vercel", "Supabase", "Redis"],
+  },
+  social: [
+    { icon: Github, href: "https://github.com/HamiParsa" },
+    { icon: Linkedin, href: "https://linkedin.com/in/HamiParsa" },
+    { icon: Send, href: "https://t.me/HamiParsa" },
+    { icon: Globe, href: "https://hamiparsa.github.io/Profile-Bio/" },
+  ],
 };
 
-// ──────────────────────────────────────────────────────────────────────────────
-// SECTION 2: Particle System (Background)
-// ──────────────────────────────────────────────────────────────────────────────
+// ============================================================
+// LOADING SCREEN
+// ============================================================
 
-/**
- * Particle component for the animated background
- * Creates floating neon dots with varying sizes and speeds
- */
-function ParticleBackground() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const particles = useRef<Array<{
-    x: number;
-    y: number;
-    size: number;
-    speedX: number;
-    speedY: number;
-    opacity: number;
-    color: string;
-  }>>([]);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    // Set canvas size
-    const resize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    };
-    resize();
-    window.addEventListener("resize", resize);
-
-    // Create particles
-    const colors = [
-      THEME.colors.primary,
-      THEME.colors.secondary,
-      THEME.colors.accent,
-      THEME.colors.accent2,
-    ];
-    
-    particles.current = Array.from({ length: 80 }, () => ({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      size: Math.random() * 3 + 1,
-      speedX: (Math.random() - 0.5) * 0.5,
-      speedY: (Math.random() - 0.5) * 0.5,
-      opacity: Math.random() * 0.5 + 0.1,
-      color: colors[Math.floor(Math.random() * colors.length)],
-    }));
-
-    let animationId: number;
-
-    const animate = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      particles.current.forEach((p) => {
-        // Update position
-        p.x += p.speedX;
-        p.y += p.speedY;
-
-        // Wrap around edges
-        if (p.x < 0) p.x = canvas.width;
-        if (p.x > canvas.width) p.x = 0;
-        if (p.y < 0) p.y = canvas.height;
-        if (p.y > canvas.height) p.y = 0;
-
-        // Draw particle with glow
-        const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * 4);
-        gradient.addColorStop(0, p.color + "80");
-        gradient.addColorStop(1, p.color + "00");
-        
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size * 4, 0, Math.PI * 2);
-        ctx.fillStyle = gradient;
-        ctx.fill();
-
-        // Core dot
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = p.color;
-        ctx.globalAlpha = p.opacity;
-        ctx.fill();
-        ctx.globalAlpha = 1;
-
-        // Connect nearby particles
-        particles.current.forEach((p2) => {
-          const dx = p.x - p2.x;
-          const dy = p.y - p2.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 150) {
-            ctx.beginPath();
-            ctx.moveTo(p.x, p.y);
-            ctx.lineTo(p2.x, p2.y);
-            ctx.strokeStyle = p.color + "20";
-            ctx.lineWidth = 0.5;
-            ctx.stroke();
-          }
-        });
-      });
-
-      animationId = requestAnimationFrame(animate);
-    };
-
-    animate();
-
-    return () => {
-      window.removeEventListener("resize", resize);
-      cancelAnimationFrame(animationId);
-    };
-  }, []);
+function LoadingScreen() {
+  const c = CONFIG.colors;
 
   return (
-    <canvas
-      ref={canvasRef}
-      className="fixed inset-0 pointer-events-none z-0"
-      style={{ background: THEME.colors.bg }}
-    />
+    <motion.div
+      initial={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.8, ease: "easeInOut" }}
+      className="fixed inset-0 z-100 flex flex-col items-center justify-center"
+      style={{ background: c.bg }}
+    >
+      <motion.div
+        animate={{
+          scale: [1, 1.2, 1],
+          rotate: [0, 360],
+        }}
+        transition={{
+          duration: 2,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+        className="relative"
+      >
+        <div
+          className="w-24 h-24 rounded-full border-4 flex items-center justify-center"
+          style={{
+            borderColor: `${c.primary}30`,
+            borderTopColor: c.primary,
+            borderRightColor: c.secondary,
+            animation: "spin 1s linear infinite",
+          }}
+        >
+          <span className="text-3xl font-black" style={{ color: c.primary }}>
+            H
+          </span>
+        </div>
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.5 }}
+        className="mt-8 text-center"
+      >
+        <h2 className="text-xl font-bold" style={{ color: c.text }}>
+          Hami<span style={{ color: c.primary }}>Parsa</span>
+        </h2>
+        <p className="text-sm mt-2" style={{ color: c.textMuted }}>
+          {CONFIG.content.en.loading}
+        </p>
+        <div className="mt-4 flex justify-center gap-1">
+          {[...Array(3)].map((_, i) => (
+            <motion.div
+              key={i}
+              animate={{
+                y: [0, -10, 0],
+              }}
+              transition={{
+                duration: 0.6,
+                repeat: Infinity,
+                delay: i * 0.15,
+              }}
+              className="w-2 h-2 rounded-full"
+              style={{ background: c.secondary }}
+            />
+          ))}
+        </div>
+      </motion.div>
+
+      <style jsx>{`
+        @keyframes spin {
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg);
+          }
+        }
+      `}</style>
+    </motion.div>
   );
 }
 
-// ──────────────────────────────────────────────────────────────────────────────
-// SECTION 3: Types & Content
-// ──────────────────────────────────────────────────────────────────────────────
+// ============================================================
+// STATIC BACKGROUND
+// ============================================================
 
-type Lang = "en" | "fa";
+function StaticBackground() {
+  const c = CONFIG.colors;
 
-type Skill = {
-  name: string;
-  percent: number;
-  icon: React.ComponentType<{ className?: string; size?: number }>;
-  color: string;
-  gradient: string;
-  category: "frontend" | "backend" | "database" | "devops";
-  description?: string;
-};
-
-type TechCategory = {
-  name: string;
-  icon: React.ComponentType<{ className?: string; size?: number }>;
-  technologies: Array<{
-    name: string;
-    icon: React.ComponentType<{ className?: string; size?: number }>;
-    color: string;
-  }>;
-};
-
-type Content = {
-  greeting: string;
-  name: string;
-  age: string;
-  about: string;
-  connect: string;
-  status: string;
-  skills: string;
-  skillList: Skill[];
-  techCategories: TechCategory[];
-  contact: string;
-  nameLabel: string;
-  phoneLabel: string;
-  messageLabel: string;
-  submit: string;
-  success: string;
-  error: string;
-  motto: string;
-  mottoSub: string;
-  mottoFooter: string;
-  statusTitle: string;
-  statusHeading: string;
-  quickActions: string;
-  viewGitHub: string;
-  viewLinkedIn: string;
-  viewTelegram: string;
-  viewWebsite: string;
-  techStack: string;
-  home: string;
-  skillsLink: string;
-  contactLink: string;
-  brand: string;
-  builtWith: string;
-  openSource: string;
-  repository: string;
-  aboutMe: string;
-  explore: string;
-  getInTouch: string;
-  technologies: string;
-  allSkills: string;
-  expertise: string;
-  experience: string;
-  projects: string;
-};
-
-const content: Record<Lang, Content> = {
-  en: {
-    greeting: "Hey, I'm",
-    name: "Hami Parsa",
-    age: "20 years old",
-    about: `Full-stack developer with a passion for building elegant, high-performance applications. \nI believe in writing clean code, continuous learning, and pushing the boundaries of what's possible.\nCurrently exploring AI integration and building next-gen web experiences.`,
-    connect: "Let's connect",
-    status: "Open to work",
-    skills: "Skills & Expertise",
-    skillList: [
-      {
-        name: "JavaScript / TypeScript",
-        percent: 88,
-        icon: DiJavascript1,
-        color: "text-yellow-400",
-        gradient: "from-yellow-400 via-amber-400 to-orange-500",
-        category: "frontend",
-        description: "ES6+, TypeScript, JSDoc",
-      },
-      {
-        name: "React • Next.js",
-        percent: 85,
-        icon: DiReact,
-        color: "text-cyan-400",
-        gradient: "from-cyan-400 via-sky-400 to-blue-500",
-        category: "frontend",
-        description: "Hooks, SSR, App Router",
-      },
-      {
-        name: "Tailwind CSS",
-        percent: 92,
-        icon: TbBrandTailwind,
-        color: "text-teal-400",
-        gradient: "from-teal-400 via-cyan-400 to-sky-500",
-        category: "frontend",
-        description: "Responsive, Animations",
-      },
-      {
-        name: "Supabase",
-        percent: 72,
-        icon: RiSupabaseLine,
-        color: "text-emerald-400",
-        gradient: "from-emerald-400 via-green-500 to-teal-500",
-        category: "database",
-        description: "Realtime, Auth, Storage",
-      },
-      {
-        name: "Git • GitHub",
-        percent: 94,
-        icon: DiGit,
-        color: "text-orange-500",
-        gradient: "from-orange-500 via-red-500 to-rose-600",
-        category: "devops",
-        description: "CI/CD, Actions, Version Control",
-      },
-      {
-        name: "MongoDB",
-        percent: 85,
-        icon: BiLogoMongodb,
-        color: "text-green-500",
-        gradient: "from-green-500 via-emerald-500 to-lime-500",
-        category: "database",
-        description: "Aggregation, Indexing",
-      },
-      {
-        name: "Node.js",
-        percent: 80,
-        icon: FaNodeJs,
-        color: "text-lime-500",
-        gradient: "from-lime-500 via-green-500 to-emerald-600",
-        category: "backend",
-        description: "REST APIs, Middleware",
-      },
-      {
-        name: "Express.js",
-        percent: 85,
-        icon: SiExpress,
-        color: "text-amber-400",
-        gradient: "from-amber-500 via-orange-500 to-red-500",
-        category: "backend",
-        description: "Routing, Middleware",
-      },
-      {
-        name: "Python",
-        percent: 84,
-        icon: FaPython,
-        color: "text-indigo-400",
-        gradient: "from-indigo-500 via-blue-500 to-purple-600",
-        category: "backend",
-        description: "Scripting, Automation",
-      },
-      {
-        name: "Django",
-        percent: 70,
-        icon: SiDjango,
-        color: "text-rose-400",
-        gradient: "from-rose-500 via-pink-500 to-fuchsia-600",
-        category: "backend",
-        description: "DRF, ORM, Admin",
-      },
-      {
-        name: "SQLite",
-        percent: 75,
-        icon: SiSqlite,
-        color: "text-purple-400",
-        gradient: "from-purple-500 via-violet-500 to-indigo-600",
-        category: "database",
-        description: "Lightweight, Embedded",
-      },
-    ],
-    techCategories: [
-      {
-        name: "Frontend",
-        icon: Layout,
-        technologies: [
-          { name: "JavaScript", icon: DiJavascript1, color: "text-yellow-400" },
-          { name: "TypeScript", icon: SiTypescript, color: "text-blue-500" },
-          { name: "React", icon: DiReact, color: "text-cyan-400" },
-          { name: "Next.js", icon: TbBrandNextjs, color: "text-white" },
-          { name: "Tailwind CSS", icon: TbBrandTailwind, color: "text-teal-400" },
-        ],
-      },
-      {
-        name: "Backend",
-        icon: Server,
-        technologies: [
-          { name: "Node.js", icon: FaNodeJs, color: "text-lime-500" },
-          { name: "Express.js", icon: SiExpress, color: "text-amber-400" },
-          { name: "Python", icon: FaPython, color: "text-indigo-400" },
-          { name: "Django", icon: SiDjango, color: "text-rose-400" },
-        ],
-      },
-      {
-        name: "Database",
-        icon: Database,
-        technologies: [
-          { name: "MongoDB", icon: BiLogoMongodb, color: "text-green-500" },
-          { name: "Supabase", icon: RiSupabaseLine, color: "text-emerald-400" },
-          { name: "SQLite", icon: SiSqlite, color: "text-purple-400" },
-        ],
-      },
-      {
-        name: "DevOps • Tools",
-        icon: Cloud,
-        technologies: [
-          { name: "Git", icon: DiGit, color: "text-orange-500" },
-          { name: "GitHub", icon: DiGit, color: "text-orange-500" },
-        ],
-      },
-    ],
-    contact: "Get in Touch",
-    nameLabel: "Name",
-    phoneLabel: "Phone Number",
-    messageLabel: "Your Message",
-    submit: "Send Message",
-    success: "Message sent successfully ✓",
-    error: "Something went wrong. Please try again.",
-    motto: "Build with passion. Code with purpose.",
-    mottoSub: "Creating the future, one commit at a time.",
-    mottoFooter: "Committed to excellence, innovation, and pushing the boundaries of what's possible.",
-    statusTitle: "Current Status",
-    statusHeading: "Full-Stack Developer",
-    quickActions: "Quick Actions",
-    viewGitHub: "View GitHub",
-    viewLinkedIn: "View LinkedIn",
-    viewTelegram: "View Telegram",
-    viewWebsite: "View Website",
-    techStack: "Tech Stack",
-    home: "Home",
-    skillsLink: "Skills",
-    contactLink: "Contact",
-    brand: "HamiParsa",
-    builtWith: "Built with",
-    openSource: "OPEN SOURCE",
-    repository: "View Repository",
-    aboutMe: "About Me",
-    explore: "Explore",
-    getInTouch: "Get in Touch",
-    technologies: "Technologies",
-    allSkills: "All Skills",
-    expertise: "Expertise",
-    experience: "Experience",
-    projects: "Projects",
-  },
-  fa: {
-    greeting: "سلام، من",
-    name: "حامی پارسا",
-    age: "۲۰ ساله",
-    about: `توسعه‌دهنده فول‌استک با اشتیاق به ساخت اپلیکیشن‌های زیبا و با عملکرد بالا.\nبه کدنویسی تمیز، یادگیری مداوم و عبور از مرزهای ممکن باور دارم.\nدر حال حاضر روی یکپارچه‌سازی هوش مصنوعی و ساخت تجربه‌های نسل بعدی وب کار می‌کنم.`,
-    connect: "بیا باهم در ارتباط باشیم",
-    status: "آماده همکاری",
-    skills: "مهارت‌ها و تخصص",
-    skillList: [
-      {
-        name: "JavaScript / TypeScript",
-        percent: 88,
-        icon: DiJavascript1,
-        color: "text-yellow-400",
-        gradient: "from-yellow-400 via-amber-400 to-orange-500",
-        category: "frontend",
-        description: "ES6+, TypeScript, JSDoc",
-      },
-      {
-        name: "React • Next.js",
-        percent: 85,
-        icon: DiReact,
-        color: "text-cyan-400",
-        gradient: "from-cyan-400 via-sky-400 to-blue-500",
-        category: "frontend",
-        description: "Hooks, SSR, App Router",
-      },
-      {
-        name: "Tailwind CSS",
-        percent: 92,
-        icon: TbBrandTailwind,
-        color: "text-teal-400",
-        gradient: "from-teal-400 via-cyan-400 to-sky-500",
-        category: "frontend",
-        description: "Responsive, Animations",
-      },
-      {
-        name: "Supabase",
-        percent: 72,
-        icon: RiSupabaseLine,
-        color: "text-emerald-400",
-        gradient: "from-emerald-400 via-green-500 to-teal-500",
-        category: "database",
-        description: "Realtime, Auth, Storage",
-      },
-      {
-        name: "Git • GitHub",
-        percent: 94,
-        icon: DiGit,
-        color: "text-orange-500",
-        gradient: "from-orange-500 via-red-500 to-rose-600",
-        category: "devops",
-        description: "CI/CD, Actions, Version Control",
-      },
-      {
-        name: "MongoDB",
-        percent: 85,
-        icon: BiLogoMongodb,
-        color: "text-green-500",
-        gradient: "from-green-500 via-emerald-500 to-lime-500",
-        category: "database",
-        description: "Aggregation, Indexing",
-      },
-      {
-        name: "Node.js",
-        percent: 80,
-        icon: FaNodeJs,
-        color: "text-lime-500",
-        gradient: "from-lime-500 via-green-500 to-emerald-600",
-        category: "backend",
-        description: "REST APIs, Middleware",
-      },
-      {
-        name: "Express.js",
-        percent: 85,
-        icon: SiExpress,
-        color: "text-amber-400",
-        gradient: "from-amber-500 via-orange-500 to-red-500",
-        category: "backend",
-        description: "Routing, Middleware",
-      },
-      {
-        name: "Python",
-        percent: 84,
-        icon: FaPython,
-        color: "text-indigo-400",
-        gradient: "from-indigo-500 via-blue-500 to-purple-600",
-        category: "backend",
-        description: "Scripting, Automation",
-      },
-      {
-        name: "Django",
-        percent: 70,
-        icon: SiDjango,
-        color: "text-rose-400",
-        gradient: "from-rose-500 via-pink-500 to-fuchsia-600",
-        category: "backend",
-        description: "DRF, ORM, Admin",
-      },
-      {
-        name: "SQLite",
-        percent: 75,
-        icon: SiSqlite,
-        color: "text-purple-400",
-        gradient: "from-purple-500 via-violet-500 to-indigo-600",
-        category: "database",
-        description: "Lightweight, Embedded",
-      },
-    ],
-    techCategories: [
-      {
-        name: "فرانت‌اند",
-        icon: Layout,
-        technologies: [
-          { name: "JavaScript", icon: DiJavascript1, color: "text-yellow-400" },
-          { name: "TypeScript", icon: SiTypescript, color: "text-blue-500" },
-          { name: "React", icon: DiReact, color: "text-cyan-400" },
-          { name: "Next.js", icon: TbBrandNextjs, color: "text-white" },
-          { name: "Tailwind CSS", icon: TbBrandTailwind, color: "text-teal-400" },
-        ],
-      },
-      {
-        name: "بک‌اند",
-        icon: Server,
-        technologies: [
-          { name: "Node.js", icon: FaNodeJs, color: "text-lime-500" },
-          { name: "Express.js", icon: SiExpress, color: "text-amber-400" },
-          { name: "Python", icon: FaPython, color: "text-indigo-400" },
-          { name: "Django", icon: SiDjango, color: "text-rose-400" },
-        ],
-      },
-      {
-        name: "پایگاه داده",
-        icon: Database,
-        technologies: [
-          { name: "MongoDB", icon: BiLogoMongodb, color: "text-green-500" },
-          { name: "Supabase", icon: RiSupabaseLine, color: "text-emerald-400" },
-          { name: "SQLite", icon: SiSqlite, color: "text-purple-400" },
-        ],
-      },
-      {
-        name: "دواپس • ابزارها",
-        icon: Cloud,
-        technologies: [
-          { name: "Git", icon: DiGit, color: "text-orange-500" },
-          { name: "GitHub", icon: DiGit, color: "text-orange-500" },
-        ],
-      },
-    ],
-    contact: "تماس با من",
-    nameLabel: "نام",
-    phoneLabel: "شماره تماس",
-    messageLabel: "پیام شما",
-    submit: "ارسال پیام",
-    success: "پیام با موفقیت ارسال شد ✓",
-    error: "مشکلی پیش آمد. دوباره امتحان کنید.",
-    motto: "با شور بساز. با هدف کدنویس.",
-    mottoSub: "ساختن آینده، هر commit یک قدم.",
-    mottoFooter: "متعهد به تعالی، نوآوری و عبور از مرزهای ممکن.",
-    statusTitle: "وضعیت فعلی",
-    statusHeading: "توسعه‌دهنده فول‌استک",
-    quickActions: "دسترسی سریع",
-    viewGitHub: "مشاهده گیت‌هاب",
-    viewLinkedIn: "مشاهده لینکدین",
-    viewTelegram: "مشاهده تلگرام",
-    viewWebsite: "مشاهده وب‌سایت",
-    techStack: "تکنولوژی‌ها",
-    home: "خانه",
-    skillsLink: "مهارت‌ها",
-    contactLink: "تماس",
-    brand: "حامی پارسا",
-    builtWith: "ساخته شده با",
-    openSource: "متن‌باز",
-    repository: "مشاهده ریپازیتوری",
-    aboutMe: "درباره من",
-    explore: "کاوش",
-    getInTouch: "در ارتباط باش",
-    technologies: "تکنولوژی‌ها",
-    allSkills: "همه مهارت‌ها",
-    expertise: "تخصص",
-    experience: "تجربه",
-    projects: "پروژه‌ها",
-  },
-};
-
-// ──────────────────────────────────────────────────────────────────────────────
-// SECTION 4: Social & Quick Action Links
-// ──────────────────────────────────────────────────────────────────────────────
-
-const SOCIAL_LINKS = [
-  { Icon: Linkedin, name: "LinkedIn", href: "https://www.linkedin.com/in/HamiParsa" },
-  { Icon: Github, name: "GitHub", href: "https://github.com/HamiParsa" },
-  { Icon: Send, name: "Telegram", href: "https://t.me/HamiParsa" },
-  { Icon: Globe, name: "Website", href: "https://hamiparsa.github.io/Profile-Bio/" },
-  { Icon: Instagram, name: "Instagram", href: "https://www.instagram.com/hamii.parsa" },
-] as const;
-
-const QUICK_ACTIONS = [
-  { icon: Github, label: "viewGitHub", href: "https://github.com/HamiParsa" },
-  { icon: Linkedin, label: "viewLinkedIn", href: "https://www.linkedin.com/in/HamiParsa" },
-  { icon: Send, label: "viewTelegram", href: "https://t.me/HamiParsa" },
-] as const;
-
-// ──────────────────────────────────────────────────────────────────────────────
-// SECTION 5: Neon Glow Card Component
-// ──────────────────────────────────────────────────────────────────────────────
-
-/**
- * A glassmorphism card with neon glow border effect
- * Used throughout the site for consistent styling
- */
-function NeonCard({
-  children,
-  className = "",
-  glowColor = THEME.colors.primary,
-  hover = true,
-}: {
-  children: React.ReactNode;
-  className?: string;
-  glowColor?: string;
-  hover?: boolean;
-}) {
   return (
-    <div
-      className={`
-        relative p-6 rounded-2xl
-        bg-[rgba(255,255,255,0.03)]
-        backdrop-blur-[20px]
-        border border-[rgba(255,255,255,0.06)]
-        shadow-[0_8px_32px_rgba(0,0,0,0.4)]
-        transition-all duration-500
-        ${hover ? "hover:border-[rgba(139,92,246,0.3)] hover:shadow-[0_8px_40px_rgba(139,92,246,0.15)]" : ""}
-        ${className}
-      `}
-    >
-      {/* Neon glow ring on hover */}
-      {hover && (
-        <div
-          className="absolute -inset-2px rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-          style={{
-            background: `linear-gradient(135deg, ${glowColor}40, transparent, ${glowColor}20)`,
-            filter: "blur(4px)",
-          }}
-        />
-      )}
-      {children}
+    <div className="fixed inset-0 z-0">
+      <div className="absolute inset-0" style={{ background: c.bg }} />
+      <div
+        className="absolute inset-0 opacity-40"
+        style={{
+          background: `radial-gradient(ellipse at 50% 30%, ${c.primary}08, transparent 70%)`,
+        }}
+      />
+      <div
+        className="absolute inset-0 opacity-[0.03]"
+        style={{
+          backgroundImage: `
+            linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)
+          `,
+          backgroundSize: "80px 80px",
+        }}
+      />
+      <div
+        className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full blur-3xl opacity-[0.06]"
+        style={{ background: c.primary }}
+      />
+      <div
+        className="absolute bottom-1/3 right-1/4 w-80 h-80 rounded-full blur-3xl opacity-[0.04]"
+        style={{ background: c.secondary }}
+      />
+      <div
+        className="absolute top-2/3 left-1/2 w-64 h-64 rounded-full blur-3xl opacity-[0.04]"
+        style={{ background: c.accent }}
+      />
     </div>
   );
 }
 
-// ──────────────────────────────────────────────────────────────────────────────
-// SECTION 6: Main Component
-// ──────────────────────────────────────────────────────────────────────────────
+// ============================================================
+// CIRCULAR PROGRESS
+// ============================================================
 
-export default function Home() {
-  // ─── State ──────────────────────────────────────────────────────────────
-  
-  const [lang, setLang] = useState<Lang>("en");
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [scrolled, setScrolled] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+function CircularProgress({
+  percent,
+  color,
+  size = 80,
+  label,
+  icon: Icon,
+}: {
+  percent: number;
+  color: string;
+  size?: number;
+  label: string;
+  icon: React.ComponentType<{ className?: string }>;
+}) {
+  const [isVisible, setIsVisible] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const c = CONFIG.colors;
 
-  // ─── Scroll Progress ──────────────────────────────────────────────────
-  
-  const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001,
-  });
-
-  // ─── Effects ──────────────────────────────────────────────────────────
-  
   useEffect(() => {
-    const saved = localStorage.getItem("preferredLang") as Lang | null;
-    // eslint-disable-next-line
-    if (saved === "fa") setLang("fa");
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.2 }
+    );
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+
+    return () => observer.disconnect();
   }, []);
 
-  useEffect(() => {
-    localStorage.setItem("preferredLang", lang);
-  }, [lang]);
+  const radius = 30;
+  const circumference = 2 * Math.PI * radius;
+  const offset = circumference - (percent / 100) * circumference;
 
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
-
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 100);
-    };
-
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
-  // ─── Helpers ──────────────────────────────────────────────────────────
-  
-  const toggleLang = () => setLang((prev) => (prev === "fa" ? "en" : "fa"));
-  const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
-  const isFa = lang === "fa";
-  const t = content[lang];
-  const c = THEME.colors;
-
-  // ─── Render ──────────────────────────────────────────────────────────
-  
   return (
     <div
       ref={containerRef}
-      dir={isFa ? "rtl" : "ltr"}
-      className={`relative min-h-screen overflow-x-hidden ${
-        isFa ? 'font-["Vazirmatn"]' : "font-sans"
-      }`}
-      style={{ background: c.bg, color: c.text }}
+      className="p-4 rounded-2xl text-center backdrop-blur-sm transition-all duration-300 hover:-translate-y-2"
+      style={{ background: c.bgCard, border: `1px solid ${c.border}` }}
     >
-      {/* ─── Particle Background ──────────────────────────────────────── */}
-      <ParticleBackground />
-
-      {/* ─── Mouse Follower Glow ──────────────────────────────────────── */}
-      <div
-        className="fixed pointer-events-none z-0 w-500px h-500px rounded-full blur-3xl opacity-30 transition-all duration-300"
-        style={{
-          background: `radial-gradient(circle, ${c.primary}40, transparent 70%)`,
-          left: mousePosition.x - 250,
-          top: mousePosition.y - 250,
-        }}
-      />
-
-      {/* ─── Progress Bar ────────────────────────────────────────────── */}
-      <motion.div
-        className="fixed top-0 left-0 right-0 h-2px z-50 origin-left"
-        style={{
-          scaleX,
-          background: `linear-gradient(to right, ${c.primary}, ${c.secondary}, ${c.accent})`,
-          boxShadow: `0 0 30px ${c.primary}60`,
-        }}
-      />
-
-      {/* ─── Navigation ────────────────────────────────────────────────── */}
-      
-      <nav className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-5xl">
-        <div className="relative">
-          {/* Glow behind navbar */}
-          <div
-            className="absolute -inset-1 rounded-2xl blur-2xl opacity-30"
+      <div className="relative" style={{ width: size, height: size, margin: "0 auto" }}>
+        <svg className="w-full h-full -rotate-90">
+          <circle
+            cx={size / 2}
+            cy={size / 2}
+            r={radius}
+            fill="none"
+            stroke="rgba(255,255,255,0.06)"
+            strokeWidth="4"
+          />
+          <motion.circle
+            cx={size / 2}
+            cy={size / 2}
+            r={radius}
+            fill="none"
+            stroke={color}
+            strokeWidth="4"
+            strokeLinecap="round"
+            initial={{ strokeDashoffset: circumference }}
+            animate={{
+              strokeDashoffset: isVisible ? offset : circumference,
+            }}
+            transition={{ duration: 1.5, ease: "easeOut" }}
             style={{
-              background: `linear-gradient(to right, ${c.primary}30, ${c.secondary}30, ${c.accent}30)`,
+              strokeDasharray: circumference,
+              filter: `drop-shadow(0 0 12px ${color}30)`,
             }}
           />
-          
-          {/* Navbar glass */}
-          <div
-            className="relative flex items-center justify-between px-6 py-3 rounded-2xl backdrop-blur-[20px] border"
-            style={{
-              background: "rgba(10, 10, 15, 0.85)",
-              borderColor: "rgba(255, 255, 255, 0.06)",
-            }}
-          >
-            {/* Desktop Nav */}
-            <div className="hidden md:flex items-center gap-8">
-              {["home", "skillsLink", "contactLink"].map((key) => (
-                <a
-                  key={key}
-                  href={`#${key === "home" ? "home" : key === "skillsLink" ? "skills" : "contact"}`}
-                  className="text-xs text-[#94A3B8] hover:text-[#E2E8F0] transition-all duration-300 tracking-[0.15em] font-medium uppercase relative group"
-                >
-                  {t[key as keyof typeof t] as string}
-                  <span
-                    className="absolute -bottom-1 left-0 w-0 h-2px transition-all duration-300 group-hover:w-full"
-                    style={{ background: c.primary }}
-                  />
-                </a>
-              ))}
-            </div>
-
-            {/* Controls */}
-            <div className="flex items-center gap-3">
-              <button
-                onClick={toggleLang}
-                className="flex items-center gap-2 text-xs font-medium text-[#94A3B8] hover:text-[#E2E8F0] transition-all duration-300 group px-3 py-1.5 rounded-full"
-                style={{
-                  background: "rgba(255, 255, 255, 0.05)",
-                  border: "1px solid rgba(255, 255, 255, 0.06)",
-                }}
-              >
-                <span>{isFa ? "EN" : "فا"}</span>
-                <ArrowRightLeft
-                  size={12}
-                  className={`transition-all duration-500 group-hover:rotate-180 ${
-                    isFa ? "rotate-180" : ""
-                  }`}
-                />
-              </button>
-
-              <button
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="md:hidden p-2 rounded-lg text-[#94A3B8] hover:text-[#E2E8F0] transition-colors"
-                style={{ background: "rgba(255,255,255,0.05)" }}
-              >
-                {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
-              </button>
-            </div>
-          </div>
+        </svg>
+        <div className="absolute inset-0 flex items-center justify-center">
+          <Icon className="w-5 h-5" />
         </div>
-
-        {/* Mobile Menu */}
-        <AnimatePresence>
-          {isMenuOpen && (
-            <motion.div
-              initial={{ opacity: 0, y: -10, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -10, scale: 0.95 }}
-              className="mt-2 p-4 rounded-2xl backdrop-blur-[20px] border md:hidden"
-              style={{
-                background: "rgba(10, 10, 15, 0.95)",
-                borderColor: "rgba(255, 255, 255, 0.06)",
-              }}
-            >
-              <div className="flex flex-col gap-3">
-                {["home", "skillsLink", "contactLink"].map((key) => (
-                  <a
-                    key={key}
-                    href={`#${key === "home" ? "home" : key === "skillsLink" ? "skills" : "contact"}`}
-                    onClick={() => setIsMenuOpen(false)}
-                    className="text-sm text-[#94A3B8] hover:text-[#E2E8F0] transition-colors px-3 py-2 rounded-lg hover:bg-white/5"
-                  >
-                    {t[key as keyof typeof t] as string}
-                  </a>
-                ))}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </nav>
-
-      {/* ─── Main Content ────────────────────────────────────────────────── */}
-      
-      <main className="relative z-10 max-w-6xl mx-auto px-6 pt-28 pb-20">
-        
-        {/* ─── HERO ────────────────────────────────────────────────────── */}
-        
-        <section id="home" className="min-h-[80vh] flex flex-col lg:flex-row items-center gap-16 lg:gap-24 py-8">
-          {/* Avatar */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8, rotateY: 90 }}
-            animate={{ opacity: 1, scale: 1, rotateY: 0 }}
-            transition={{ duration: 1, ease: "easeOut" }}
-            className="relative shrink-0 group"
-            style={{ perspective: "1000px" }}
-          >
-            {/* Animated rings */}
-            <div
-              className="absolute -inset-8 rounded-full animate-spin-slow"
-              style={{
-                border: `1px solid ${c.primary}30`,
-              }}
-            />
-            <div
-              className="absolute -inset-16 rounded-full animate-spin-reverse"
-              style={{
-                border: `1px solid ${c.secondary}20`,
-                animationDuration: "25s",
-              }}
-            />
-            <div
-              className="absolute -inset-24 rounded-full animate-spin-slow"
-              style={{
-                border: `1px solid ${c.accent}15`,
-                animationDuration: "30s",
-              }}
-            />
-
-            {/* Glow */}
-            <div
-              className="absolute -inset-4 rounded-3xl blur-2xl opacity-0 group-hover:opacity-60 transition-opacity duration-700"
-              style={{
-                background: `radial-gradient(circle, ${c.primary}60, ${c.secondary}30)`,
-              }}
-            />
-
-            {/* Image */}
-            <div
-              className="w-72 h-72 md:w-80 md:h-80 rounded-3xl overflow-hidden border-2 relative transform transition-transform duration-700 group-hover:scale-105"
-              style={{
-                borderColor: `${c.primary}50`,
-                boxShadow: `0 0 60px ${c.primary}20`,
-              }}
-            >
-              <Image
-                width={800}
-                height={800}
-                src="https://avatars.githubusercontent.com/u/227557537?v=4"
-                alt="Hami Parsa"
-                className="w-full h-full object-cover"
-                priority
-              />
-              <div
-                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700"
-                style={{
-                  background: `linear-gradient(135deg, ${c.primary}20, ${c.secondary}10)`,
-                }}
-              />
-            </div>
-
-            {/* Status Badge */}
-            <div
-              className="absolute -bottom-4 left-1/2 -translate-x-1/2 px-6 py-2.5 rounded-full flex items-center gap-2.5 backdrop-blur-md border text-xs font-bold whitespace-nowrap"
-              style={{
-                background: `linear-gradient(135deg, ${c.primary}, ${c.secondary})`,
-                color: "#0A0A0F",
-                borderColor: `${c.primary}40`,
-                boxShadow: `0 0 30px ${c.primary}40`,
-              }}
-            >
-              <div className="relative">
-                <div className="w-2.5 h-2.5 bg-emerald-400 rounded-full animate-ping" />
-                <div className="absolute inset-0 w-2.5 h-2.5 bg-emerald-400 rounded-full" />
-              </div>
-              {t.status}
-            </div>
-          </motion.div>
-
-          {/* Text */}
-          <div className={`flex-1 space-y-8 ${isFa ? "text-right" : "text-left"}`}>
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2, duration: 0.8 }}
-              className="space-y-4"
-            >
-              {/* Greeting */}
-              <div className="flex items-center gap-4">
-                <div
-                  className="w-12 h-px"
-                  style={{
-                    background: `linear-gradient(to right, transparent, ${c.primary}50, transparent)`,
-                  }}
-                />
-                <p className="text-xl" style={{ color: `${c.primary}80` }}>
-                  {t.greeting}
-                </p>
-                <div
-                  className="w-12 h-px"
-                  style={{
-                    background: `linear-gradient(to right, transparent, ${c.primary}50, transparent)`,
-                  }}
-                />
-              </div>
-
-              {/* Name */}
-              <h1 className="text-5xl md:text-7xl font-black tracking-tight leading-[1.1]">
-                <span
-                  className="bg-clip-text text-transparent"
-                  style={{
-                    background: `linear-gradient(135deg, ${c.primary}, ${c.secondary}, ${c.accent})`,
-                    WebkitBackgroundClip: "text",
-                  }}
-                >
-                  {t.name}
-                </span>
-              </h1>
-
-              {/* Title */}
-              <p className="text-xl md:text-2xl text-[#94A3B8]">
-                {t.age} •{" "}
-                <span style={{ color: c.primary }}>Full-Stack Developer</span>
-              </p>
-            </motion.div>
-
-            {/* About */}
-            <AnimatePresence mode="wait">
-              <motion.p
-                key={lang}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.6 }}
-                className="text-base leading-relaxed text-[#94A3B8] max-w-2xl whitespace-pre-line"
-              >
-                {t.about}
-              </motion.p>
-            </AnimatePresence>
-
-            {/* CTA Buttons */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
-              className="flex flex-wrap gap-3"
-            >
-              <a href="#contact">
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="px-6 py-3 rounded-full text-sm font-bold flex items-center gap-2 transition-all duration-300"
-                  style={{
-                    background: `linear-gradient(135deg, ${c.primary}, ${c.secondary})`,
-                    color: "#0A0A0F",
-                    boxShadow: `0 0 30px ${c.primary}30`,
-                  }}
-                >
-                  <Send size={16} />
-                  {t.getInTouch}
-                </motion.button>
-              </a>
-              <a href="#skills">
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="px-6 py-3 rounded-full text-sm font-medium transition-all duration-300"
-                  style={{
-                    background: "rgba(255,255,255,0.05)",
-                    border: "1px solid rgba(255,255,255,0.08)",
-                    color: "#94A3B8",
-                  }}
-                >
-                  <Code2 size={16} className="inline mr-2" />
-                  {t.explore}
-                </motion.button>
-              </a>
-            </motion.div>
-
-            {/* Social */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.7 }}
-              className="pt-4"
-            >
-              <div className="flex items-center gap-4 mb-6">
-                <div
-                  className="w-12 h-px"
-                  style={{
-                    background: `linear-gradient(to right, transparent, ${c.primary}30, transparent)`,
-                  }}
-                />
-                <p className="uppercase tracking-[0.2em] text-xs" style={{ color: `${c.primary}40` }}>
-                  {t.connect}
-                </p>
-                <div
-                  className="w-12 h-px"
-                  style={{
-                    background: `linear-gradient(to right, transparent, ${c.primary}30, transparent)`,
-                  }}
-                />
-              </div>
-
-              <div className="flex flex-wrap gap-3">
-                {SOCIAL_LINKS.map(({ Icon, name, href }, i) => (
-                  <motion.a
-                    key={i}
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.8 + i * 0.08 }}
-                    whileHover={{ scale: 1.05, y: -4 }}
-                    className="group px-4 py-2.5 rounded-xl flex items-center gap-2.5 transition-all duration-300"
-                    style={{
-                      background: "rgba(255,255,255,0.03)",
-                      border: "1px solid rgba(255,255,255,0.06)",
-                    }}
-                  >
-                    <Icon size={18} className="text-[#94A3B8] group-hover:text-[#E2E8F0] transition-colors" />
-                    <span className="text-sm text-[#94A3B8] group-hover:text-[#E2E8F0] transition-colors">
-                      {name}
-                    </span>
-                  </motion.a>
-                ))}
-              </div>
-            </motion.div>
-          </div>
-        </section>
-
-        {/* ─── MOTTO ──────────────────────────────────────────────────── */}
-        
-        <motion.section
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="py-20 relative"
-        >
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div
-              className="w-96 h-96 rounded-full blur-3xl opacity-20"
-              style={{ background: c.primary }}
-            />
-            <div
-              className="w-64 h-64 rounded-full blur-3xl opacity-20 absolute"
-              style={{ background: c.secondary }}
-            />
-          </div>
-
-          <div className="relative max-w-4xl mx-auto text-center">
-            <div
-              className="inline-flex items-center gap-3 px-4 py-2 rounded-full backdrop-blur-sm border mb-8"
-              style={{
-                background: "rgba(255,255,255,0.03)",
-                borderColor: "rgba(255,255,255,0.06)",
-              }}
-            >
-              <Sparkles size={14} style={{ color: c.primary }} />
-              <span className="text-xs text-[#94A3B8] font-mono tracking-widest">✦ MOTTO</span>
-            </div>
-
-            <blockquote className="text-3xl md:text-4xl font-light leading-relaxed text-[#E2E8F0]">
-              {t.motto}
-              <span className="block text-[#94A3B8] text-2xl md:text-3xl mt-3">
-                {t.mottoSub}
-              </span>
-            </blockquote>
-
-            <div className="mt-6 flex items-center justify-center gap-4 text-sm text-[#94A3B8]/30">
-              <span>— Hami Parsa</span>
-              <span className="w-px h-4 bg-[#94A3B8]/10" />
-              <span className="font-mono tracking-widest text-[10px]">2025</span>
-            </div>
-          </div>
-        </motion.section>
-
-        {/* ─── STATUS & QUICK ACTIONS ────────────────────────────────── */}
-        
-        <motion.section
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="py-10"
-        >
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Status */}
-            <NeonCard glowColor={c.primary}>
-              <div className="flex items-center gap-3 mb-4">
-                <div className="relative">
-                  <div className="w-2.5 h-2.5 bg-emerald-400 rounded-full animate-pulse" />
-                  <div className="absolute inset-0 w-2.5 h-2.5 bg-emerald-400 rounded-full animate-ping" />
-                </div>
-                <span className="text-xs font-mono text-[#94A3B8]/50 tracking-widest">
-                  {t.statusTitle}
-                </span>
-              </div>
-              <h3 className="text-xl font-semibold text-[#E2E8F0] mb-3">
-                {t.statusHeading}
-              </h3>
-              <div className="flex flex-wrap gap-2">
-                {["Next.js", "Node.js", "Django", "TypeScript"].map((tech) => (
-                  <span
-                    key={tech}
-                    className="px-3 py-1 text-[10px] font-mono rounded-full"
-                    style={{
-                      background: "rgba(255,255,255,0.05)",
-                      border: "1px solid rgba(255,255,255,0.06)",
-                      color: "#94A3B8",
-                    }}
-                  >
-                    {tech}
-                  </span>
-                ))}
-              </div>
-            </NeonCard>
-
-            {/* Quick Actions */}
-            <NeonCard glowColor={c.secondary}>
-              <div className="flex items-center gap-3 mb-4">
-                <Zap size={14} className="text-[#94A3B8]/30" />
-                <span className="text-xs font-mono text-[#94A3B8]/50 tracking-widest">
-                  {t.quickActions}
-                </span>
-              </div>
-              <div className="space-y-2">
-                {QUICK_ACTIONS.map((item, i) => (
-                  <motion.a
-                    key={i}
-                    whileHover={{ x: 4 }}
-                    href={item.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all duration-300"
-                    style={{
-                      background: "rgba(255,255,255,0.03)",
-                    }}
-                  >
-                    <item.icon size={16} className="text-[#94A3B8] group-hover:text-[#E2E8F0] transition-colors" />
-                    <span className="text-sm text-[#94A3B8] group-hover:text-[#E2E8F0] transition-colors">
-                      {t[item.label as keyof typeof t] as string}
-                    </span>
-                  </motion.a>
-                ))}
-              </div>
-            </NeonCard>
-          </div>
-        </motion.section>
-
-        {/* ─── SKILLS ──────────────────────────────────────────────────── */}
-        
-        <section id="skills" className="relative pt-20">
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1 }}
-          >
-            <h2 className="text-4xl md:text-5xl font-bold text-center mb-4">
-              <span
-                className="bg-clip-text text-transparent"
-                style={{
-                  background: `linear-gradient(135deg, ${c.primary}, ${c.secondary}, ${c.accent})`,
-                  WebkitBackgroundClip: "text",
-                }}
-              >
-                {t.skills}
-              </span>
-            </h2>
-            <p className="text-center text-[#94A3B8]/50 text-sm mb-12">
-              {t.expertise} • {t.techStack}
-            </p>
-
-            {/* Tech Categories */}
-            <div className="mb-16">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
-                {t.techCategories.map((category, idx) => (
-                  <NeonCard key={idx} glowColor={c.primary}>
-                    <div className="flex items-center gap-3 mb-4">
-                      <div
-                        className="p-2 rounded-lg"
-                        style={{ background: "rgba(255,255,255,0.05)" }}
-                      >
-                        <category.icon size={20}  />
-                      </div>
-                      <span className="text-sm font-semibold text-[#E2E8F0]">
-                        {category.name}
-                      </span>
-                    </div>
-                    <div className="flex flex-wrap gap-2">
-                      {category.technologies.map((tech, i) => (
-                        <div
-                          key={i}
-                          className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg transition-all duration-300"
-                          style={{
-                            background: "rgba(255,255,255,0.03)",
-                            border: "1px solid rgba(255,255,255,0.06)",
-                          }}
-                        >
-                          <tech.icon size={14} className={tech.color} />
-                          <span className="text-[10px] text-[#94A3B8]">
-                            {tech.name}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  </NeonCard>
-                ))}
-              </div>
-            </div>
-
-            {/* Skill Bars */}
-            <h3 className="text-2xl font-semibold text-center mb-8 text-[#E2E8F0]/60">
-              {t.allSkills}
-            </h3>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
-              {t.skillList.map((skill, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: i * 0.05 }}
-                  whileHover={{ scale: 1.02, y: -4 }}
-                >
-                  <NeonCard glowColor={c.primary} hover>
-                    <div className="relative flex items-center gap-4">
-                      <div
-                        className={`p-3 rounded-xl transition-all duration-500 group-hover:scale-110 ${skill.color}`}
-                        style={{ background: "rgba(255,255,255,0.03)" }}
-                      >
-                        <skill.icon size={32} />
-                      </div>
-
-                      <div className="flex-1">
-                        <div className="flex justify-between items-center mb-1.5">
-                          <span className="text-sm font-medium text-[#E2E8F0]">
-                            {skill.name}
-                          </span>
-                          <span className={`text-sm font-bold ${skill.color}`}>
-                            {skill.percent}%
-                          </span>
-                        </div>
-                        {skill.description && (
-                          <p className="text-[10px] text-[#94A3B8]/40 mb-1">
-                            {skill.description}
-                          </p>
-                        )}
-                        <div
-                          className="h-1.5 rounded-full overflow-hidden"
-                          style={{ background: "rgba(255,255,255,0.05)" }}
-                        >
-                          <motion.div
-                            initial={{ width: 0 }}
-                            whileInView={{ width: `${skill.percent}%` }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 1.5, ease: "easeOut" }}
-                            className={`h-full bg-linear-to-r ${skill.gradient} rounded-full`}
-                            style={{
-                              boxShadow: `0 0 20px ${c.primary}40`,
-                            }}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </NeonCard>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-        </section>
-
-        {/* ─── CONTACT ────────────────────────────────────────────────── */}
-        
-        <section id="contact" className="relative pt-20">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-          >
-            <h2 className="text-4xl md:text-5xl font-bold text-center mb-4">
-              <span
-                className="bg-clip-text text-transparent"
-                style={{
-                  background: `linear-gradient(135deg, ${c.primary}, ${c.secondary}, ${c.accent})`,
-                  WebkitBackgroundClip: "text",
-                }}
-              >
-                {t.contact}
-              </span>
-            </h2>
-            <p className="text-center text-[#94A3B8]/50 text-sm mb-12">
-              {t.getInTouch}
-            </p>
-
-            <ContactForm t={t} isFa={isFa} />
-          </motion.div>
-        </section>
-      </main>
-
-      {/* ─── FOOTER ──────────────────────────────────────────────────── */}
-      
-      <footer
-        className="relative z-10 border-t mt-12"
-        style={{ borderColor: "rgba(255,255,255,0.06)" }}
-      >
-        <div className="max-w-6xl mx-auto px-6 py-12">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-            <div className="flex items-center gap-4">
-              <div>
-                <span className="text-[#E2E8F0] font-semibold">
-                  Hami<span style={{ color: c.primary }}>Parsa</span>
-                </span>
-                <p className="text-xs text-[#94A3B8]/30 font-mono tracking-widest">FULL-STACK</p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-6">
-              <a
-                href="https://github.com/HamiParsa/About-Me"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-xs text-[#94A3B8]/30 hover:text-[#E2E8F0] transition-colors flex items-center gap-2"
-              >
-                <Github size={14} />
-                {t.repository}
-              </a>
-              <span className="text-[#94A3B8]/10">|</span>
-              <span className="text-xs text-[#94A3B8]/20">
-                {t.builtWith} <span style={{ color: c.primary }}>Love</span>
-              </span>
-            </div>
-
-            <div className="flex gap-3">
-              {[Github, Linkedin, Send, Instagram].map((Icon, i) => (
-                <a
-                  key={i}
-                  href="#"
-                  className="p-2 rounded-lg transition-colors"
-                  style={{
-                    background: "rgba(255,255,255,0.03)",
-                  }}
-                >
-                  <Icon size={16} className="text-[#94A3B8]/30 hover:text-[#E2E8F0] transition-colors" />
-                </a>
-              ))}
-            </div>
-          </div>
-
-          <div
-            className="mt-8 pt-6 border-t flex flex-col md:flex-row items-center justify-between gap-4"
-            style={{ borderColor: "rgba(255,255,255,0.03)" }}
-          >
-            <p className="text-xs text-[#94A3B8]/20">
-              © {new Date().getFullYear()} Hami Parsa
-            </p>
-            <p className="text-xs text-[#94A3B8]/10 font-mono tracking-widest">
-              {t.openSource}
-            </p>
-          </div>
+      </div>
+      <div className="mt-2">
+        <span className="text-xs font-medium" style={{ color: c.textSecondary }}>
+          {label}
+        </span>
+        <div className="text-sm font-bold" style={{ color: isVisible ? color : c.textDim }}>
+          {isVisible ? percent : 0}%
         </div>
-      </footer>
-
-      {/* ─── Scroll to Top ────────────────────────────────────────────── */}
-      
-      <AnimatePresence>
-        {scrolled && (
-          <motion.button
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
-            onClick={scrollToTop}
-            className="fixed bottom-6 right-6 z-50 p-3 rounded-xl shadow-lg transition-all duration-300 group"
-            style={{
-              background: `linear-gradient(135deg, ${c.primary}, ${c.secondary})`,
-              boxShadow: `0 0 30px ${c.primary}40`,
-            }}
-          >
-            <ChevronUp size={22} className="text-[#0A0A0F] group-hover:-translate-y-0.5 transition-transform" />
-          </motion.button>
-        )}
-      </AnimatePresence>
-
-      {/* ─── Global Styles ────────────────────────────────────────────── */}
-      
-      <style jsx global>{`
-        @keyframes spin-slow {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
-        @keyframes spin-reverse {
-          from { transform: rotate(360deg); }
-          to { transform: rotate(0deg); }
-        }
-        .animate-spin-slow { animation: spin-slow 20s linear infinite; }
-        .animate-spin-reverse { animation: spin-reverse 25s linear infinite; }
-        
-        ::selection {
-          background: ${c.primary}50;
-          color: white;
-        }
-        html { scroll-behavior: smooth; }
-        
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: ${c.bg}; }
-        ::-webkit-scrollbar-thumb {
-          background: ${c.primary};
-          border-radius: 3px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-          background: ${c.secondary};
-        }
-      `}</style>
+      </div>
     </div>
   );
 }
 
-// ──────────────────────────────────────────────────────────────────────────────
-// SECTION 7: Contact Form
-// ──────────────────────────────────────────────────────────────────────────────
+// ============================================================
+// TYPEWRITER
+// ============================================================
 
-function ContactForm({ t, isFa }: { t: Content; isFa: boolean }) {
+function TypewriterNeon({
+  words,
+  speed = 120,
+  delay = 2500,
+}: {
+  words: string[];
+  speed?: number;
+  delay?: number;
+}) {
+  const [currentWord, setCurrentWord] = useState(0);
+  const [text, setText] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
+  const colors = [CONFIG.colors.primary, CONFIG.colors.secondary, CONFIG.colors.accent];
+
+  useEffect(() => {
+    const timeout = setTimeout(
+      () => {
+        const fullWord = words[currentWord];
+        const currentLength = text.length;
+
+        if (!isDeleting) {
+          if (currentLength < fullWord.length) {
+            setText(fullWord.substring(0, currentLength + 1));
+          } else {
+            setTimeout(() => setIsDeleting(true), delay);
+          }
+        } else {
+          if (currentLength > 0) {
+            setText(fullWord.substring(0, currentLength - 1));
+          } else {
+            setIsDeleting(false);
+            setCurrentWord((prev) => (prev + 1) % words.length);
+          }
+        }
+      },
+      isDeleting ? speed / 2 : speed
+    );
+
+    return () => clearTimeout(timeout);
+  }, [text, isDeleting, currentWord, words, speed, delay]);
+
+  const currentColor = colors[currentWord % colors.length];
+
+  return (
+    <span className="text-xl font-bold" style={{ color: currentColor, textShadow: `0 0 30px ${currentColor}30` }}>
+      {text}
+      <span className="inline-block w-0.5 h-6 ml-1 animate-pulse" style={{ background: currentColor }} />
+    </span>
+  );
+}
+
+// ============================================================
+// CONTACT FORM
+// ============================================================
+// eslint-disable-next-line
+function ContactForm({ t }: { t: any; isFa: boolean }) {
   const [form, setForm] = useState({ name: "", number: "", message: "" });
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const c = CONFIG.colors;
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
@@ -1541,12 +625,7 @@ function ContactForm({ t, isFa }: { t: Content; isFa: boolean }) {
     setStatus("idle");
 
     try {
-      await emailjs.send(
-        "service_97usflj",
-        "template_m9immuc",
-        form,
-        "q1s3x3DSUxpAVErUh"
-      );
+      await emailjs.send("service_97usflj", "template_m9immuc", form, "q1s3x3DSUxpAVErUh");
       setStatus("success");
       setForm({ name: "", number: "", message: "" });
     } catch (error) {
@@ -1554,120 +633,111 @@ function ContactForm({ t, isFa }: { t: Content; isFa: boolean }) {
       setStatus("error");
     } finally {
       setIsSubmitting(false);
-      setTimeout(() => setStatus("idle"), 6000);
+      setTimeout(() => setStatus("idle"), 5000);
     }
   };
 
-  const c = THEME.colors;
-
   return (
-    <form onSubmit={onSubmit} className="max-w-2xl mx-auto space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="relative group">
-          <label className={`block text-xs font-medium text-[#94A3B8]/50 mb-1.5 ${isFa ? "text-right" : "text-left"}`}>
+    <form onSubmit={onSubmit} className="max-w-2xl mx-auto space-y-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div>
+          <label className="block text-xs font-medium mb-1.5" style={{ color: c.textMuted }}>
             {t.nameLabel}
           </label>
           <div className="relative">
-            <User size={16} className={`absolute ${isFa ? "right-3" : "left-3"} top-1/2 -translate-y-1/2 text-[#94A3B8]/20`} />
+            <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: c.textMuted }} />
             <input
               name="name"
               type="text"
               value={form.name}
               onChange={handleChange}
               required
-              className={`w-full ${isFa ? "pr-9 pl-4 text-right" : "pl-9 pr-4 text-left"} py-2.5 rounded-xl text-[#E2E8F0] placeholder-[#94A3B8]/20 outline-none transition-all duration-300`}
+              className="w-full pl-9 pr-4 py-3 rounded-xl text-sm outline-none transition-all duration-300"
               style={{
-                background: "rgba(255,255,255,0.03)",
-                border: `1px solid ${status === "error" ? "rgba(239,68,68,0.5)" : "rgba(255,255,255,0.06)"}`,
+                background: c.bgCard,
+                border: `1px solid ${c.border}`,
+                color: c.text,
               }}
               placeholder={t.nameLabel}
-              dir={isFa ? "rtl" : "ltr"}
             />
           </div>
         </div>
 
-        <div className="relative group">
-          <label className={`block text-xs font-medium text-[#94A3B8]/50 mb-1.5 ${isFa ? "text-right" : "text-left"}`}>
+        <div>
+          <label className="block text-xs font-medium mb-1.5" style={{ color: c.textMuted }}>
             {t.phoneLabel}
           </label>
           <div className="relative">
-            <Phone size={16} className={`absolute ${isFa ? "right-3" : "left-3"} top-1/2 -translate-y-1/2 text-[#94A3B8]/20`} />
+            <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: c.textMuted }} />
             <input
               name="number"
               type="tel"
               value={form.number}
               onChange={handleChange}
               required
-              className={`w-full ${isFa ? "pr-9 pl-4 text-right" : "pl-9 pr-4 text-left"} py-2.5 rounded-xl text-[#E2E8F0] placeholder-[#94A3B8]/20 outline-none transition-all duration-300`}
+              className="w-full pl-9 pr-4 py-3 rounded-xl text-sm outline-none transition-all duration-300"
               style={{
-                background: "rgba(255,255,255,0.03)",
-                border: `1px solid ${status === "error" ? "rgba(239,68,68,0.5)" : "rgba(255,255,255,0.06)"}`,
+                background: c.bgCard,
+                border: `1px solid ${c.border}`,
+                color: c.text,
               }}
               placeholder={t.phoneLabel}
-              dir={isFa ? "rtl" : "ltr"}
             />
           </div>
         </div>
       </div>
 
-      <div className="relative group">
-        <label className={`block text-xs font-medium text-[#94A3B8]/50 mb-1.5 ${isFa ? "text-right" : "text-left"}`}>
+      <div>
+        <label className="block text-xs font-medium mb-1.5" style={{ color: c.textMuted }}>
           {t.messageLabel}
         </label>
         <div className="relative">
-          <MessageSquare size={16} className={`absolute ${isFa ? "right-3" : "left-3"} top-3.5 text-[#94A3B8]/20`} />
+          <MessageSquare className="absolute left-3 top-3.5 w-4 h-4" style={{ color: c.textMuted }} />
           <textarea
             name="message"
             value={form.message}
             onChange={handleChange}
             required
-            rows={5}
-            className={`w-full ${isFa ? "pr-9 pl-4 text-right" : "pl-9 pr-4 text-left"} py-2.5 rounded-xl text-[#E2E8F0] placeholder-[#94A3B8]/20 outline-none transition-all duration-300 resize-none`}
+            rows={4}
+            className="w-full pl-9 pr-4 py-3 rounded-xl text-sm outline-none transition-all duration-300 resize-none"
             style={{
-              background: "rgba(255,255,255,0.03)",
-              border: `1px solid ${status === "error" ? "rgba(239,68,68,0.5)" : "rgba(255,255,255,0.06)"}`,
+              background: c.bgCard,
+              border: `1px solid ${c.border}`,
+              color: c.text,
             }}
             placeholder={t.messageLabel}
-            dir={isFa ? "rtl" : "ltr"}
           />
         </div>
       </div>
 
-      <motion.button
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
-        disabled={isSubmitting}
+      <button
         type="submit"
-        className="relative w-full py-3.5 overflow-hidden group rounded-xl font-bold transition-all duration-300"
+        disabled={isSubmitting}
+        className="relative w-full py-3.5 rounded-xl font-bold transition-all duration-300 overflow-hidden group"
         style={{
           background: `linear-gradient(135deg, ${c.primary}, ${c.secondary})`,
-          color: "#0A0A0F",
-          boxShadow: `0 0 30px ${c.primary}30`,
+          color: "#0A0A0A",
+          boxShadow: `0 0 40px ${c.glow}`,
         }}
       >
         <div
           className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700"
-          style={{
-            background: "linear-gradient(to right, transparent, rgba(255,255,255,0.2), transparent)",
-          }}
+          style={{ background: "linear-gradient(to right, transparent, rgba(255,255,255,0.2), transparent)" }}
         />
         <div className="relative flex items-center justify-center gap-2">
           {isSubmitting ? (
             <>
-              <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
-                <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                <path fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
-              </svg>
-              {isFa ? "در حال ارسال..." : "Sending..."}
+              <Loader2 className="w-5 h-5 animate-spin" />
+              {t.sending}
             </>
           ) : (
             <>
               {t.submit}
-              <Send size={16} className="group-hover:translate-x-1 transition-transform" />
+              <Send className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </>
           )}
         </div>
-      </motion.button>
+      </button>
 
       <AnimatePresence>
         {status === "success" && (
@@ -1675,33 +745,834 @@ function ContactForm({ t, isFa }: { t: Content; isFa: boolean }) {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="text-center text-emerald-400 text-sm flex items-center justify-center gap-2"
+            className="text-center text-sm"
+            style={{ color: "#22c55e" }}
           >
-            <span className="w-6 h-6 rounded-full bg-emerald-500/20 flex items-center justify-center">
-              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-              </svg>
-            </span>
             {t.success}
           </motion.div>
         )}
-
         {status === "error" && (
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="text-center text-red-400 text-sm flex items-center justify-center gap-2"
+            className="text-center text-sm"
+            style={{ color: "#ef4444" }}
           >
-            <span className="w-6 h-6 rounded-full bg-red-500/20 flex items-center justify-center">
-              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </span>
             {t.error}
           </motion.div>
         )}
       </AnimatePresence>
     </form>
+  );
+}
+
+// ============================================================
+// SERVICES SECTION
+// ============================================================
+// eslint-disable-next-line
+function ServicesSection({ t, isFa }: { t: any; isFa: boolean }) {
+  const c = CONFIG.colors;
+  const services = isFa ? CONFIG.services.fa : CONFIG.services.en;
+
+  return (
+    <section id="services" className="pt-20">
+      <motion.div
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+      >
+        <div className="text-center mb-12">
+          <h2 className="text-4xl md:text-6xl font-black tracking-tight" style={{ color: c.text }}>
+            {t.servicesTitle}
+          </h2>
+          <p className="mt-2 text-sm" style={{ color: c.textMuted }}>
+            {t.servicesSub}
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+          {services.map((service, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1 }}
+              whileHover={{ y: -8 }}
+              className="p-6 rounded-2xl text-center backdrop-blur-sm transition-all duration-300"
+              style={{ background: c.bgCard, border: `1px solid ${c.border}` }}
+            >
+              <service.icon className="w-10 h-10 mx-auto mb-4" style={{ color: c.primary }} />
+              <h3 className="text-lg font-bold" style={{ color: c.text }}>
+                {service.title}
+              </h3>
+              <p className="text-sm mt-2" style={{ color: c.textMuted }}>
+                {service.desc}
+              </p>
+            </motion.div>
+          ))}
+        </div>
+      </motion.div>
+    </section>
+  );
+}
+
+// ============================================================
+// TIMELINE SECTION
+// ============================================================
+// eslint-disable-next-line
+function TimelineSection({ t, isFa }: { t: any; isFa: boolean }) {
+  const c = CONFIG.colors;
+  const timeline = isFa ? CONFIG.timeline.fa : CONFIG.timeline.en;
+
+  return (
+    <section id="timeline" className="pt-20">
+      <motion.div
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+      >
+        <div className="text-center mb-12">
+          <h2 className="text-4xl md:text-6xl font-black tracking-tight" style={{ color: c.text }}>
+            {t.timelineTitle}
+          </h2>
+          <p className="mt-2 text-sm" style={{ color: c.textMuted }}>
+            {t.timelineSub}
+          </p>
+        </div>
+
+        <div className="max-w-4xl mx-auto">
+          {timeline.map((item, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, x: i % 2 === 0 ? -30 : 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1 }}
+              className="relative flex gap-6 pb-12 last:pb-0"
+            >
+              {/* Timeline line */}
+              {i < timeline.length - 1 && (
+                <div
+                  className="absolute left-29px top-64px w-2px h-[calc(100%-60px)]"
+                  style={{ background: `linear-gradient(to bottom, ${c.primary}, ${c.secondary}50)` }}
+                />
+              )}
+
+              {/* Year badge */}
+              <div
+                className="shrink-0 w-14 h-14 rounded-full flex items-center justify-center text-sm font-bold z-10"
+                style={{
+                  background: `linear-gradient(135deg, ${c.primary}, ${c.secondary})`,
+                  color: "#0A0A0A",
+                  boxShadow: `0 0 30px ${c.glow}`,
+                }}
+              >
+                {item.year}
+              </div>
+
+              {/* Content */}
+              <div
+                className="flex-1 p-5 rounded-2xl backdrop-blur-sm transition-all duration-300 hover:-translate-y-1"
+                style={{ background: c.bgCard, border: `1px solid ${c.border}` }}
+              >
+                <div className="flex items-center gap-3">
+                  <item.icon className="w-5 h-5" style={{ color: c.primary }} />
+                  <h3 className="text-lg font-bold" style={{ color: c.text }}>
+                    {item.title}
+                  </h3>
+                </div>
+                <p className="text-sm mt-2" style={{ color: c.textMuted }}>
+                  {item.desc}
+                </p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </motion.div>
+    </section>
+  );
+}
+
+// ============================================================
+// FAQ SECTION
+// ============================================================
+// eslint-disable-next-line
+function FAQSection({ t, isFa }: { t: any; isFa: boolean }) {
+  const c = CONFIG.colors;
+  const faqs = isFa ? CONFIG.faq.fa : CONFIG.faq.en;
+
+  return (
+    <section id="faq" className="pt-20">
+      <motion.div
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+      >
+        <div className="text-center mb-12">
+          <h2 className="text-4xl md:text-6xl font-black tracking-tight" style={{ color: c.text }}>
+            {t.faqTitle}
+          </h2>
+          <p className="mt-2 text-sm" style={{ color: c.textMuted }}>
+            {t.faqSub}
+          </p>
+        </div>
+
+        <div className="max-w-3xl mx-auto space-y-4">
+          {faqs.map((item, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.05 }}
+              className="p-5 rounded-2xl backdrop-blur-sm transition-all duration-300 hover:translate-x-1"
+              style={{ background: c.bgCard, border: `1px solid ${c.border}` }}
+            >
+              <div className="flex items-start gap-3">
+                <HelpCircle className="w-4 h-4 mt-0.5 shrink-0" style={{ color: c.primary }} />
+                <div>
+                  <div className="font-bold text-sm" style={{ color: c.text }}>
+                    {item.q}
+                  </div>
+                  <div className="text-sm mt-1" style={{ color: c.textMuted }}>
+                    {item.a}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </motion.div>
+    </section>
+  );
+}
+
+// ============================================================
+// TOOLS SECTION
+// ============================================================
+// eslint-disable-next-line
+function ToolsSection({ t, isFa }: { t: any; isFa: boolean }) {
+  const c = CONFIG.colors;
+  const tools = isFa ? CONFIG.tools.fa : CONFIG.tools.en;
+
+  return (
+    <section id="tools" className="pt-20">
+      <motion.div
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+      >
+        <div className="text-center mb-12">
+          <h2 className="text-4xl md:text-6xl font-black tracking-tight" style={{ color: c.text }}>
+            {t.toolsTitle}
+          </h2>
+          <p className="mt-2 text-sm" style={{ color: c.textMuted }}>
+            {t.toolsSub}
+          </p>
+        </div>
+
+        <div className="flex flex-wrap justify-center gap-3 max-w-3xl mx-auto">
+          {tools.map((tool, i) => (
+            <motion.span
+              key={i}
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.03 }}
+              className="px-5 py-2.5 rounded-full text-sm font-medium backdrop-blur-sm transition-all duration-300 hover:scale-105"
+              style={{
+                background: c.bgCard,
+                border: `1px solid ${c.border}`,
+                color: c.textSecondary,
+              }}
+            >
+              {tool}
+            </motion.span>
+          ))}
+        </div>
+      </motion.div>
+    </section>
+  );
+}
+
+// ============================================================
+// MAIN COMPONENT
+// ============================================================
+
+export default function Home() {
+  const [lang, setLang] = useState<"en" | "fa">("en");
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
+
+  const c = CONFIG.colors;
+  const t = CONFIG.content[lang];
+  const isFa = lang === "fa";
+  const navItems = isFa ? CONFIG.nav.fa : CONFIG.nav.en;
+  const navHrefs = isFa
+    ? ["#home", "#skills", "#services", "#timeline", "#faq", "#tools", "#contact"]
+    : ["#home", "#skills", "#services", "#timeline", "#faq", "#tools", "#contact"];
+
+  useEffect(() => {
+    const saved = localStorage.getItem("preferredLang") as "en" | "fa" | null;
+// eslint-disable-next-line
+    if (saved === "fa") setLang("fa");
+
+    // Simulate loading
+    const timer = setTimeout(() => setIsLoading(false), 2000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("preferredLang", lang);
+  }, [lang]);
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 100);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const toggleLang = () => setLang((prev) => (prev === "fa" ? "en" : "fa"));
+  const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
+
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
+
+  return (
+    <div
+      ref={containerRef}
+      dir={isFa ? "rtl" : "ltr"}
+      className="min-h-screen overflow-x-hidden"
+      style={{
+        background: c.bg,
+        color: c.text,
+        fontFamily: isFa ? "Vazirmatn, sans-serif" : "Geist, system-ui, sans-serif",
+      }}
+    >
+      <StaticBackground />
+
+      <motion.div
+        className="fixed top-0 left-0 right-0 h-2px z-50 origin-left"
+        style={{
+          scaleX,
+          background: `linear-gradient(to right, ${c.primary}, ${c.secondary}, ${c.accent})`,
+          boxShadow: `0 0 20px ${c.glow}`,
+        }}
+      />
+
+      {/* ==========================================================
+          NAVIGATION
+          ========================================================== */}
+
+      <nav className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-5xl">
+        <div
+          className="flex items-center justify-between px-6 py-3 rounded-2xl backdrop-blur-xl transition-all duration-500"
+          style={{
+            background: scrolled ? "rgba(10,10,10,0.92)" : "rgba(10,10,10,0.7)",
+            border: `1px solid ${c.border}`,
+            boxShadow: scrolled ? "0 8px 32px rgba(0,0,0,0.5)" : "none",
+          }}
+        >
+          <span className="text-lg font-black tracking-tight" style={{ color: c.text }}>
+            H<span style={{ color: c.primary }}>.</span>Parsa
+          </span>
+
+          <div className="hidden md:flex items-center gap-6">
+            {navItems.map((section, index) => (
+              <a
+                key={section}
+                href={navHrefs[index]}
+                className="text-xs uppercase tracking-[0.15em] font-medium transition-all duration-300 relative group"
+                style={{ color: c.textMuted }}
+              >
+                {section}
+                <span
+                  className="absolute -bottom-1 left-0 w-0 h-2px transition-all duration-300 group-hover:w-full"
+                  style={{ background: c.primary }}
+                />
+              </a>
+            ))}
+          </div>
+
+          <div className="flex items-center gap-2">
+            <button
+              onClick={toggleLang}
+              className="px-3 py-1.5 rounded-xl text-xs font-medium transition-all duration-300 hover:scale-105"
+              style={{ background: c.bgCard, border: `1px solid ${c.border}`, color: c.textMuted }}
+            >
+              {isFa ? "EN" : "FA"}
+            </button>
+
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="md:hidden p-2 rounded-xl"
+              style={{ background: c.bgCard }}
+            >
+              {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
+            </button>
+          </div>
+        </div>
+
+        <AnimatePresence>
+          {isMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              className="mt-2 p-4 rounded-2xl backdrop-blur-xl md:hidden"
+              style={{ background: "rgba(10,10,10,0.95)", border: `1px solid ${c.border}` }}
+            >
+              {navItems.map((section, index) => (
+                <a
+                  key={section}
+                  href={navHrefs[index]}
+                  onClick={() => setIsMenuOpen(false)}
+                  className="block px-4 py-3 rounded-xl text-sm transition-colors"
+                  style={{ color: c.textMuted }}
+                >
+                  {section}
+                </a>
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </nav>
+
+      {/* ==========================================================
+          MAIN CONTENT
+          ========================================================== */}
+
+      <main className="relative z-10 max-w-6xl mx-auto px-6 pt-28 pb-20">
+        {/* ==========================================================
+            HERO SECTION
+            ========================================================== */}
+
+        <section id="home" className="min-h-[70vh] flex flex-col lg:flex-row items-center gap-16 lg:gap-24 py-8">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8, rotateY: 90 }}
+            animate={{ opacity: 1, scale: 1, rotateY: 0 }}
+            transition={{ duration: 1.2, ease: "easeOut" }}
+            className="relative shrink-0 group"
+          >
+            {[...Array(3)].map((_, i) => (
+              <div
+                key={i}
+                className="absolute rounded-full animate-spin-slow"
+                style={{
+                  border: `1px solid ${c.primary}${20 + i * 10}`,
+                  inset: -((i + 1) * 20),
+                  animationDuration: `${20 + i * 5}s`,
+                  animationDirection: i % 2 === 0 ? "normal" : "reverse",
+                }}
+              />
+            ))}
+
+            <div
+              className="w-64 h-64 md:w-72 md:h-72 rounded-2xl overflow-hidden border-2 transition-transform duration-700 group-hover:scale-105"
+              style={{ borderColor: `${c.primary}40`, boxShadow: `0 0 60px ${c.glow}` }}
+            >
+              <Image
+                width={400}
+                height={400}
+                src="https://avatars.githubusercontent.com/u/227557537?v=4"
+                alt="Hami Parsa"
+                className="w-full h-full object-cover"
+                priority
+              />
+            </div>
+
+            <div
+              className="absolute -bottom-3 left-1/2 -translate-x-1/2 px-6 py-2.5 rounded-full text-xs font-bold whitespace-nowrap flex items-center gap-2.5"
+              style={{
+                background: `linear-gradient(135deg, ${c.primary}, ${c.secondary})`,
+                color: "#0A0A0A",
+                boxShadow: `0 0 40px ${c.glow}`,
+              }}
+            >
+              <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+              {t.status}
+            </div>
+          </motion.div>
+
+          <div className={`flex-1 space-y-6 ${isFa ? "text-right" : "text-left"}`}>
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+            >
+              <div className="flex items-center gap-4">
+                <div
+                  className="w-12 h-px"
+                  style={{ background: `linear-gradient(to right, transparent, ${c.primary}50, transparent)` }}
+                />
+                <p className="text-lg" style={{ color: c.textMuted }}>
+                  {t.greeting}
+                </p>
+                <div
+                  className="w-12 h-px"
+                  style={{ background: `linear-gradient(to right, transparent, ${c.primary}50, transparent)` }}
+                />
+              </div>
+
+              <h1 className="text-6xl md:text-8xl font-black tracking-tight leading-[1.05] mt-4" style={{ color: c.text }}>
+                {t.name}
+              </h1>
+
+              <div className="mt-3 flex items-center gap-3">
+                <span className="text-xl" style={{ color: c.textMuted }}>
+                  {t.age} •
+                </span>
+                <TypewriterNeon words={t.titleWords} />
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="space-y-2 max-w-xl"
+            >
+              {t.bio.map((line: string, i: number) => (
+                <p key={i} className="text-sm leading-relaxed" style={{ color: c.textMuted }}>
+                  {line}
+                </p>
+              ))}
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4 }}
+              className="flex flex-wrap gap-3 pt-2"
+            >
+              <a href="#contact">
+                <button
+                  className="relative px-7 py-3.5 rounded-full text-sm font-bold transition-all duration-300 overflow-hidden group"
+                  style={{
+                    background: `linear-gradient(135deg, ${c.primary}, ${c.secondary})`,
+                    color: "#0A0A0A",
+                    boxShadow: `0 0 40px ${c.glow}`,
+                  }}
+                >
+                  <span className="relative z-10 flex items-center gap-2">
+                    <Mail className="w-4 h-4" />
+                    {t.getInTouch}
+                  </span>
+                  <div
+                    className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700"
+                    style={{ background: "linear-gradient(to right, transparent, rgba(255,255,255,0.2), transparent)" }}
+                  />
+                </button>
+              </a>
+              <a href="#services">
+                <button
+                  className="px-7 py-3.5 rounded-full text-sm font-medium transition-all duration-300"
+                  style={{ background: c.bgCard, border: `1px solid ${c.border}`, color: c.textMuted }}
+                >
+                  <Code2 className="inline w-4 h-4 mr-2" />
+                  {t.viewWork}
+                </button>
+              </a>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.6 }}
+              className="flex gap-3 pt-4"
+            >
+              {CONFIG.social.map(({ icon: Icon, href }, i) => (
+                <a
+                  key={i}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-3 rounded-xl transition-all duration-300 hover:-translate-y-1 hover:scale-110"
+                  style={{ background: c.bgCard, border: `1px solid ${c.border}` }}
+                >
+                  <Icon className="w-5 h-5" style={{ color: c.textMuted }} />
+                </a>
+              ))}
+            </motion.div>
+          </div>
+        </section>
+
+        {/* ==========================================================
+            MOTTO SECTION
+            ========================================================== */}
+
+        <motion.section
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="py-20 relative"
+        >
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="w-96 h-96 rounded-full blur-3xl opacity-20" style={{ background: c.primary }} />
+          </div>
+
+          <div className="relative text-center max-w-4xl mx-auto">
+            <div
+              className="inline-flex items-center gap-3 px-4 py-2 rounded-full backdrop-blur-sm border mb-8"
+              style={{ background: c.bgCard, borderColor: c.border }}
+            >
+              <Sparkles className="w-4 h-4" style={{ color: c.primary }} />
+              <span className="text-xs tracking-[0.2em]" style={{ color: c.textMuted }}>
+                MOTTO
+              </span>
+            </div>
+
+            <h2 className="text-4xl md:text-6xl font-light leading-[1.2]" style={{ color: c.text }}>
+              Build with{" "}
+              <span
+                className="font-bold bg-clip-text text-transparent"
+                style={{
+                  background: `linear-gradient(135deg, ${c.primary}, ${c.secondary}, ${c.accent})`,
+                  WebkitBackgroundClip: "text",
+                }}
+              >
+                <TypewriterNeon words={["purpose", "passion", "love", "creativity"]} speed={150} delay={2000} />
+              </span>
+            </h2>
+
+            <p className="mt-6 text-sm tracking-widest" style={{ color: c.textMuted }}>
+              — Hami Parsa • 2025
+            </p>
+          </div>
+        </motion.section>
+
+        {/* ==========================================================
+            STATS SECTION
+            ========================================================== */}
+
+        <motion.section
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto"
+        >
+          {[
+            { value: "20+", label: t.stats.projects, icon: Briefcase },
+            { value: "3+", label: t.stats.experience, icon: Award },
+            { value: "15+", label: t.stats.clients, icon: Users },
+            { value: "500+", label: t.stats.commits, icon: Clock },
+          ].map((stat, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1 }}
+              className="p-6 rounded-2xl text-center backdrop-blur-sm transition-all duration-300 hover:-translate-y-2"
+              style={{ background: c.bgCard, border: `1px solid ${c.border}` }}
+            >
+              <stat.icon className="w-6 h-6 mx-auto mb-2" style={{ color: c.primary }} />
+              <div className="text-2xl font-bold" style={{ color: c.text }}>
+                {stat.value}
+              </div>
+              <div className="text-xs" style={{ color: c.textMuted }}>
+                {stat.label}
+              </div>
+            </motion.div>
+          ))}
+        </motion.section>
+
+        {/* ==========================================================
+            SKILLS SECTION
+            ========================================================== */}
+
+        <section id="skills" className="pt-20">
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
+            <div className="text-center mb-12">
+              <h2 className="text-4xl md:text-6xl font-black tracking-tight" style={{ color: c.text }}>
+                {t.skillsTitle}
+              </h2>
+              <p className="mt-2 text-sm" style={{ color: c.textMuted }}>
+                {t.techStack} • {t.allSkills}
+              </p>
+            </div>
+
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 max-w-5xl mx-auto">
+              {CONFIG.skills.map((skill, i) => (
+                <CircularProgress
+                  key={i}
+                  percent={skill.percent}
+                  color={skill.color}
+                  label={skill.name}
+                  icon={skill.icon}
+                  size={100}
+                />
+              ))}
+            </div>
+          </motion.div>
+        </section>
+
+        {/* ==========================================================
+            SERVICES SECTION
+            ========================================================== */}
+
+        <ServicesSection t={t} isFa={isFa} />
+
+        {/* ==========================================================
+            TIMELINE SECTION
+            ========================================================== */}
+
+        <TimelineSection t={t} isFa={isFa} />
+
+        {/* ==========================================================
+            FAQ SECTION
+            ========================================================== */}
+
+        <FAQSection t={t} isFa={isFa} />
+
+        {/* ==========================================================
+            TOOLS SECTION
+            ========================================================== */}
+
+        <ToolsSection t={t} isFa={isFa} />
+
+        {/* ==========================================================
+            CONTACT SECTION
+            ========================================================== */}
+
+        <section id="contact" className="pt-20">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
+            <div className="text-center mb-12">
+              <h2 className="text-4xl md:text-6xl font-black tracking-tight" style={{ color: c.text }}>
+                {t.contactTitle}
+              </h2>
+              <p className="mt-2 text-sm" style={{ color: c.textMuted }}>
+                {t.getInTouch}
+              </p>
+            </div>
+
+            <ContactForm t={t} isFa={isFa} />
+          </motion.div>
+        </section>
+      </main>
+
+      {/* ==========================================================
+          FOOTER
+          ========================================================== */}
+
+      <footer className="relative z-10 border-t" style={{ borderColor: c.border }}>
+        <div className="max-w-6xl mx-auto px-6 py-10">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="flex items-center gap-4">
+              <span className="text-lg font-black" style={{ color: c.text }}>
+                H<span style={{ color: c.primary }}>.</span>Parsa
+              </span>
+              <span className="text-xs tracking-widest" style={{ color: c.textMuted }}>
+                FULL-STACK
+              </span>
+            </div>
+
+            <div className="flex items-center gap-6">
+              <a
+                href="https://github.com/HamiParsa"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs flex items-center gap-2 transition-colors"
+                style={{ color: c.textMuted }}
+              >
+                <Github className="w-4 h-4" />
+                {t.repository}
+              </a>
+              <span className="text-xs" style={{ color: c.textMuted }}>
+                {t.builtWith} <Heart className="inline w-3 h-3" style={{ color: c.primary }} />
+              </span>
+            </div>
+
+            <span className="text-xs" style={{ color: c.textMuted }}>
+              {t.openSource}
+            </span>
+          </div>
+        </div>
+      </footer>
+
+      {/* ==========================================================
+          SCROLL TO TOP
+          ========================================================== */}
+
+      <AnimatePresence>
+        {scrolled && (
+          <motion.button
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            onClick={scrollToTop}
+            className="fixed bottom-6 right-6 z-50 p-4 rounded-xl shadow-lg transition-all duration-300 hover:scale-110"
+            style={{
+              background: `linear-gradient(135deg, ${c.primary}, ${c.secondary})`,
+              boxShadow: `0 0 40px ${c.glow}`,
+            }}
+          >
+            <ChevronUp className="w-5 h-5" style={{ color: "#0A0A0A" }} />
+          </motion.button>
+        )}
+      </AnimatePresence>
+
+      {/* ==========================================================
+          GLOBAL STYLES
+          ========================================================== */}
+
+      <style jsx global>{`
+        @keyframes spin-slow {
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg);
+          }
+        }
+        .animate-spin-slow {
+          animation: spin-slow 20s linear infinite;
+        }
+
+        ::selection {
+          background: ${c.primary}50;
+          color: white;
+        }
+        html {
+          scroll-behavior: smooth;
+        }
+        ::-webkit-scrollbar {
+          width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+          background: ${c.bg};
+        }
+        ::-webkit-scrollbar-thumb {
+          background: ${c.primary};
+          border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+          background: ${c.secondary};
+        }
+      `}</style>
+    </div>
   );
 }
