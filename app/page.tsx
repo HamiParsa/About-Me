@@ -625,7 +625,7 @@ function ContactForm({ t }: { t: any; isFa: boolean }) {
     setStatus("idle");
 
     try {
-      await emailjs.send("service_97usflj", "template_m9immuc", form, "q1s3x3DSUxpAVErUh");
+      await emailjs.send("service_np5zft2", "template_m9immuc", form, "q1s3x3DSUxpAVErUh");
       setStatus("success");
       setForm({ name: "", number: "", message: "" });
     } catch (error) {
